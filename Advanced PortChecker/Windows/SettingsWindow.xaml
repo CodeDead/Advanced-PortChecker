@@ -1,0 +1,16 @@
+﻿<syncfusion:ChromelessWindow x:Class="Advanced_PortChecker.Windows.SettingsWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             mc:Ignorable="d"
+                             AllowsTransparency="True"
+                             Title="Advanced PortChecker - Settings"
+                             Height="300" Width="300"
+                             WindowStartupLocation="CenterScreen" Icon="/Advanced PortChecker;component/globe.ico"
+                             TitleTextAlignment="Center">
+    <Grid>
+        
+    </Grid>
+</syncfusion:ChromelessWindow>

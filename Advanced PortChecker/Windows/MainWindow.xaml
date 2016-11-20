@@ -33,8 +33,8 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label>Address:</Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="127.0.0.1"></TextBox>
-                        <syncfusion:ComboBoxAdv SelectedIndex="0" Grid.Row="0" Grid.Column="2">
+                        <TextBox x:Name="TxtAddress" Grid.Row="0" Grid.Column="1" Text="127.0.0.1"></TextBox>
+                        <syncfusion:ComboBoxAdv x:Name="CbaMethod" SelectedIndex="0" Grid.Row="0" Grid.Column="2">
                             <syncfusion:ComboBoxItemAdv>TCP</syncfusion:ComboBoxItemAdv>
                             <syncfusion:ComboBoxItemAdv>UDP</syncfusion:ComboBoxItemAdv>
                         </syncfusion:ComboBoxAdv>
@@ -47,14 +47,14 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label>Starting port:</Label>
-                        <syncfusion:IntegerTextBox Grid.Column="1"></syncfusion:IntegerTextBox>
+                        <syncfusion:IntegerTextBox x:Name="IntStart" Grid.Column="1"></syncfusion:IntegerTextBox>
                         <Label Grid.Column="2">Ending port:</Label>
-                        <syncfusion:IntegerTextBox Grid.Column="3"></syncfusion:IntegerTextBox>
+                        <syncfusion:IntegerTextBox x:Name="IntStop" Grid.Column="3"></syncfusion:IntegerTextBox>
                     </Grid>
                 </Grid>
             </GroupBox>
         </Grid>
-        <ListView Grid.Row="1" Name="LvPorts">
+        <ListView Grid.Row="1" x:Name="LvPorts">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -74,15 +74,15 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
-            <Button Height="25">Cancel</Button>
-            <Button Height="25" Grid.Column="1">Scan</Button>
+            <Button MinHeight="25" IsEnabled="False" Margin="5">Cancel</Button>
+            <Button MinHeight="25" Grid.Column="1" Margin="5">Scan</Button>
         </Grid>
         <StatusBar Grid.Row="3">
-            <Label Name="LblVersion">Version: </Label>
+            <Label x:Name="LblVersion">Version: </Label>
             <Separator></Separator>
-            <Hyperlink>Check for updates</Hyperlink>
+            <Hyperlink Click="HypUpdate_Click">Check for updates</Hyperlink>
             <Separator></Separator>
-            <Hyperlink>Settings</Hyperlink>
+            <Hyperlink Click="HypSettings_Click">Settings</Hyperlink>
         </StatusBar>
     </Grid>
 </syncfusion:ChromelessWindow>
