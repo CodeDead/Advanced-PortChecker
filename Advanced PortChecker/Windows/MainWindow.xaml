@@ -6,8 +6,83 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
-    Title="Advanced PortChecker" Height="300" Width="300" WindowStartupLocation="CenterScreen" TitleTextAlignment="Center"
+    Title="Advanced PortChecker" Height="300" Width="450" WindowStartupLocation="CenterScreen" TitleTextAlignment="Center"
     AllowsTransparency="True" Icon="/Advanced PortChecker;component/globe.ico">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <GroupBox Header="Options">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label>Address:</Label>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="127.0.0.1"></TextBox>
+                        <syncfusion:ComboBoxAdv SelectedIndex="0" Grid.Row="0" Grid.Column="2">
+                            <syncfusion:ComboBoxItemAdv>TCP</syncfusion:ComboBoxItemAdv>
+                            <syncfusion:ComboBoxItemAdv>UDP</syncfusion:ComboBoxItemAdv>
+                        </syncfusion:ComboBoxAdv>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label>Starting port:</Label>
+                        <syncfusion:IntegerTextBox Grid.Column="1"></syncfusion:IntegerTextBox>
+                        <Label Grid.Column="2">Ending port:</Label>
+                        <syncfusion:IntegerTextBox Grid.Column="3"></syncfusion:IntegerTextBox>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <ListView Grid.Row="1" Name="LvPorts">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Port" DisplayMemberBinding="{Binding Port}" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Button Height="25">Cancel</Button>
+            <Button Height="25" Grid.Column="1">Scan</Button>
+        </Grid>
+        <StatusBar Grid.Row="3">
+            <Label Name="LblVersion">Version: </Label>
+            <Separator></Separator>
+            <Hyperlink>Check for updates</Hyperlink>
+            <Separator></Separator>
+            <Hyperlink>Settings</Hyperlink>
+        </StatusBar>
     </Grid>
 </syncfusion:ChromelessWindow>

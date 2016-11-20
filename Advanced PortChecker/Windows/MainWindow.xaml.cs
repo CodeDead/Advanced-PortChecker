@@ -1,4 +1,5 @@
-﻿using Advanced_PortChecker.Classes;
+﻿using System.Reflection;
+using Advanced_PortChecker.Classes;
 using Syncfusion.Windows.Shared;
 
 namespace Advanced_PortChecker.Windows
@@ -6,12 +7,14 @@ namespace Advanced_PortChecker.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ChromelessWindow
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
             ChangeVisualStyle();
+
+            LblVersion.Content += Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
