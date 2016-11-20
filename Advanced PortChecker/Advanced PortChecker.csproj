@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\PortChecker.cs" />
     <Compile Include="Classes\StyleManager.cs" />
     <Compile Include="Classes\Update.cs" />
     <Compile Include="Classes\UpdateManager.cs" />
