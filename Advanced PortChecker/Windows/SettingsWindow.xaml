@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Center">
-            <CheckBox>Automatically check for updates</CheckBox>
+            <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -50,7 +50,7 @@
             <Label Grid.Row="1" Grid.Column="0" Content="Metro brush:"></Label>
             <syncfusion:ColorPicker x:Name="CpMetroBrush" Grid.Row="1" Grid.Column="1" />
             <Label Grid.Row="2" Grid.Column="0">Border thickness:</Label>
-            <syncfusion:IntegerTextBox x:Name="TxtBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
+            <syncfusion:IntegerTextBox x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
         </Grid>
         <Button Grid.Row="2" MinHeight="25">Save</Button>
     </Grid>
