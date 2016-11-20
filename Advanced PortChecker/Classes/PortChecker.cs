@@ -4,7 +4,7 @@ using System.Net.Sockets;
 namespace Advanced_PortChecker.Classes
 {
     /// <summary>
-    /// Determine whether a certain port is open or not.
+    /// Static class to determine whether a certain port is open or not.
     /// </summary>
     internal static class PortChecker
     {

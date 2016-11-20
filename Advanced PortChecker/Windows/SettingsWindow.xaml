@@ -52,6 +52,6 @@
             <Label Grid.Row="2" Grid.Column="0">Border thickness:</Label>
             <syncfusion:IntegerTextBox x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
         </Grid>
-        <Button Grid.Row="2" MinHeight="25">Save</Button>
+        <Button Grid.Row="2" MinHeight="25" Click="BtnSave_Click">Save</Button>
     </Grid>
 </syncfusion:ChromelessWindow>
