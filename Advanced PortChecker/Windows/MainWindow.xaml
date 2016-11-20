@@ -37,6 +37,7 @@
                         <syncfusion:ComboBoxAdv x:Name="CbaMethod" SelectedIndex="0" Grid.Row="0" Grid.Column="2">
                             <syncfusion:ComboBoxItemAdv>TCP</syncfusion:ComboBoxItemAdv>
                             <syncfusion:ComboBoxItemAdv>UDP</syncfusion:ComboBoxItemAdv>
+                            <syncfusion:ComboBoxItemAdv>Both</syncfusion:ComboBoxItemAdv>
                         </syncfusion:ComboBoxAdv>
                     </Grid>
                     <Grid Grid.Row="1">
@@ -47,9 +48,9 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label>Starting port:</Label>
-                        <syncfusion:IntegerTextBox x:Name="IntStart" Grid.Column="1"></syncfusion:IntegerTextBox>
+                        <syncfusion:IntegerTextBox x:Name="IntStart" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
                         <Label Grid.Column="2">Ending port:</Label>
-                        <syncfusion:IntegerTextBox x:Name="IntStop" Grid.Column="3"></syncfusion:IntegerTextBox>
+                        <syncfusion:IntegerTextBox x:Name="IntStop" Grid.Column="3" MinValue="1"></syncfusion:IntegerTextBox>
                     </Grid>
                 </Grid>
             </GroupBox>
