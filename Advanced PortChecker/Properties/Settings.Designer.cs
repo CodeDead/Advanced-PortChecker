@@ -25,13 +25,37 @@ namespace Advanced_PortChecker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Metro")]
         public string VisualStyle {
             get {
                 return ((string)(this["VisualStyle"]));
             }
             set {
                 this["VisualStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF07779C")]
+        public global::System.Windows.Media.Color MetroColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["MetroColor"]));
+            }
+            set {
+                this["MetroColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int BorderThickness {
+            get {
+                return ((int)(this["BorderThickness"]));
+            }
+            set {
+                this["BorderThickness"] = value;
             }
         }
     }

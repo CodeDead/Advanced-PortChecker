@@ -3,7 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="VisualStyle" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Metro</Value>
+    </Setting>
+    <Setting Name="MetroColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FF07779C</Value>
+    </Setting>
+    <Setting Name="BorderThickness" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>
