@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Classes\StyleManager.cs" />
     <Compile Include="Classes\Update.cs" />
+    <Compile Include="Classes\UpdateManager.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

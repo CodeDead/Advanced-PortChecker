@@ -25,7 +25,7 @@ namespace Advanced_PortChecker.Classes
             catch (Exception ex)
             {
                 SkinStorage.SetVisualStyle(o, "Metro");
-                MessageBox.Show(ex.Message, "Advanced PassGen", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
