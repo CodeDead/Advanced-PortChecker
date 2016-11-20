@@ -61,6 +61,28 @@ namespace Advanced_PortChecker.Windows
                 if (IntBorderThickness.Value != null) Properties.Settings.Default.BorderThickness = (int)IntBorderThickness.Value;
 
                 Properties.Settings.Default.Save();
+
+                _mw.ChangeVisualStyle();
+                ChangeVisualStyle();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnReset_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.Reset();
+                Properties.Settings.Default.Save();
+
+                LoadSettings();
+                ChangeVisualStyle();
+
+                _mw.ChangeVisualStyle();
+                ChangeVisualStyle();
             }
             catch (Exception ex)
             {
