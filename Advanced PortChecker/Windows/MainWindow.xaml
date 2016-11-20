@@ -79,7 +79,7 @@
             <Button MinHeight="25" Grid.Column="1" Margin="5">Scan</Button>
         </Grid>
         <StatusBar Grid.Row="3">
-            <Label x:Name="LblVersion">Version: </Label>
+            <Label x:Name="LblVersion">Version:</Label>
             <Separator></Separator>
             <Hyperlink Click="HypUpdate_Click">Check for updates</Hyperlink>
             <Separator></Separator>

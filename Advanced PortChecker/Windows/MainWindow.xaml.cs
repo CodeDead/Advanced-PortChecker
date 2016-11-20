@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Windows;
 using Advanced_PortChecker.Classes;
 using Syncfusion.Windows.Shared;
@@ -10,12 +11,37 @@ namespace Advanced_PortChecker.Windows
     /// </summary>
     public partial class MainWindow
     {
+        #region Variables
+        private readonly UpdateManager _updateManager;
+        #endregion
+
+
         public MainWindow()
         {
+            _updateManager = new UpdateManager("http://codedead.com/Software/Advanced%20PortChecker/update.xml");
+
             InitializeComponent();
             ChangeVisualStyle();
+            LoadSettings();
+        }
 
-            LblVersion.Content += Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        /// <summary>
+        /// Change the GUI to represent the current settings.
+        /// </summary>
+        private void LoadSettings()
+        {
+            LblVersion.Content += " " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            try
+            {
+                if (Properties.Settings.Default.AutoUpdate)
+                {
+                    _updateManager.CheckForUpdate(false, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -33,7 +59,7 @@ namespace Advanced_PortChecker.Windows
 
         private void HypUpdate_Click(object sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            _updateManager.CheckForUpdate(true, true);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Advanced_PortChecker.Classes
     /// <summary>
     /// Static class to change the style of an object.
     /// </summary>
-    internal class StyleManager
+    internal static class StyleManager
     {
         /// <summary>
         /// Change the visual style of an object.

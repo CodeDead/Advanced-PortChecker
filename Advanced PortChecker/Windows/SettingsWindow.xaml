@@ -7,10 +7,51 @@
                              mc:Ignorable="d"
                              AllowsTransparency="True"
                              Title="Advanced PortChecker - Settings"
-                             Height="300" Width="300"
+                             Height="200" Width="300"
                              WindowStartupLocation="CenterScreen" Icon="/Advanced PortChecker;component/globe.ico"
                              TitleTextAlignment="Center">
-    <Grid>
-        
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Center">
+            <CheckBox>Automatically check for updates</CheckBox>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Style:"></Label>
+            <ComboBox x:Name="ChbStyle" SelectedValuePath="Content" Grid.Row="0" Grid.Column="1" IsReadOnly="True">
+                <ComboBoxItem>Metro</ComboBoxItem>
+                <ComboBoxItem>Blend</ComboBoxItem>
+                <ComboBoxItem>VS2010</ComboBoxItem>
+                <ComboBoxItem>Office2003</ComboBoxItem>
+                <ComboBoxItem>Office2007Blue</ComboBoxItem>
+                <ComboBoxItem>Office2007Black</ComboBoxItem>
+                <ComboBoxItem>Office2007Silver</ComboBoxItem>
+                <ComboBoxItem>Office2010Blue</ComboBoxItem>
+                <ComboBoxItem>Office2010Black</ComboBoxItem>
+                <ComboBoxItem>Office2010Silver</ComboBoxItem>
+                <ComboBoxItem>ShinyRed</ComboBoxItem>
+                <ComboBoxItem>ShinyBlue</ComboBoxItem>
+                <ComboBoxItem>SyncOrange</ComboBoxItem>
+                <ComboBoxItem>Transparent</ComboBoxItem>
+            </ComboBox>
+            <Label Grid.Row="1" Grid.Column="0" Content="Metro brush:"></Label>
+            <syncfusion:ColorPicker x:Name="CpMetroBrush" Grid.Row="1" Grid.Column="1" />
+            <Label Grid.Row="2" Grid.Column="0">Border thickness:</Label>
+            <syncfusion:IntegerTextBox x:Name="TxtBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
+        </Grid>
+        <Button Grid.Row="2" MinHeight="25">Save</Button>
     </Grid>
 </syncfusion:ChromelessWindow>
