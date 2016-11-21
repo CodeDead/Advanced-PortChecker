@@ -13,10 +13,8 @@ namespace Advanced_PortChecker.Classes
     {
 
         #region Variables
-
         private readonly string _updateUrl;
         private Update _update;
-
         #endregion
 
         /// <summary>

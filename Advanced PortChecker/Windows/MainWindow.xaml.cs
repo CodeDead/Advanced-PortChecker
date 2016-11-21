@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Shell;
 using Advanced_PortChecker.Classes;
-using Syncfusion.Windows.Shared;
 
 namespace Advanced_PortChecker.Windows
 {
@@ -13,6 +13,7 @@ namespace Advanced_PortChecker.Windows
     {
         #region Variables
         private readonly UpdateManager _updateManager;
+        private OperationInformation _oI;
         #endregion
 
 
@@ -21,6 +22,7 @@ namespace Advanced_PortChecker.Windows
             _updateManager = new UpdateManager("http://codedead.com/Software/Advanced%20PortChecker/update.xml");
 
             InitializeComponent();
+
             ChangeVisualStyle();
             LoadSettings();
         }
@@ -30,7 +32,6 @@ namespace Advanced_PortChecker.Windows
         /// </summary>
         private void LoadSettings()
         {
-            LblVersion.Content += " " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try
             {
                 if (Properties.Settings.Default.AutoUpdate)
@@ -52,14 +53,100 @@ namespace Advanced_PortChecker.Windows
             StyleManager.ChangeStyle(this);
         }
 
-        private void HypSettings_Click(object sender, RoutedEventArgs e)
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            new AboutWindow().ShowDialog();
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
             new SettingsWindow(this).ShowDialog();
         }
 
-        private void HypUpdate_Click(object sender, RoutedEventArgs e)
+        private void Update_Click(object sender, RoutedEventArgs e)
         {
             _updateManager.CheckForUpdate(true, true);
+        }
+
+        /// <summary>
+        /// Determine whether the user can change the settings or not.
+        /// </summary>
+        /// <param name="enabled">A boolean to represent whether the user can change the settings or not.</param>
+        private void ControlsEnabled(bool enabled)
+        {
+            BtnCancel.IsEnabled = !enabled;
+            BtnScan.IsEnabled = enabled;
+            TxtAddress.IsEnabled = enabled;
+            IntStart.IsEnabled = enabled;
+            IntStop.IsEnabled = enabled;
+            CbaMethod.IsEnabled = enabled;
+        }
+
+        private async void BtnScan_Click(object sender, RoutedEventArgs e)
+        {
+            LvPorts.Items.Clear();
+            ControlsEnabled(false);
+
+            PgbStatus.Value = PgbStatus.Minimum;
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            TaskbarItemInfo.ProgressValue = 0;
+
+            List<LvCheck> lv = new List<LvCheck>();
+            _oI = new OperationInformation
+            {
+                Progress = new Progress<int>(value =>
+                {
+                    PgbStatus.Value = value;
+                    TaskbarItemInfo.ProgressValue = value/(PgbStatus.Maximum - PgbStatus.Minimum);
+                }),
+                Preview = new Progress<LvCheck>(value => { LvPorts.Items.Add(value); }),
+                IsCancelled = false
+            };
+
+            if (IntStart.Value != null)
+            {
+                PgbStatus.Minimum = (double) IntStart.Value - 1;
+                if (IntStop.Value != null)
+                {
+                    PgbStatus.Maximum = (double) IntStop.Value;
+                    switch (CbaMethod.Text)
+                    {
+                        case "TCP":
+                            lv = await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
+                            break;
+                        case "UDP":
+                            lv = await PortChecker.CheckUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
+                            break;
+                        case "Both":
+                            lv = await PortChecker.CheckTCPUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI);
+                            break;
+                    }
+                }
+            }
+            LvPorts.Items.Clear();
+            foreach (LvCheck l in lv)
+            {
+                LvPorts.Items.Add(l);
+            }
+
+            ControlsEnabled(true);
+
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
+            TaskbarItemInfo.ProgressValue = 0;
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            _oI.IsCancelled = true;
+            ControlsEnabled(true);
+
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
+            TaskbarItemInfo.ProgressValue = 0;
         }
     }
 }

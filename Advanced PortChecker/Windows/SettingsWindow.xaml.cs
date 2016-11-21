@@ -11,7 +11,7 @@ namespace Advanced_PortChecker.Windows
     {
 
         #region Variables
-        private MainWindow _mw;
+        private readonly MainWindow _mw;
         #endregion
 
         public SettingsWindow(MainWindow mainWindow)

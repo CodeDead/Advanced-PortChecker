@@ -6,16 +6,52 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
-    Title="Advanced PortChecker" Height="300" Width="450" WindowStartupLocation="CenterScreen" TitleTextAlignment="Center"
+    Title="Advanced PortChecker" Height="350" Width="500" WindowStartupLocation="CenterScreen" TitleTextAlignment="Center"
     AllowsTransparency="True" Icon="/Advanced PortChecker;component/globe.ico">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo/>
+    </Window.TaskbarItemInfo>
+    
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Export">
+                    <MenuItem Header="Export as TXT"/>
+                    <MenuItem Header="Export as HTML"/>
+                    <MenuItem Header="Export as CSV"/>
+                    <MenuItem Header="Export as..."/>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Copy" />
+                <Separator></Separator>
+                <MenuItem Header="Delete item" />
+                <MenuItem Header="Delete all items" />
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="Settings" Click="Settings_Click" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Help" />
+                <Separator></Separator>
+                <MenuItem Header="Check for updates" Click="Update_Click" />
+                <Separator></Separator>
+                <MenuItem Header="Homepage" />
+                <MenuItem Header="License" />
+                <Separator></Separator>
+                <MenuItem Header="About" Click="About_Click" />
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
             <GroupBox Header="Options">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -34,11 +70,11 @@
                         </Grid.ColumnDefinitions>
                         <Label>Address:</Label>
                         <TextBox x:Name="TxtAddress" Grid.Row="0" Grid.Column="1" Text="127.0.0.1"></TextBox>
-                        <syncfusion:ComboBoxAdv x:Name="CbaMethod" SelectedIndex="0" Grid.Row="0" Grid.Column="2">
-                            <syncfusion:ComboBoxItemAdv>TCP</syncfusion:ComboBoxItemAdv>
-                            <syncfusion:ComboBoxItemAdv>UDP</syncfusion:ComboBoxItemAdv>
-                            <syncfusion:ComboBoxItemAdv>Both</syncfusion:ComboBoxItemAdv>
-                        </syncfusion:ComboBoxAdv>
+                        <ComboBox x:Name="CbaMethod" SelectedIndex="0" Grid.Row="0" Grid.Column="2" Margin="5,0,0,0">
+                            <ComboBoxItem>TCP</ComboBoxItem>
+                            <ComboBoxItem>UDP</ComboBoxItem>
+                            <ComboBoxItem>Both</ComboBoxItem>
+                        </ComboBox>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -55,7 +91,13 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <ListView Grid.Row="1" x:Name="LvPorts">
+        <ListView Grid.Row="2" x:Name="LvPorts">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="BorderBrush" Value="LightGray" />
+                    <Setter Property="BorderThickness" Value="0,0,0,1" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -63,27 +105,22 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                     <GridViewColumn Header="Port" DisplayMemberBinding="{Binding Port}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
-            <Button MinHeight="25" IsEnabled="False" Margin="5">Cancel</Button>
-            <Button MinHeight="25" Grid.Column="1" Margin="5">Scan</Button>
+            <Button x:Name="BtnCancel" MinHeight="25" IsEnabled="False" Margin="5" Click="BtnCancel_Click">Cancel</Button>
+            <Button x:Name="BtnScan" MinHeight="25" Grid.Column="1" Margin="5" Click="BtnScan_Click">Scan</Button>
         </Grid>
-        <StatusBar Grid.Row="3">
-            <Label x:Name="LblVersion">Version:</Label>
-            <Separator></Separator>
-            <Hyperlink Click="HypUpdate_Click">Check for updates</Hyperlink>
-            <Separator></Separator>
-            <Hyperlink Click="HypSettings_Click">Settings</Hyperlink>
-        </StatusBar>
+        <ProgressBar x:Name="PgbStatus" MinHeight="25" Grid.Row="4"></ProgressBar>
     </Grid>
 </syncfusion:ChromelessWindow>
