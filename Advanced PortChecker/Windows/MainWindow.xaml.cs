@@ -12,8 +12,10 @@ namespace Advanced_PortChecker.Windows
     public partial class MainWindow
     {
         #region Variables
+
         private readonly UpdateManager _updateManager;
         private OperationInformation _oI;
+
         #endregion
 
 
@@ -147,6 +149,47 @@ namespace Advanced_PortChecker.Windows
 
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
             TaskbarItemInfo.ProgressValue = 0;
+        }
+
+        private void BtnLicense_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("gpl.pdf");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnCodeDead_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("http://codedead.com/");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnHelp_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("help.pdf");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnDeleteAllItems_Click(object sender, RoutedEventArgs e)
+        {
+            LvPorts.Items.Clear();
         }
     }
 }

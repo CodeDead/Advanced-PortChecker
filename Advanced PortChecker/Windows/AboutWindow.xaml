@@ -5,9 +5,9 @@
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
                              mc:Ignorable="d"
-                             Title="Advanced PortChecker - About" Height="200" Width="400"
+                             Title="Advanced PortChecker - About" Height="250" Width="400"
                              Icon="/Advanced PortChecker;component/globe.ico" WindowStartupLocation="CenterScreen"
-                             AllowsTransparency="True">
+                             AllowsTransparency="True" TitleTextAlignment="Center">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -24,6 +24,7 @@
 
 Images: small-n-flat by paomedia
 Theme by: SyncFusion
+Version: 1.0.0.0
 
 Copyright © CodeDead 2016</TextBlock.Text>
             </TextBlock>
