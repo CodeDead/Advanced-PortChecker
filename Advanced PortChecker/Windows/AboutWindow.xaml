@@ -35,7 +35,7 @@ Copyright © CodeDead 2016</TextBlock.Text>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Margin="5" Click="BtnClose_Click">Close</Button>
+            <Button Margin="5" Click="BtnClose_Click" IsCancel="True" IsDefault="True">Close</Button>
             <Button Margin="5" Grid.Column="1" Click="BtnLicense_Click">License</Button>
             <Button Margin="5" Grid.Column="2" Click="BtnCodeDead_Click">CodeDead</Button>
         </Grid>

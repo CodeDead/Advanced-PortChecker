@@ -189,8 +189,8 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="BtnCancel" IsEnabled="False" Margin="5" Click="BtnCancel_Click">Cancel</Button>
-            <Button x:Name="BtnScan" Grid.Column="1" Margin="5" Click="BtnScan_Click">Scan</Button>
+            <Button x:Name="BtnCancel" IsEnabled="False" Margin="5" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
+            <Button x:Name="BtnScan" Grid.Column="1" Margin="5" Click="BtnScan_Click" IsDefault="True">Scan</Button>
         </Grid>
     </Grid>
 </syncfusion:ChromelessWindow>
