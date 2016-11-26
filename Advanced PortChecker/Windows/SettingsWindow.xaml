@@ -50,7 +50,7 @@
             <Label Grid.Row="1" Grid.Column="0" Content="Metro brush:"></Label>
             <syncfusion:ColorPicker x:Name="CpMetroBrush" Grid.Row="1" Grid.Column="1" />
             <Label Grid.Row="2" Grid.Column="0">Border thickness:</Label>
-            <syncfusion:IntegerTextBox x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
+            <syncfusion:IntegerTextBox x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="0"></syncfusion:IntegerTextBox>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

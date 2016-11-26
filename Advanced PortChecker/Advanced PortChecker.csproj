@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\ExportWriter.cs" />
     <Compile Include="Classes\LvCheck.cs" />
     <Compile Include="Classes\OperationInformation.cs" />
     <Compile Include="Classes\PortChecker.cs" />

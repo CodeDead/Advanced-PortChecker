@@ -26,11 +26,11 @@
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/file.png"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="Export as TXT"/>
-                    <MenuItem Header="Export as HTML"/>
-                    <MenuItem Header="Export as CSV"/>
+                    <MenuItem Header="Export as TXT" Click="BtnExportAsText_Click"/>
+                    <MenuItem Header="Export as HTML" Click="BtnExportAsHtml_Click"/>
+                    <MenuItem Header="Export as CSV" Click="BtnExportAsCsv_Click"/>
                     <Separator></Separator>
-                    <MenuItem Header="Export as..."/>
+                    <MenuItem Header="Export as..." Click="BtnExportAs_Click"/>
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Exit" Click="Exit_Click">

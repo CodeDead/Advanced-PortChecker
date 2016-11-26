@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Shell;
 using Advanced_PortChecker.Classes;
+using Microsoft.Win32;
 
 namespace Advanced_PortChecker.Windows
 {
@@ -18,7 +18,6 @@ namespace Advanced_PortChecker.Windows
         private OperationInformation _oI;
 
         #endregion
-
 
         public MainWindow()
         {
@@ -206,8 +205,56 @@ namespace Advanced_PortChecker.Windows
         {
             if (LvPorts.SelectedItems.Count == 0) return;
 
-            LvCheck selected = (LvCheck)LvPorts.SelectedItems[0];
+            LvCheck selected = (LvCheck) LvPorts.SelectedItems[0];
             Clipboard.SetText(selected.Address + " " + selected.Port + " " + selected.Type + " " + selected.Description);
+        }
+
+        private void BtnExportAs_Click(object sender, RoutedEventArgs e)
+        {
+            if (LvPorts.Items.Count == 0) return;
+
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "Text file (*.txt)|*.txt|HTML file (*.html)|*.html|CSV file (*.csv)|*.csv" };
+            if (sfd.ShowDialog() != true) return;
+
+            switch (sfd.FilterIndex)
+            {
+                default:
+                    ExportWriter.SaveAsText(sfd.FileName, LvPorts);
+                    break;
+                case 2:
+                    ExportWriter.SaveAsHTML(sfd.FileName, LvPorts);
+                    break;
+                case 3:
+                    ExportWriter.SaveAsCSV(sfd.FileName, LvPorts);
+                    break;
+            }
+        }
+
+        private void BtnExportAsText_Click(object sender, RoutedEventArgs e)
+        {
+            if (LvPorts.Items.Count == 0) return;
+
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "Text file (*.txt)|*.txt" };
+            if (sfd.ShowDialog() != true) return;
+            ExportWriter.SaveAsText(sfd.FileName, LvPorts);
+        }
+
+        private void BtnExportAsHtml_Click(object sender, RoutedEventArgs e)
+        {
+            if (LvPorts.Items.Count == 0) return;
+
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "HTML file (*.html)|*.html" };
+            if (sfd.ShowDialog() != true) return;
+            ExportWriter.SaveAsHTML(sfd.FileName, LvPorts);
+        }
+
+        private void BtnExportAsCsv_Click(object sender, RoutedEventArgs e)
+        {
+            if (LvPorts.Items.Count == 0) return;
+
+            SaveFileDialog sfd = new SaveFileDialog { Filter = "CSV file (*.csv)|*.csv" };
+            if (sfd.ShowDialog() != true) return;
+            ExportWriter.SaveAsCSV(sfd.FileName, LvPorts);
         }
     }
 }
