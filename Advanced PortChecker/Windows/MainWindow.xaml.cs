@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shell;
 using Advanced_PortChecker.Classes;
 
@@ -93,7 +94,6 @@ namespace Advanced_PortChecker.Windows
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             TaskbarItemInfo.ProgressValue = 0;
 
-            List<LvCheck> lv = new List<LvCheck>();
             _oI = new OperationInformation
             {
                 Progress = new Progress<int>(value =>
@@ -101,7 +101,7 @@ namespace Advanced_PortChecker.Windows
                     PgbStatus.Value = value;
                     TaskbarItemInfo.ProgressValue = value/(PgbStatus.Maximum - PgbStatus.Minimum);
                 }),
-                Preview = new Progress<LvCheck>(value => { LvPorts.Items.Add(value); }),
+                ItemProgress = new Progress<LvCheck>(value => { LvPorts.Items.Add(value); }),
                 IsCancelled = false
             };
 
@@ -114,23 +114,17 @@ namespace Advanced_PortChecker.Windows
                     switch (CbaMethod.Text)
                     {
                         case "TCP":
-                            lv = await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
+                            await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
                             break;
                         case "UDP":
-                            lv = await PortChecker.CheckUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
+                            await PortChecker.CheckUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
                             break;
                         case "Both":
-                            lv = await PortChecker.CheckTCPUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI);
+                            await PortChecker.CheckTCPUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI);
                             break;
                     }
                 }
             }
-            LvPorts.Items.Clear();
-            foreach (LvCheck l in lv)
-            {
-                LvPorts.Items.Add(l);
-            }
-
             ControlsEnabled(true);
 
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
@@ -144,6 +138,8 @@ namespace Advanced_PortChecker.Windows
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
+            if (_oI == null) return;
+
             _oI.IsCancelled = true;
             ControlsEnabled(true);
 
@@ -190,6 +186,28 @@ namespace Advanced_PortChecker.Windows
         private void BtnDeleteAllItems_Click(object sender, RoutedEventArgs e)
         {
             LvPorts.Items.Clear();
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            List<LvCheck> delete = new List<LvCheck>();
+            foreach (LvCheck l in LvPorts.SelectedItems)
+            {
+                delete.Add(l);
+            }
+
+            foreach (LvCheck lv in delete)
+            {
+                LvPorts.Items.Remove(lv);
+            }
+        }
+
+        private void BtnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            if (LvPorts.SelectedItems.Count == 0) return;
+
+            LvCheck selected = (LvCheck)LvPorts.SelectedItems[0];
+            Clipboard.SetText(selected.Address + " " + selected.Port + " " + selected.Type + " " + selected.Description);
         }
     }
 }

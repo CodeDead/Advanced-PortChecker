@@ -11,6 +11,6 @@ namespace Advanced_PortChecker.Classes
 
         public IProgress<int> Progress { get; set; }
 
-        public IProgress<LvCheck> Preview { get; set; }
+        public IProgress<LvCheck> ItemProgress { get; set; }
     }
 }

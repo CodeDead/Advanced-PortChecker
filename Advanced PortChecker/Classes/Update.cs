@@ -8,7 +8,6 @@ namespace Advanced_PortChecker.Classes
     public class Update
     {
         #region XML_Update
-
         // ReSharper disable once UnassignedField.Global
         // ReSharper disable once MemberCanBePrivate.Global
         public int MajorVersion;
@@ -23,7 +22,6 @@ namespace Advanced_PortChecker.Classes
         public int RevisionVersion;
         // ReSharper disable once UnassignedField.Global
         public string UpdateUrl;
-
         #endregion
 
         #region Assigned_Variables

@@ -40,13 +40,13 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Copy">
+                <MenuItem Header="Copy item" Click="BtnCopy_Click">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/copy.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Delete item">
+                <MenuItem Header="Delete item(s)" Click="BtnDelete_Click">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/delete.png"/>
                     </MenuItem.Icon>
@@ -54,6 +54,12 @@
                 <MenuItem Header="Delete all items" Click="BtnDeleteAllItems_Click">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/exit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Cancel operation" Click="BtnCancel_Click">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="../Resources/Images/cancel.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -147,6 +153,26 @@
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
                 </Style>
             </ListView.Resources>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy item" Click="BtnCopy_Click">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="../Resources/Images/copy.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="Delete item(s)" Click="BtnDelete_Click">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="../Resources/Images/delete.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header = "Delete all items" Click="BtnDeleteAllItems_Click">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="../Resources/Images/exit.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />

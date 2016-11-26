@@ -69,7 +69,7 @@ namespace Advanced_PortChecker.Classes
                     {
                         oi.Progress.Report(i);
                     }
-                    oi.Preview.Report(check);
+                    oi.ItemProgress.Report(check);
                 }
             });
             return lv;
@@ -106,7 +106,7 @@ namespace Advanced_PortChecker.Classes
                     {
                         oi.Progress.Report(i);
                     }
-                    oi.Preview.Report(check);
+                    oi.ItemProgress.Report(check);
                 }
             });
             return lv;
