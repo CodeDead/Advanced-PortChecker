@@ -8,9 +8,7 @@ namespace Advanced_PortChecker.Classes
     internal class OperationInformation
     {
         public bool IsCancelled { get; set; }
-
         public IProgress<int> Progress { get; set; }
-
         public IProgress<LvCheck> ItemProgress { get; set; }
     }
 }
