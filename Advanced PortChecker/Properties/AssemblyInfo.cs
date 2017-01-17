@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CodeDead")]
 [assembly: AssemblyProduct("Advanced PortChecker")]
-[assembly: AssemblyCopyright("Copyright © CodeDead 2016")]
+[assembly: AssemblyCopyright("Copyright © CodeDead 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
