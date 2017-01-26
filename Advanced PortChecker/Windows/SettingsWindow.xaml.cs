@@ -79,7 +79,6 @@ namespace Advanced_PortChecker.Windows
                 Properties.Settings.Default.Save();
 
                 LoadSettings();
-                ChangeVisualStyle();
 
                 _mw.ChangeVisualStyle();
                 ChangeVisualStyle();
