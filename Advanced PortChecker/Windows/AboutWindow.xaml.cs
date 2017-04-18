@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using Advanced_PortChecker.Classes;
 
@@ -33,7 +34,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                System.Diagnostics.Process.Start("gpl.pdf");
+                Process.Start(AppDomain.CurrentDomain.BaseDirectory + "\\gpl.pdf");
             }
             catch (Exception ex)
             {
@@ -45,7 +46,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                System.Diagnostics.Process.Start("http://codedead.com/");
+                Process.Start("http://codedead.com/");
             }
             catch (Exception ex)
             {

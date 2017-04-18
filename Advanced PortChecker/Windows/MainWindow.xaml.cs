@@ -15,10 +15,8 @@ namespace Advanced_PortChecker.Windows
     public partial class MainWindow
     {
         #region Variables
-
         private readonly UpdateManager.UpdateManager _updateManager;
         private OperationInformation _oI;
-
         #endregion
 
         public MainWindow()
