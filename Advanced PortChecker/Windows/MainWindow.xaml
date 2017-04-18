@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
+    UseLayoutRounding="True"
     Title="Advanced PortChecker" Height="350" Width="500" WindowStartupLocation="CenterScreen" TitleTextAlignment="Center"
     AllowsTransparency="True" Icon="/Advanced PortChecker;component/globe.ico">
     <Window.TaskbarItemInfo>
@@ -102,7 +103,7 @@
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
-            <GroupBox Header="Options">
+            <GroupBox Margin="5" Header="Options">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -141,7 +142,7 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <ListView Grid.Row="2" x:Name="LvPorts">
+        <ListView Margin="5" Grid.Row="2" x:Name="LvPorts">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="BorderBrush" Value="LightGray" />
@@ -182,15 +183,16 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ProgressBar x:Name="PgbStatus" MinHeight="25" Grid.Row="3"></ProgressBar>
+        <ProgressBar Margin="5" x:Name="PgbStatus" MinHeight="25" Grid.Row="3"></ProgressBar>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="BtnCancel" IsEnabled="False" Margin="5" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
-            <Button x:Name="BtnScan" Grid.Column="1" Margin="5" Click="BtnScan_Click" IsDefault="True">Scan</Button>
+            <Button x:Name="BtnCancel" MinWidth="120" IsEnabled="False" Margin="5" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
+            <Button x:Name="BtnScan" MinWidth="120" Grid.Column="2" Margin="5" Click="BtnScan_Click" IsDefault="True">Scan</Button>
         </Grid>
     </Grid>
 </syncfusion:ChromelessWindow>

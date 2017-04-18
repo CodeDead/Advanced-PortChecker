@@ -9,7 +9,7 @@
       <Value Profile="(Default)">#FF07779C</Value>
     </Setting>
     <Setting Name="BorderThickness" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="AutoUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

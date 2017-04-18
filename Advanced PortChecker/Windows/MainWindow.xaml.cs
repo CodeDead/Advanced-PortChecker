@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Shell;
 using Advanced_PortChecker.Classes;
@@ -14,14 +16,14 @@ namespace Advanced_PortChecker.Windows
     {
         #region Variables
 
-        private readonly UpdateManager _updateManager;
+        private readonly UpdateManager.UpdateManager _updateManager;
         private OperationInformation _oI;
 
         #endregion
 
         public MainWindow()
         {
-            _updateManager = new UpdateManager("http://codedead.com/Software/Advanced%20PortChecker/update.xml");
+            _updateManager = new UpdateManager.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "http://codedead.com/Software/Advanced%20PortChecker/update.xml", "Advanced PortChecker");
 
             InitializeComponent();
 
@@ -150,7 +152,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                System.Diagnostics.Process.Start("gpl.pdf");
+                Process.Start(AppDomain.CurrentDomain.BaseDirectory + "\\gpl.pdf");
             }
             catch (Exception ex)
             {
@@ -162,7 +164,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                System.Diagnostics.Process.Start("http://codedead.com/");
+                Process.Start("http://codedead.com/");
             }
             catch (Exception ex)
             {
@@ -174,7 +176,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                System.Diagnostics.Process.Start("help.pdf");
+                Process.Start(AppDomain.CurrentDomain.BaseDirectory + "\\help.pdf");
             }
             catch (Exception ex)
             {

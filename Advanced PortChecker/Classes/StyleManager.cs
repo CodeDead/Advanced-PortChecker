@@ -20,7 +20,8 @@ namespace Advanced_PortChecker.Classes
             {
                 SkinStorage.SetVisualStyle(o, Properties.Settings.Default.VisualStyle);
                 SkinStorage.SetMetroBrush(o, new SolidColorBrush(Properties.Settings.Default.MetroColor));
-                ((Window)o).BorderThickness = new Thickness(Properties.Settings.Default.BorderThickness);
+                ((ChromelessWindow)o).BorderThickness = new Thickness(Properties.Settings.Default.BorderThickness);
+                ((ChromelessWindow)o).CornerRadius = new CornerRadius(0,0,0,0);
             }
             catch (Exception ex)
             {
