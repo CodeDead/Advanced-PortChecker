@@ -21,7 +21,7 @@ namespace Advanced_PortChecker.Windows
 
         public MainWindow()
         {
-            _updateManager = new UpdateManager.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "http://codedead.com/Software/Advanced%20PortChecker/update.xml", "Advanced PortChecker");
+            _updateManager = new UpdateManager.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "https://codedead.com/Software/Advanced%20PortChecker/update.xml", "Advanced PortChecker");
 
             InitializeComponent();
 
@@ -135,6 +135,18 @@ namespace Advanced_PortChecker.Windows
             Close();
         }
 
+        private void Donate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start("https://codedead.com/?page_id=302");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             if (_oI == null) return;
@@ -162,7 +174,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                Process.Start("http://codedead.com/");
+                Process.Start("https://codedead.com/");
             }
             catch (Exception ex)
             {

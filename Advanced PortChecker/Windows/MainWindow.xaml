@@ -95,6 +95,11 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
+                <MenuItem Header="Donate" Click="Donate_Click">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="../Resources/Images/money.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="About" Click="About_Click">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/info.png"/>

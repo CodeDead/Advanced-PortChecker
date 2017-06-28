@@ -58,11 +58,13 @@ namespace Advanced_PortChecker.Classes
                     if (oi.IsCancelled) return;
 
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    LvCheck check = new LvCheck();
-                    check.Address = address;
-                    check.Port = i;
-                    check.Type = "TCP";
-                    check.Description = IsTcpOpen(address, i) ? "Open" : "Closed";
+                    LvCheck check = new LvCheck()
+                    {
+                        Address = address,
+                        Port = i,
+                        Type = "TCP",
+                        Description = IsTcpOpen(address, i) ? "Open" : "Closed"
+                    };
                     lv.Add(check);
 
                     if (reportProgress)
@@ -95,11 +97,13 @@ namespace Advanced_PortChecker.Classes
                     if (oi.IsCancelled) return;
 
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    LvCheck check = new LvCheck();
-                    check.Address = address;
-                    check.Port = i;
-                    check.Type = "UDP";
-                    check.Description = IsUdpOpen(address, i) ? "Open" : "Closed";
+                    LvCheck check = new LvCheck()
+                    {
+                        Address = address,
+                        Port = i,
+                        Type = "UDP",
+                        Description = IsUdpOpen(address, i) ? "Open" : "Closed"
+                    };
                     lv.Add(check);
 
                     if (reportProgress)
