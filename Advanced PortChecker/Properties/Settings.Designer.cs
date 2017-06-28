@@ -70,5 +70,17 @@ namespace Advanced_PortChecker.Properties {
                 this["AutoUpdate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int TimeOut {
+            get {
+                return ((int)(this["TimeOut"]));
+            }
+            set {
+                this["TimeOut"] = value;
+            }
+        }
     }
 }

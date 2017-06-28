@@ -110,16 +110,21 @@ namespace Advanced_PortChecker.Windows
                 if (IntStop.Value != null)
                 {
                     PgbStatus.Maximum = (double) IntStop.Value;
+                    int timeout = Properties.Settings.Default.TimeOut;
+
+                    TxtAddress.Text = TxtAddress.Text.Replace("https://", "");
+                    TxtAddress.Text = TxtAddress.Text.Replace("http://", "");
+
                     switch (CbaMethod.Text)
                     {
                         case "TCP":
-                            await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
+                            await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI, true);
                             break;
                         case "UDP":
-                            await PortChecker.CheckUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI, true);
+                            await PortChecker.CheckUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI, true);
                             break;
                         case "Both":
-                            await PortChecker.CheckTCPUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, _oI);
+                            await PortChecker.CheckTCPUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI);
                             break;
                     }
                 }

@@ -9,52 +9,75 @@
     AllowsTransparency="True"
     UseLayoutRounding="True"
     Title="Advanced PortChecker - Settings"
-    Height="200" Width="300"
+    Height="300" Width="300"
     WindowStartupLocation="CenterScreen" Icon="/Advanced PortChecker;component/globe.ico"
     TitleTextAlignment="Center">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid HorizontalAlignment="Center">
-            <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
-        </Grid>
+        <TabControl>
+            <TabItem Header="General">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Connection time-out:"></Label>
+                    <syncfusion:IntegerTextBox x:Name="IntTimeOut" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
+                    <Label Grid.Column="2" Content="milliseconds"></Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Theme">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Center">
+                        <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="2"  Content="Style:"></Label>
+                        <ComboBox Margin="2" x:Name="ChbStyle" SelectedValuePath="Content" Grid.Row="0" Grid.Column="1" IsReadOnly="True">
+                            <ComboBoxItem>Metro</ComboBoxItem>
+                            <ComboBoxItem>Blend</ComboBoxItem>
+                            <ComboBoxItem>VS2010</ComboBoxItem>
+                            <ComboBoxItem>Office2003</ComboBoxItem>
+                            <ComboBoxItem>Office2007Blue</ComboBoxItem>
+                            <ComboBoxItem>Office2007Black</ComboBoxItem>
+                            <ComboBoxItem>Office2007Silver</ComboBoxItem>
+                            <ComboBoxItem>Office2010Blue</ComboBoxItem>
+                            <ComboBoxItem>Office2010Black</ComboBoxItem>
+                            <ComboBoxItem>Office2010Silver</ComboBoxItem>
+                            <ComboBoxItem>ShinyRed</ComboBoxItem>
+                            <ComboBoxItem>ShinyBlue</ComboBoxItem>
+                            <ComboBoxItem>SyncOrange</ComboBoxItem>
+                            <ComboBoxItem>Transparent</ComboBoxItem>
+                        </ComboBox>
+                        <Label Margin="2" Grid.Row="1" Grid.Column="0" Content="Metro brush:"></Label>
+                        <syncfusion:ColorPicker Margin="2" x:Name="CpMetroBrush" Grid.Row="1" Grid.Column="1" />
+                        <Label Margin="2" Grid.Row="2" Grid.Column="0">Border thickness:</Label>
+                        <syncfusion:IntegerTextBox Margin="2" x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="0"></syncfusion:IntegerTextBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label Margin="2"  Content="Style:"></Label>
-            <ComboBox Margin="2" x:Name="ChbStyle" SelectedValuePath="Content" Grid.Row="0" Grid.Column="1" IsReadOnly="True">
-                <ComboBoxItem>Metro</ComboBoxItem>
-                <ComboBoxItem>Blend</ComboBoxItem>
-                <ComboBoxItem>VS2010</ComboBoxItem>
-                <ComboBoxItem>Office2003</ComboBoxItem>
-                <ComboBoxItem>Office2007Blue</ComboBoxItem>
-                <ComboBoxItem>Office2007Black</ComboBoxItem>
-                <ComboBoxItem>Office2007Silver</ComboBoxItem>
-                <ComboBoxItem>Office2010Blue</ComboBoxItem>
-                <ComboBoxItem>Office2010Black</ComboBoxItem>
-                <ComboBoxItem>Office2010Silver</ComboBoxItem>
-                <ComboBoxItem>ShinyRed</ComboBoxItem>
-                <ComboBoxItem>ShinyBlue</ComboBoxItem>
-                <ComboBoxItem>SyncOrange</ComboBoxItem>
-                <ComboBoxItem>Transparent</ComboBoxItem>
-            </ComboBox>
-            <Label Margin="2" Grid.Row="1" Grid.Column="0" Content="Metro brush:"></Label>
-            <syncfusion:ColorPicker Margin="2" x:Name="CpMetroBrush" Grid.Row="1" Grid.Column="1" />
-            <Label Margin="2" Grid.Row="2" Grid.Column="0">Border thickness:</Label>
-            <syncfusion:IntegerTextBox Margin="2" x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="0"></syncfusion:IntegerTextBox>
-        </Grid>
-        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

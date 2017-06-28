@@ -37,6 +37,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
+                IntTimeOut.Value = Properties.Settings.Default.TimeOut;
                 ChbAutoUpdate.IsChecked = Properties.Settings.Default.AutoUpdate;
 
                 ChbStyle.SelectedValue = Properties.Settings.Default.VisualStyle;
@@ -53,6 +54,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
+                if (IntTimeOut.Value != null) Properties.Settings.Default.TimeOut = (int) IntTimeOut.Value;
                 if (ChbAutoUpdate.IsChecked != null) Properties.Settings.Default.AutoUpdate = ChbAutoUpdate.IsChecked.Value;
                 Properties.Settings.Default.VisualStyle = ChbStyle.Text;
 
