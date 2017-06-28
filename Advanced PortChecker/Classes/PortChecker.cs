@@ -162,8 +162,6 @@ namespace Advanced_PortChecker.Classes
                     udpClient.Client.ReceiveTimeout = timeout;
                     udpClient.Client.SendTimeout = timeout;
 
-
-
                     udpClient.Connect(address, port);
                     return true;
                 }

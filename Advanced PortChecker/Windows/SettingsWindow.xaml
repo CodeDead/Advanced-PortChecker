@@ -19,30 +19,35 @@
         </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="General">
-                <Grid >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label Content="Connection time-out:"></Label>
-                    <syncfusion:IntegerTextBox x:Name="IntTimeOut" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
-                    <Label Grid.Column="2" Content="milliseconds"></Label>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Theme">
-                <Grid>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid HorizontalAlignment="Center">
+                    <Grid>
                         <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
                     </Grid>
                     <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Connection time-out:"></Label>
+                        <syncfusion:IntegerTextBox x:Name="IntTimeOut" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
+                        <Label Grid.Column="2" Content="milliseconds"></Label>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Theme">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>

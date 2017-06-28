@@ -65,6 +65,8 @@ namespace Advanced_PortChecker.Windows
 
                 _mw.ChangeVisualStyle();
                 ChangeVisualStyle();
+
+                MessageBox.Show("All settings have been saved!", "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -76,6 +78,11 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
+                if (MessageBox.Show("Are you sure you want to reset all settings?", "Advanced PortChecker", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
                 Properties.Settings.Default.Reset();
                 Properties.Settings.Default.Save();
 
