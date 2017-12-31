@@ -9,16 +9,27 @@ using Microsoft.Win32;
 
 namespace Advanced_PortChecker.Windows
 {
+    /// <inheritdoc cref="Syncfusion.Windows.Shared.ChromelessWindow" />
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
         #region Variables
+        /// <summary>
+        /// The UpdateManager object that can be used to check for updates
+        /// </summary>
         private readonly UpdateManager.UpdateManager _updateManager;
+        /// <summary>
+        /// The OperationInformation object
+        /// </summary>
         private OperationInformation _oI;
         #endregion
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Initialize a new MainWindow object
+        /// </summary>
         public MainWindow()
         {
             _updateManager = new UpdateManager.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "https://codedead.com/Software/Advanced%20PortChecker/update.xml", "Advanced PortChecker");
@@ -30,7 +41,7 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Change the GUI to represent the current settings.
+        /// Change the GUI to represent the current settings
         /// </summary>
         private void LoadSettings()
         {
@@ -48,7 +59,7 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Change the visual style of the controls, depending on the settings.
+        /// Change the visual style of the controls, depending on the settings
         /// </summary>
         internal void ChangeVisualStyle()
         {
@@ -71,9 +82,9 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Determine whether the user can change the settings or not.
+        /// Determine whether the user can change the settings or not
         /// </summary>
-        /// <param name="enabled">A boolean to represent whether the user can change the settings or not.</param>
+        /// <param name="enabled">A boolean to represent whether the user can change the settings or not</param>
         private void ControlsEnabled(bool enabled)
         {
             BtnCancel.IsEnabled = !enabled;

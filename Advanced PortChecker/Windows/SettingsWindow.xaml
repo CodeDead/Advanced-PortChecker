@@ -24,9 +24,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid>
-                        <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
-                    </Grid>
+                    <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>

@@ -6,15 +6,15 @@ using System.Windows.Controls;
 namespace Advanced_PortChecker.Classes
 {
     /// <summary>
-    /// A static helper class to export items to the disk.
+    /// A static helper class to export items to the disk
     /// </summary>
     internal static class ExportWriter
     {
         /// <summary>
-        /// Export the listview items in plain text format to the drive.
+        /// Export the listview items in plain text format to the drive
         /// </summary>
-        /// <param name="path">The path where the export list should be saved.</param>
-        /// <param name="lvPorts">The listview control containing all the LvCheck items.</param>
+        /// <param name="path">The path where the export list should be saved</param>
+        /// <param name="lvPorts">The listview control containing all the LvCheck items</param>
         internal static void SaveAsText(string path, ItemsControl lvPorts)
         {
             if (lvPorts.Items.Count == 0) return;
@@ -48,10 +48,10 @@ namespace Advanced_PortChecker.Classes
 
         // ReSharper disable once InconsistentNaming
         /// <summary>
-        /// Export the listview items in HTML format to the drive.
+        /// Export the listview items in HTML format to the drive
         /// </summary>
-        /// <param name="path">The path where the export list should be saved.</param>
-        /// <param name="lvPorts">The listview control containing all the LvCheck items.</param>
+        /// <param name="path">The path where the export list should be saved</param>
+        /// <param name="lvPorts">The listview control containing all the LvCheck items</param>
         internal static void SaveAsHTML(string path, ItemsControl lvPorts)
         {
             if (lvPorts.Items.Count == 0) return;
@@ -90,10 +90,10 @@ namespace Advanced_PortChecker.Classes
 
         // ReSharper disable once InconsistentNaming
         /// <summary>
-        /// Export the listview items in CSV format to the drive.
+        /// Export the listview items in CSV format to the drive
         /// </summary>
-        /// <param name="path">The path where the export list should be saved.</param>
-        /// <param name="lvPorts">The listview control containing all the LvCheck items.</param>
+        /// <param name="path">The path where the export list should be saved</param>
+        /// <param name="lvPorts">The listview control containing all the LvCheck items</param>
         internal static void SaveAsCSV(string path, ItemsControl lvPorts)
         {
             try

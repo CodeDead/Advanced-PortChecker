@@ -5,11 +5,16 @@ using Advanced_PortChecker.Classes;
 
 namespace Advanced_PortChecker.Windows
 {
+    /// <inheritdoc cref="Syncfusion.Windows.Shared.ChromelessWindow" />
     /// <summary>
     /// Interaction logic for AboutWindow.xaml
     /// </summary>
     public partial class AboutWindow
     {
+        /// <inheritdoc />
+        /// <summary>
+        /// Initialize a new AboutWindow object
+        /// </summary>
         public AboutWindow()
         {
             InitializeComponent();
@@ -18,7 +23,7 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Change the visual style of the controls, depending on the settings.
+        /// Change the visual style of the controls, depending on the settings
         /// </summary>
         private void ChangeVisualStyle()
         {

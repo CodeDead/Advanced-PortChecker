@@ -4,15 +4,24 @@ using Advanced_PortChecker.Classes;
 
 namespace Advanced_PortChecker.Windows
 {
+    /// <inheritdoc cref="Syncfusion.Windows.Shared.ChromelessWindow" />
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
     public partial class SettingsWindow
     {
         #region Variables
+        /// <summary>
+        /// The MainWindow object that can be used to dynamically change settings
+        /// </summary>
         private readonly MainWindow _mw;
         #endregion
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Initialize a new SettingsWindow object
+        /// </summary>
+        /// <param name="mainWindow">The MainWindow object that can be used to dynamically change settings</param>
         public SettingsWindow(MainWindow mainWindow)
         {
             _mw = mainWindow;
@@ -23,7 +32,7 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Change the visual style of the controls, depending on the settings.
+        /// Change the visual style of the controls, depending on the settings
         /// </summary>
         private void ChangeVisualStyle()
         {
@@ -31,7 +40,7 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Change the GUI to represent the current settings.
+        /// Change the GUI to represent the current settings
         /// </summary>
         private void LoadSettings()
         {
