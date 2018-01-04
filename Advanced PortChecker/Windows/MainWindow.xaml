@@ -183,6 +183,7 @@
                 <GridView>
                     <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                     <GridViewColumn Header="Port" DisplayMemberBinding="{Binding Port}" />
+                    <GridViewColumn Header="Host name" DisplayMemberBinding="{Binding HostName}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
                 </GridView>

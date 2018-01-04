@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -64,6 +65,7 @@ namespace Advanced_PortChecker.Classes
                     {
                         Address = address,
                         Port = i,
+                        HostName = GetMachineNameFromIpAddress(address),
                         Type = "TCP",
                         Description = IsTcpOpen(address, i, timeout) ? "Open" : "Closed"
                     };
@@ -104,6 +106,7 @@ namespace Advanced_PortChecker.Classes
                     {
                         Address = address,
                         Port = i,
+                        HostName = GetMachineNameFromIpAddress(address),
                         Type = "UDP",
                         Description = IsUdpOpen(address, i, timeout) ? "Open" : "Closed"
                     };
@@ -171,6 +174,26 @@ namespace Advanced_PortChecker.Classes
                 // ignored
             }
             return false;
+        }
+
+        /// <summary>
+        /// Get the Host name by IP address
+        /// </summary>
+        /// <param name="ipAdress">The IP address that needs to be resolved to a host name</param>
+        /// <returns>The host name of an IP address</returns>
+        private static string GetMachineNameFromIpAddress(string ipAdress)
+        {
+            string machineName = string.Empty;
+            try
+            {
+                IPHostEntry hostEntry = Dns.GetHostEntry(ipAdress);
+                machineName = hostEntry.HostName;
+            }
+            catch (Exception)
+            {
+                // Machine not found...
+            }
+            return machineName;
         }
     }
 }

@@ -5,13 +5,10 @@
     /// </summary>
     public class LvCheck
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Address { get; set; }
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public int Port { get; set; }
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public string HostName { get; set; }
         public string Type { get; set; }
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Description { get; set; }
     }
 }
