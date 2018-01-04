@@ -29,11 +29,11 @@ namespace Advanced_PortChecker.Classes
                         LvCheck l = (LvCheck)lvPorts.Items[i];
                         if (i == lvPorts.Items.Count - 1)
                         {
-                            sw.Write(l.Address + "\t" + l.Port + "\t" + l.Type + "\t" + l.Description);
+                            sw.Write(l.Address + "\t" + l.Port + "\t" + l.HostName + "\t" + l.Type + "\t" + l.Description);
                         }
                         else
                         {
-                            sw.WriteLine(l.Address + "\t" + l.Port + "\t" + l.Type + "\t" + l.Description);
+                            sw.WriteLine(l.Address + "\t" + l.Port + "\t" + l.HostName + "\t" + l.Type + "\t" + l.Description);
                         }
                     }
                 }
@@ -69,10 +69,10 @@ namespace Advanced_PortChecker.Classes
 
                     sw.WriteLine("<h1>Export list</h1>");
                     sw.WriteLine("<table border='1'>");
-                    sw.WriteLine("<tr><th>Address</th><th>Port</th><th>Type</th><th>Description</th></tr>");
+                    sw.WriteLine("<tr><th>Address</th><th>Port</th><th>Host name</th><th>Type</th><th>Description</th></tr>");
                     foreach (LvCheck l in lvPorts.Items)
                     {
-                        sw.WriteLine("<tr><td>" + l.Address + "</td><td>" + l.Port + "</td><td>" + l.Type + "</td><td>" + l.Description + "</td></tr>");
+                        sw.WriteLine("<tr><td>" + l.Address + "</td><td>" + l.Port + "</td><td>"+ l.HostName + "</td><td>" + l.Type + "</td><td>" + l.Description + "</td></tr>");
                     }
                     sw.WriteLine("</table>");
 
@@ -100,17 +100,17 @@ namespace Advanced_PortChecker.Classes
             {
                 using (StreamWriter sw = new StreamWriter(path))
                 {
-                    sw.WriteLine("Advanced PortChecker;" + DateTime.Now);
+                    sw.WriteLine("Advanced PortChecker," + DateTime.Now);
                     for (int i = 0; i < lvPorts.Items.Count; i++)
                     {
                         LvCheck l = (LvCheck)lvPorts.Items[i];
                         if (i == lvPorts.Items.Count - 1)
                         {
-                            sw.Write(l.Address + ";" + l.Port + ";" + l.Type + ";" + l.Description);
+                            sw.Write(l.Address + "," + l.Port + "," + l.HostName + "," + l.Type + "," + l.Description);
                         }
                         else
                         {
-                            sw.WriteLine(l.Address + ";" + l.Port + ";" + l.Type + ";" + l.Description);
+                            sw.WriteLine(l.Address + "," + l.Port + "," + l.HostName + "," + l.Type + "," + l.Description);
                         }
                     }
                 }

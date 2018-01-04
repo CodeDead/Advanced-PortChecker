@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     mc:Ignorable="d"
-    Title="Advanced PortChecker - About" Height="250" Width="400"
+    Title="Advanced PortChecker - About" Height="220" Width="400"
     UseLayoutRounding="True"
     Icon="/Advanced PortChecker;component/globe.ico" WindowStartupLocation="CenterScreen"
     AllowsTransparency="True" TitleTextAlignment="Center">

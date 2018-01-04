@@ -234,7 +234,7 @@ namespace Advanced_PortChecker.Windows
             if (LvPorts.SelectedItems.Count == 0) return;
 
             LvCheck selected = (LvCheck) LvPorts.SelectedItems[0];
-            Clipboard.SetText(selected.Address + " " + selected.Port + " " + selected.Type + " " + selected.Description);
+            Clipboard.SetText(selected.Address + " " + selected.Port + " " + selected.HostName + " " + selected.Type + " " + selected.Description);
         }
 
         private void BtnExportAs_Click(object sender, RoutedEventArgs e)
