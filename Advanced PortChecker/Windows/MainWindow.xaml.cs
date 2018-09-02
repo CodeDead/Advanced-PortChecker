@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
@@ -339,8 +340,22 @@ namespace Advanced_PortChecker.Windows
         {
             if (LvPorts.SelectedItems.Count == 0) return;
 
-            LvCheck selected = (LvCheck) LvPorts.SelectedItems[0];
-            Clipboard.SetText(selected.Address + " " + selected.Port + " " + selected.HostName + " " + selected.Type + " " + selected.Description);
+            List<LvCheck> selected = LvPorts.SelectedItems.Cast<LvCheck>().ToList();
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < selected.Count; i++)
+            {
+                if (i != selected.Count - 1)
+                {
+                    sb.AppendLine(selected[i].Address + " " + selected[i].Port + " " + selected[i].HostName + " " + selected[i].Type + " " + selected[i].Description);
+                }
+                else
+                {
+                    sb.Append(selected[i].Address + " " + selected[i].Port + " " + selected[i].HostName + " " + selected[i].Type + " " + selected[i].Description);
+                }
+            }
+
+            Clipboard.SetText(sb.ToString());
         }
 
         /// <summary>
