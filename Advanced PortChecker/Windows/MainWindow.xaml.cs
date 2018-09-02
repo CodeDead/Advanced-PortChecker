@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Shell;
 using Advanced_PortChecker.Classes;
+using Advanced_PortChecker.Classes.Controls;
+using Advanced_PortChecker.Classes.Export;
+using Advanced_PortChecker.Classes.Scanner;
 using Microsoft.Win32;
+using UpdateManager.Classes;
 
 namespace Advanced_PortChecker.Windows
 {
@@ -19,7 +25,7 @@ namespace Advanced_PortChecker.Windows
         /// <summary>
         /// The UpdateManager object that can be used to check for updates
         /// </summary>
-        private readonly UpdateManager.UpdateManager _updateManager;
+        private readonly UpdateManager.Classes.UpdateManager _updateManager;
         /// <summary>
         /// The OperationInformation object
         /// </summary>
@@ -32,11 +38,22 @@ namespace Advanced_PortChecker.Windows
         /// </summary>
         public MainWindow()
         {
-            _updateManager = new UpdateManager.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "https://codedead.com/Software/Advanced%20PortChecker/update.xml", "Advanced PortChecker");
-
             InitializeComponent();
 
-            ChangeVisualStyle();
+            StringVariables stringVariables = new StringVariables
+            {
+                CancelButtonText = "Cancel",
+                DownloadButtonText = "Download",
+                InformationButtonText = "Information",
+                NoNewVersionText = "You are running the latest version!",
+                TitleText = "Advanced PortChecker",
+                UpdateNowText = "Would you like to update the application now?"
+            };
+            _updateManager = new UpdateManager.Classes.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "https://codedead.com/Software/Advanced%20PortChecker/update.xml", stringVariables);
+
+            WindowDraggable();
+            // Change the theme
+            StyleManager.ChangeStyle(this);
             LoadSettings();
         }
 
@@ -59,23 +76,67 @@ namespace Advanced_PortChecker.Windows
         }
 
         /// <summary>
-        /// Change the visual style of the controls, depending on the settings
+        /// Check whether the Window should be draggable or not
         /// </summary>
-        internal void ChangeVisualStyle()
+        internal void WindowDraggable()
         {
-            StyleManager.ChangeStyle(this);
+            try
+            {
+                if (Properties.Settings.Default.WindowDraggable)
+                {
+                    // Delete event handler first to prevent duplicate handlers
+                    MouseDown -= OnMouseDown;
+                    MouseDown += OnMouseDown;
+                }
+                else
+                {
+                    MouseDown -= OnMouseDown;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
+        /// <summary>
+        /// Method that is called when the Window should be dragged
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The MouseButtonEventArgs</param>
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
+        /// <summary>
+        /// Method that is called when the About MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void About_Click(object sender, RoutedEventArgs e)
         {
             new AboutWindow().ShowDialog();
         }
 
+        /// <summary>
+        /// Method that is called when the Settings MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             new SettingsWindow(this).ShowDialog();
         }
 
+        /// <summary>
+        /// Method that is called when the Update MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             _updateManager.CheckForUpdate(true, true);
@@ -95,6 +156,11 @@ namespace Advanced_PortChecker.Windows
             CbaMethod.IsEnabled = enabled;
         }
 
+        /// <summary>
+        /// Method that is called when Scan Button is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private async void BtnScan_Click(object sender, RoutedEventArgs e)
         {
             LvPorts.Items.Clear();
@@ -128,7 +194,7 @@ namespace Advanced_PortChecker.Windows
 
                     switch (CbaMethod.Text)
                     {
-                        case "TCP":
+                        default:
                             await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI, true);
                             break;
                         case "UDP":
@@ -146,11 +212,21 @@ namespace Advanced_PortChecker.Windows
             TaskbarItemInfo.ProgressValue = 0;
         }
 
+        /// <summary>
+        /// Method that is called when the Exit MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Method that is called when the Donate MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void Donate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -163,6 +239,11 @@ namespace Advanced_PortChecker.Windows
             }
         }
 
+        /// <summary>
+        /// Method that is called when the scan operation should be canceled
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             if (_oI == null) return;
@@ -174,6 +255,11 @@ namespace Advanced_PortChecker.Windows
             TaskbarItemInfo.ProgressValue = 0;
         }
 
+        /// <summary>
+        /// Method that is called when the License MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnLicense_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -186,6 +272,11 @@ namespace Advanced_PortChecker.Windows
             }
         }
 
+        /// <summary>
+        /// Method that is called when the CodeDead MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnCodeDead_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -198,6 +289,11 @@ namespace Advanced_PortChecker.Windows
             }
         }
 
+        /// <summary>
+        /// Method that is called when the Help MenuItem is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnHelp_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -210,25 +306,35 @@ namespace Advanced_PortChecker.Windows
             }
         }
 
+        /// <summary>
+        /// Method that is called when the ListView should be cleared
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnDeleteAllItems_Click(object sender, RoutedEventArgs e)
         {
             LvPorts.Items.Clear();
         }
 
+        /// <summary>
+        /// Method that is called when a ListViewItem should be removed
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            List<LvCheck> delete = new List<LvCheck>();
-            foreach (LvCheck l in LvPorts.SelectedItems)
-            {
-                delete.Add(l);
-            }
-
+            List<LvCheck> delete = LvPorts.SelectedItems.Cast<LvCheck>().ToList();
             foreach (LvCheck lv in delete)
             {
                 LvPorts.Items.Remove(lv);
             }
         }
 
+        /// <summary>
+        /// Method that is called when a ListViewItem should be copied to the clipboard
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The sender</param>
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
             if (LvPorts.SelectedItems.Count == 0) return;
@@ -237,52 +343,88 @@ namespace Advanced_PortChecker.Windows
             Clipboard.SetText(selected.Address + " " + selected.Port + " " + selected.HostName + " " + selected.Type + " " + selected.Description);
         }
 
+        /// <summary>
+        /// Method that is called when a scan result should be exported
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnExportAs_Click(object sender, RoutedEventArgs e)
+        {
+            ExportData(1);
+        }
+
+        /// <summary>
+        /// Method that is called when a scan result should be exported as HTML
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
+        private void BtnExportAsHtml_Click(object sender, RoutedEventArgs e)
+        {
+            ExportData(2);
+        }
+
+        /// <summary>
+        /// Method that is called when a scan result should be exported as CSV
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
+        private void BtnExportAsCsv_Click(object sender, RoutedEventArgs e)
+        {
+            ExportData(3);
+        }
+
+        /// <summary>
+        /// Method that is called when a scan result should be exported as CSV (Excel)
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
+        private void BtnExportAsCsvExcel_Click(object sender, RoutedEventArgs e)
+        {
+            ExportData(4);
+        }
+
+        /// <summary>
+        /// Export a scan result to the FileSystem
+        /// </summary>
+        /// <param name="filterIndex">The filter index that was chosen by the user in the SaveFileDialog</param>
+        private void ExportData(int filterIndex)
         {
             if (LvPorts.Items.Count == 0) return;
 
-            SaveFileDialog sfd = new SaveFileDialog { Filter = "Text file (*.txt)|*.txt|HTML file (*.html)|*.html|CSV file (*.csv)|*.csv" };
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Text (*.txt)|*.txt|HTML (*.html)|*.html|CSV (*.csv)|*.csv|Excel (*.csv)|*.csv",
+                FilterIndex = filterIndex
+            };
+
             if (sfd.ShowDialog() != true) return;
 
+            ExportType type;
             switch (sfd.FilterIndex)
             {
                 default:
-                    ExportWriter.SaveAsText(sfd.FileName, LvPorts);
+                    type = ExportType.Text;
                     break;
                 case 2:
-                    ExportWriter.SaveAsHTML(sfd.FileName, LvPorts);
+                    type = ExportType.Html;
                     break;
                 case 3:
-                    ExportWriter.SaveAsCSV(sfd.FileName, LvPorts);
+                    type = ExportType.Csv;
+                    break;
+                case 4:
+                    type = ExportType.Excel;
                     break;
             }
-        }
 
-        private void BtnExportAsText_Click(object sender, RoutedEventArgs e)
-        {
-            if (LvPorts.Items.Count == 0) return;
-
-            SaveFileDialog sfd = new SaveFileDialog { Filter = "Text file (*.txt)|*.txt" };
-            if (sfd.ShowDialog() != true) return;
-            ExportWriter.SaveAsText(sfd.FileName, LvPorts);
-        }
-
-        private void BtnExportAsHtml_Click(object sender, RoutedEventArgs e)
-        {
-            if (LvPorts.Items.Count == 0) return;
-
-            SaveFileDialog sfd = new SaveFileDialog { Filter = "HTML file (*.html)|*.html" };
-            if (sfd.ShowDialog() != true) return;
-            ExportWriter.SaveAsHTML(sfd.FileName, LvPorts);
-        }
-
-        private void BtnExportAsCsv_Click(object sender, RoutedEventArgs e)
-        {
-            if (LvPorts.Items.Count == 0) return;
-
-            SaveFileDialog sfd = new SaveFileDialog { Filter = "CSV file (*.csv)|*.csv" };
-            if (sfd.ShowDialog() != true) return;
-            ExportWriter.SaveAsCSV(sfd.FileName, LvPorts);
+            try
+            {
+                ExportWriter.Export(sfd.FileName, LvPorts, type);
+                MessageBox.Show("Successfully exported all items!", "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using Advanced_PortChecker.Classes;
 
 namespace Advanced_PortChecker.Windows
@@ -18,23 +19,50 @@ namespace Advanced_PortChecker.Windows
         public AboutWindow()
         {
             InitializeComponent();
+            StyleManager.ChangeStyle(this);
 
-            ChangeVisualStyle();
+            // Enable window dragging, if the setting is enabled
+            try
+            {
+                if (Properties.Settings.Default.WindowDraggable)
+                {
+                    MouseDown += OnMouseDown;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
-        /// Change the visual style of the controls, depending on the settings
+        /// Method that is called when the Window should be dragged
         /// </summary>
-        private void ChangeVisualStyle()
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The MouseButtonEventArgs</param>
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            StyleManager.ChangeStyle(this);
+            if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
 
+        /// <summary>
+        /// Method that is called when the Close Button is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e"> The RoutedEventArgs</param>
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Method that is called when the License Button is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnLicense_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -47,6 +75,11 @@ namespace Advanced_PortChecker.Windows
             }
         }
 
+        /// <summary>
+        /// Method that is called when the CodeDead Button is clicked
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedEventArgs</param>
         private void BtnCodeDead_Click(object sender, RoutedEventArgs e)
         {
             try

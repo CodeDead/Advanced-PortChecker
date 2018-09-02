@@ -15,94 +15,95 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="Export">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/file.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/file.png" />
                     </MenuItem.Icon>
-                    <MenuItem Header="Export as TXT" Click="BtnExportAsText_Click"/>
-                    <MenuItem Header="Export as HTML" Click="BtnExportAsHtml_Click"/>
-                    <MenuItem Header="Export as CSV" Click="BtnExportAsCsv_Click"/>
-                    <Separator></Separator>
-                    <MenuItem Header="Export as..." Click="BtnExportAs_Click"/>
+                    <MenuItem Header="Export as TXT" Click="BtnExportAs_Click" />
+                    <MenuItem Header="Export as HTML" Click="BtnExportAsHtml_Click" />
+                    <MenuItem Header="Export as CSV" Click="BtnExportAsCsv_Click" />
+                    <MenuItem Header="Export as CSV (Excel)" Click="BtnExportAsCsvExcel_Click" />
+                    <Separator />
+                    <MenuItem Header="Export as..." Click="BtnExportAs_Click" />
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Exit" Click="Exit_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/exit.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/exit.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Copy item" Click="BtnCopy_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/copy.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/copy.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Delete item(s)" Click="BtnDelete_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/delete.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/delete.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Delete all items" Click="BtnDeleteAllItems_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/exit.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/exit.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Cancel operation" Click="BtnCancel_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/cancel.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/cancel.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="Settings" Click="Settings_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/settings.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/settings.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Help" Click="BtnHelp_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/help.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/help.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Check for updates" Click="Update_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/update.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/update.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Homepage" Click="BtnCodeDead_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/home.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/home.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="License" Click="BtnLicense_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/pdf.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/pdf.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Donate" Click="Donate_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/money.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/money.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="About" Click="About_Click">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="../Resources/Images/info.png"/>
+                        <Image Width="16" Height="16" Source="../Resources/Images/info.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -111,21 +112,21 @@
             <GroupBox Margin="5" Header="Options">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Label>Address:</Label>
-                        <TextBox x:Name="TxtAddress" Grid.Row="0" Grid.Column="1" Text="127.0.0.1"></TextBox>
+                        <TextBox x:Name="TxtAddress" Grid.Row="0" Grid.Column="1" Text="127.0.0.1" />
                         <ComboBox x:Name="CbaMethod" SelectedIndex="0" Grid.Row="0" Grid.Column="2" Margin="5,0,0,0">
                             <ComboBoxItem>TCP</ComboBoxItem>
                             <ComboBoxItem>UDP</ComboBoxItem>
@@ -134,15 +135,15 @@
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Label>Starting port:</Label>
-                        <syncfusion:IntegerTextBox x:Name="IntStart" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
-                        <Label Grid.Column="2">Ending port:</Label>
-                        <syncfusion:IntegerTextBox x:Name="IntStop" Grid.Column="3" MinValue="1"></syncfusion:IntegerTextBox>
+                        <Label Content="Starting port:" />
+                        <syncfusion:IntegerTextBox x:Name="IntStart" Grid.Column="1" MinValue="1" />
+                        <Label Grid.Column="2" Content="Ending port:" />
+                        <syncfusion:IntegerTextBox x:Name="IntStop" Grid.Column="3" MinValue="1" />
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -189,16 +190,16 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ProgressBar Margin="5" x:Name="PgbStatus" MinHeight="25" Grid.Row="3"></ProgressBar>
+        <ProgressBar Margin="5" x:Name="PgbStatus" MinHeight="25" Grid.Row="3" />
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="BtnCancel" MinWidth="120" IsEnabled="False" Margin="5" Click="BtnCancel_Click" IsCancel="True">Cancel</Button>
-            <Button x:Name="BtnScan" MinWidth="120" Grid.Column="2" Margin="5" Click="BtnScan_Click" IsDefault="True">Scan</Button>
+            <Button x:Name="BtnCancel" MinWidth="120" IsEnabled="False" Margin="5" Click="BtnCancel_Click" IsCancel="True" Content="Cancel" />
+            <Button x:Name="BtnScan" MinWidth="120" Grid.Column="2" Margin="5" Click="BtnScan_Click" IsDefault="True" Content="Scan" />
         </Grid>
     </Grid>
 </syncfusion:ChromelessWindow>

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Advanced_PortChecker.Classes.Controls;
 
-namespace Advanced_PortChecker.Classes
+namespace Advanced_PortChecker.Classes.Scanner
 {
     /// <summary>
     /// Static class to determine whether a certain port is open or not
@@ -21,6 +22,7 @@ namespace Advanced_PortChecker.Classes
         /// <param name="timeout">The amount of time before the operation cancels</param>
         /// <param name="oi">The operation information regarding this scan</param>
         /// <returns>A list of information regarding the ports and address that was scanned</returns>
+        // ReSharper disable once IdentifierTypo
         internal static async Task<List<LvCheck>> CheckTCPUDP(string address, int startPort, int stopPort, int timeout, OperationInformation oi)
         {
             List<LvCheck> lv = new List<LvCheck>();
@@ -179,14 +181,14 @@ namespace Advanced_PortChecker.Classes
         /// <summary>
         /// Get the Host name by IP address
         /// </summary>
-        /// <param name="ipAdress">The IP address that needs to be resolved to a host name</param>
+        /// <param name="ipAddress">The IP address that needs to be resolved to a host name</param>
         /// <returns>The host name of an IP address</returns>
-        private static string GetMachineNameFromIpAddress(string ipAdress)
+        private static string GetMachineNameFromIpAddress(string ipAddress)
         {
             string machineName = string.Empty;
             try
             {
-                IPHostEntry hostEntry = Dns.GetHostEntry(ipAdress);
+                IPHostEntry hostEntry = Dns.GetHostEntry(ipAddress);
                 machineName = hostEntry.HostName;
             }
             catch (Exception)

@@ -9,7 +9,7 @@
     AllowsTransparency="True"
     UseLayoutRounding="True"
     Title="Advanced PortChecker - Settings"
-    Height="300" Width="300"
+    Height="300" Width="400"
     WindowStartupLocation="CenterScreen" Icon="/Advanced PortChecker;component/globe.ico"
     TitleTextAlignment="Center">
     <Grid>
@@ -17,45 +17,55 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TabControl>
-            <TabItem Header="General">
+        <syncfusion:TabControlExt CloseButtonType="Hide" EnableLabelEdit="False"
+                                  AllowDragDrop="False" DefaultContextMenuItemVisibility="Hidden"
+                                  TabItemSize="ShrinkToFit" TabScrollButtonVisibility="Hidden">
+            <syncfusion:TabItemExt Header="General" Image="/Advanced PortChecker;component/Resources/Images/settings.png">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <CheckBox x:Name="ChbAutoUpdate">Automatically check for updates</CheckBox>
-                    <Grid Grid.Row="1">
+                    <CheckBox x:Name="ChbAutoUpdate" Content="Automatically check for updates" Margin="2" />
+                    <CheckBox Grid.Row="1" x:Name="ChbWindowDraggable" Content="Window draggable" Margin="2" />
+                    <Grid Grid.Row="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Label Content="Connection time-out:"></Label>
-                        <syncfusion:IntegerTextBox x:Name="IntTimeOut" Grid.Column="1" MinValue="1"></syncfusion:IntegerTextBox>
-                        <Label Grid.Column="2" Content="milliseconds"></Label>
+                        <Label Content="Connection time-out:" Margin="2"></Label>
+                        <syncfusion:IntegerTextBox x:Name="IntTimeOut" Grid.Column="1" MinValue="1" Height="Auto" Margin="2" />
+                        <ComboBox x:Name="CboTimeOut" Grid.Column="2" Margin="2">
+                            <ComboBoxItem>millisecond(s)</ComboBoxItem>
+                            <ComboBoxItem>second(s)</ComboBoxItem>
+                            <ComboBoxItem>minute(s)</ComboBoxItem>
+                        </ComboBox>
                     </Grid>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Theme">
+            </syncfusion:TabItemExt>
+            <syncfusion:TabItemExt Header="Theme" Image="/Advanced PortChecker;component/Resources/Images/home.png">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Label Margin="2"  Content="Style:"></Label>
+                        <Label Margin="2"  Content="Style:" />
                         <ComboBox Margin="2" x:Name="ChbStyle" SelectedValuePath="Content" Grid.Row="0" Grid.Column="1" IsReadOnly="True">
                             <ComboBoxItem>Metro</ComboBoxItem>
                             <ComboBoxItem>Blend</ComboBoxItem>
@@ -71,22 +81,27 @@
                             <ComboBoxItem>ShinyBlue</ComboBoxItem>
                             <ComboBoxItem>SyncOrange</ComboBoxItem>
                             <ComboBoxItem>Transparent</ComboBoxItem>
+                            <ComboBoxItem>None</ComboBoxItem>
                         </ComboBox>
-                        <Label Margin="2" Grid.Row="1" Grid.Column="0" Content="Metro brush:"></Label>
+                        <Label Margin="2" Grid.Row="1" Grid.Column="0" Content="Metro brush:" />
                         <syncfusion:ColorPicker Margin="2" x:Name="CpMetroBrush" Grid.Row="1" Grid.Column="1" />
-                        <Label Margin="2" Grid.Row="2" Grid.Column="0">Border thickness:</Label>
-                        <syncfusion:IntegerTextBox Margin="2" x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="0"></syncfusion:IntegerTextBox>
+                        <Label Margin="2" Grid.Row="2" Grid.Column="0" Content="Border thickness:" />
+                        <syncfusion:IntegerTextBox Margin="2" x:Name="IntBorderThickness" Grid.Row="2" Grid.Column="1" MinValue="0" />
+                        <Label Margin="3" Grid.Row="3" Grid.Column="0" Content="Window opacity:" />
+                        <Slider x:Name="SldOpacity" Margin="3" Grid.Row="3" Grid.Column="1" Minimum="30" Maximum="100" Width="180" ValueChanged="SldOpacity_OnValueChanged" />
+                        <Label Margin="3" Grid.Row="4" Grid.Column="0" Content="Resize border:" />
+                        <Slider x:Name="SldWindowResize" Margin="3" Grid.Row="4" Grid.Column="1" Minimum="2" Maximum="10" Width="180" ValueChanged="SldWindowResize_OnValueChanged" />
                     </Grid>
                 </Grid>
-            </TabItem>
-        </TabControl>
+            </syncfusion:TabItemExt>
+        </syncfusion:TabControlExt>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Click="BtnReset_Click" Margin="5">Reset</Button>
-            <Button Grid.Column="1" Click="BtnSave_Click" Margin="5" IsDefault="True">Save</Button>
+            <Button Click="BtnReset_Click" Margin="5" Content="Reset" />
+            <Button Grid.Column="1" Click="BtnSave_Click" Margin="5" IsDefault="True" Content="Save" />
         </Grid>
     </Grid>
 </syncfusion:ChromelessWindow>
