@@ -54,11 +54,11 @@ namespace Advanced_PortChecker.Classes.Export
                 LvCheck l = (LvCheck)lvPorts.Items[i];
                 if (i == lvPorts.Items.Count - 1)
                 {
-                    sb.Append(l.Address + "\t" + l.Port + "\t" + l.HostName + "\t" + l.Type + "\t" + l.Description);
+                    sb.Append(l.Address + "\t" + l.Port + "\t" + l.HostName + "\t" + l.Type + "\t" + l.Description + "\t" + l.ScanDate);
                 }
                 else
                 {
-                    sb.AppendLine(l.Address + "\t" + l.Port + "\t" + l.HostName + "\t" + l.Type + "\t" + l.Description);
+                    sb.AppendLine(l.Address + "\t" + l.Port + "\t" + l.HostName + "\t" + l.Type + "\t" + l.Description + "\t" + l.ScanDate);
                 }
             }
             Write(path, sb.ToString());
@@ -82,10 +82,10 @@ namespace Advanced_PortChecker.Classes.Export
 
             sb.AppendLine("<h1>Export list</h1>");
             sb.AppendLine("<table border='1'>");
-            sb.AppendLine("<tr><th>Address</th><th>Port</th><th>Host name</th><th>Type</th><th>Description</th></tr>");
+            sb.AppendLine("<tr><th>Address</th><th>Port</th><th>Host name</th><th>Type</th><th>Description</th><th>Scan date</th></tr>");
             foreach (LvCheck l in lvPorts.Items)
             {
-                sb.AppendLine("<tr><td>" + l.Address + "</td><td>" + l.Port + "</td><td>" + l.HostName + "</td><td>" + l.Type + "</td><td>" + l.Description + "</td></tr>");
+                sb.AppendLine("<tr><td>" + l.Address + "</td><td>" + l.Port + "</td><td>" + l.HostName + "</td><td>" + l.Type + "</td><td>" + l.Description +"</td><td>" + l.ScanDate + "</td></tr>");
             }
             sb.AppendLine("</table>");
 
@@ -110,11 +110,11 @@ namespace Advanced_PortChecker.Classes.Export
                 LvCheck l = (LvCheck)lvPorts.Items[i];
                 if (i == lvPorts.Items.Count - 1)
                 {
-                    sb.Append(l.Address + delimiter + l.Port + delimiter + l.HostName + delimiter + l.Type + delimiter + l.Description);
+                    sb.Append(l.Address + delimiter + l.Port + delimiter + l.HostName + delimiter + l.Type + delimiter + l.Description + delimiter + l.ScanDate);
                 }
                 else
                 {
-                    sb.AppendLine(l.Address + delimiter + l.Port + delimiter + l.HostName + delimiter + l.Type + delimiter + l.Description);
+                    sb.AppendLine(l.Address + delimiter + l.Port + delimiter + l.HostName + delimiter + l.Type + delimiter + l.Description + delimiter + l.ScanDate);
                 }
             }
             Write(path, sb.ToString());

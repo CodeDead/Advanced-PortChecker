@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using Advanced_PortChecker.Classes.Objects;
@@ -62,7 +63,8 @@ namespace Advanced_PortChecker.Classes.Scanner
                     Port = i,
                     HostName = GetMachineNameFromIpAddress(address),
                     Type = "TCP",
-                    Description = IsTcpOpen(address, i, timeout) ? "Open" : "Closed"
+                    Description = IsTcpOpen(address, i, timeout) ? "Open" : "Closed",
+                    ScanDate = DateTime.Now.ToString(CultureInfo.CurrentCulture)
                 };
                 lv.Add(check);
 
@@ -105,7 +107,8 @@ namespace Advanced_PortChecker.Classes.Scanner
                     Port = i,
                     HostName = GetMachineNameFromIpAddress(address),
                     Type = "UDP",
-                    Description = IsUdpOpen(address, i, timeout) ? "Open" : "Closed"
+                    Description = IsUdpOpen(address, i, timeout) ? "Open" : "Closed",
+                    ScanDate = DateTime.Now.ToString(CultureInfo.CurrentCulture)
                 };
                 lv.Add(check);
 

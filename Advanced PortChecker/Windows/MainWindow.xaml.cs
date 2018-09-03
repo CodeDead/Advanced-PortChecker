@@ -400,11 +400,11 @@ namespace Advanced_PortChecker.Windows
             {
                 if (i != selected.Count - 1)
                 {
-                    sb.AppendLine(selected[i].Address + " " + selected[i].Port + " " + selected[i].HostName + " " + selected[i].Type + " " + selected[i].Description);
+                    sb.AppendLine(selected[i].Address + "\t" + selected[i].Port + "\t" + selected[i].HostName + "\t" + selected[i].Type + "\t" + selected[i].Description + "\t" + selected[i].ScanDate);
                 }
                 else
                 {
-                    sb.Append(selected[i].Address + " " + selected[i].Port + " " + selected[i].HostName + " " + selected[i].Type + " " + selected[i].Description);
+                    sb.Append(selected[i].Address + "\t" + selected[i].Port + "\t" + selected[i].HostName + "\t" + selected[i].Type + "\t" + selected[i].Description + "\t" + selected[i].ScanDate);
                 }
             }
 

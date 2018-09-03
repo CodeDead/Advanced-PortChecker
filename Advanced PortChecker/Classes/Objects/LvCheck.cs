@@ -25,5 +25,9 @@
         /// Description of the scan result
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// The time at which the scan was performed
+        /// </summary>
+        public string ScanDate { get; set; }
     }
 }
