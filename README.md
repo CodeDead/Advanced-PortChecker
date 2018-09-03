@@ -1,5 +1,5 @@
 # Advanced PortChecker
-Advanced PortChecker is a free and open-source application that can tell you if a certain port is open or not.
+Advanced PortChecker is a multithreaded, free and open-source application that can tell you if a certain port is open or not.
 You can export the results of a scan in TXT, CSV or HTML format.
 
 # Requirements

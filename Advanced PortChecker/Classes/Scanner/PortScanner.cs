@@ -19,7 +19,7 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="startPort">The starting point of ports that needs to be scanned</param>
         /// <param name="stopPort">The final port in a range of ports that needs to be scanned</param>
         /// <param name="timeout">The amount of time before a connection times out</param>
-        /// <param name="scanOperation">The operation information regarding this scan</param>
+        /// <param name="scanOperation">The ScanInformation object containing information regarding this scan</param>
         /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
         // ReSharper disable once IdentifierTypo
         internal static List<LvCheck> CheckTCPUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation)
@@ -46,7 +46,7 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="startPort">The starting point of ports that needs to be scanned</param>
         /// <param name="stopPort">The final port in a range of ports that needs to be scanned</param>
         /// <param name="timeout">The amount of time before the connection times out</param>
-        /// <param name="scanOperation">The operation information regarding this scan</param>
+        /// <param name="scanOperation">The ScanInformation object containing information regarding this scan</param>
         /// <param name="reportProgress">A boolean to represent whether this method should report the current progress or not</param>
         /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
         internal static List<LvCheck> CheckTCP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
@@ -89,7 +89,7 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="startPort">The starting point of ports that needs to be scanned</param>
         /// <param name="stopPort">The final port in a range of ports that needs to be scanned</param>
         /// <param name="timeout">The amount of time before the connection times out</param>
-        /// <param name="scanOperation">The operation information regarding this scan</param>
+        /// <param name="scanOperation">The ScanInformation object containing information regarding this scan</param>
         /// <param name="reportProgress">A boolean to represent whether this method should report the current progress or not</param>
         /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
         internal static List<LvCheck> CheckUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)

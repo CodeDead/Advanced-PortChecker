@@ -75,6 +75,7 @@
     <Compile Include="Classes\Scanner\ScanOperation.cs" />
     <Compile Include="Classes\Scanner\PortScanner.cs" />
     <Compile Include="Classes\GUI\StyleManager.cs" />
+    <Compile Include="Classes\Utils\GridViewSorter.cs" />
     <Compile Include="Classes\Utils\ThreadCalculator.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
