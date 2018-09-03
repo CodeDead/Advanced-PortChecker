@@ -171,6 +171,12 @@ namespace Advanced_PortChecker.Windows
         private void BtnScan_Click(object sender, RoutedEventArgs e)
         {
             if (IntStart.Value == null || IntStop.Value == null) return;
+            if (IntStart.Value > IntStop.Value)
+            {
+                MessageBox.Show("The starting port cannot be greater than the ending port!", "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (_operations != null && _operations.Count > 0)
             {
                 MessageBox.Show("A previous scan is still running or in the process of being cancelled!", "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
