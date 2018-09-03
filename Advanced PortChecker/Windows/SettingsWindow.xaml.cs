@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Advanced_PortChecker.Classes;
+using Advanced_PortChecker.Classes.GUI;
 
 namespace Advanced_PortChecker.Windows
 {
@@ -55,6 +55,7 @@ namespace Advanced_PortChecker.Windows
                 }
 
                 ChbAutoUpdate.IsChecked = Properties.Settings.Default.AutoUpdate;
+                IntScanThreads.Value = Properties.Settings.Default.ScanThreads;
 
                 if (Properties.Settings.Default.WindowDraggable)
                 {
@@ -119,6 +120,7 @@ namespace Advanced_PortChecker.Windows
                 }
                 if (ChbAutoUpdate.IsChecked != null) Properties.Settings.Default.AutoUpdate = ChbAutoUpdate.IsChecked.Value;
                 if (ChbWindowDraggable.IsChecked != null) Properties.Settings.Default.WindowDraggable = ChbWindowDraggable.IsChecked.Value;
+                if (IntScanThreads.Value != null) Properties.Settings.Default.ScanThreads = (int)IntScanThreads.Value;
                 Properties.Settings.Default.VisualStyle = ChbStyle.Text;
 
                 Properties.Settings.Default.MetroColor = CpMetroBrush.Color;

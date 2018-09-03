@@ -4,13 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
-using Advanced_PortChecker.Classes;
-using Advanced_PortChecker.Classes.Controls;
 using Advanced_PortChecker.Classes.Export;
+using Advanced_PortChecker.Classes.GUI;
+using Advanced_PortChecker.Classes.Objects;
 using Advanced_PortChecker.Classes.Scanner;
+using Advanced_PortChecker.Classes.Utils;
 using Microsoft.Win32;
 using UpdateManager.Classes;
 
@@ -28,9 +30,13 @@ namespace Advanced_PortChecker.Windows
         /// </summary>
         private readonly UpdateManager.Classes.UpdateManager _updateManager;
         /// <summary>
-        /// The OperationInformation object
+        /// The list of ScanOperation objects
         /// </summary>
-        private OperationInformation _oI;
+        private List<ScanOperation> _operations = new List<ScanOperation>();
+        /// <summary>
+        /// The number of threads that have completed their scan task
+        /// </summary>
+        private int _completedThreads;
         #endregion
 
         /// <inheritdoc />
@@ -162,55 +168,80 @@ namespace Advanced_PortChecker.Windows
         /// </summary>
         /// <param name="sender">The object that called this method</param>
         /// <param name="e">The RoutedEventArgs</param>
-        private async void BtnScan_Click(object sender, RoutedEventArgs e)
+        private void BtnScan_Click(object sender, RoutedEventArgs e)
         {
+            if (IntStart.Value == null || IntStop.Value == null) return;
+            if (_operations != null && _operations.Count > 0)
+            {
+                MessageBox.Show("A previous scan is still running or in the process of being cancelled!", "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             LvPorts.Items.Clear();
             ControlsEnabled(false);
 
-            PgbStatus.Value = PgbStatus.Minimum;
+            PgbStatus.Value = 0;
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             TaskbarItemInfo.ProgressValue = 0;
 
-            _oI = new OperationInformation
+            _completedThreads = 0;
+
+            PgbStatus.Minimum = (double)IntStart.Value - 1;
+            PgbStatus.Maximum = (double)IntStop.Value;
+
+            int totalTasks = Properties.Settings.Default.ScanThreads;
+            int timeout = Properties.Settings.Default.TimeOut;
+
+            int scanAmount = ((int)IntStop.Value - (int)IntStart.Value) + 1;
+            int startPort = (int)IntStart.Value;
+
+            TxtAddress.Text = TxtAddress.Text.Replace("https://", "");
+            TxtAddress.Text = TxtAddress.Text.Replace("http://", "");
+            TxtAddress.Text = TxtAddress.Text.Replace("ftp://", "");
+            TxtAddress.Text = TxtAddress.Text.Replace("sftp://", "");
+
+            string ipAddress = TxtAddress.Text;
+
+            List<Action> functions = new List<Action>();
+
+            foreach (int i in ThreadCalculator.GetActionsPerThreads(totalTasks, scanAmount))
             {
-                Progress = new Progress<int>(value =>
+                int endPort = startPort + i - 1;
+                int startPortCopy = startPort;
+                ScanOperation scan = new ScanOperation
                 {
-                    PgbStatus.Value = value;
-                    TaskbarItemInfo.ProgressValue = value/(PgbStatus.Maximum - PgbStatus.Minimum);
-                }),
-                ItemProgress = new Progress<LvCheck>(value => { LvPorts.Items.Add(value); }),
-                IsCancelled = false
-            };
-
-            if (IntStart.Value != null)
-            {
-                PgbStatus.Minimum = (double) IntStart.Value - 1;
-                if (IntStop.Value != null)
-                {
-                    PgbStatus.Maximum = (double) IntStop.Value;
-                    int timeout = Properties.Settings.Default.TimeOut;
-
-                    TxtAddress.Text = TxtAddress.Text.Replace("https://", "");
-                    TxtAddress.Text = TxtAddress.Text.Replace("http://", "");
-
-                    switch (CbaMethod.Text)
+                    Progress = new Progress<int>(value =>
                     {
-                        default:
-                            await PortChecker.CheckTCP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI, true);
-                            break;
-                        case "UDP":
-                            await PortChecker.CheckUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI, true);
-                            break;
-                        case "Both":
-                            await PortChecker.CheckTCPUDP(TxtAddress.Text, (int) IntStart.Value, (int) IntStop.Value, timeout, _oI);
-                            break;
-                    }
-                }
-            }
-            ControlsEnabled(true);
+                        PgbStatus.Value += 1;
+                        TaskbarItemInfo.ProgressValue += (1 / (PgbStatus.Maximum - PgbStatus.Minimum));
+                    }),
+                    ItemProgress = new Progress<LvCheck>(value => { LvPorts.Items.Add(value); }),
+                    IsCancelled = false
+                };
+                scan.ScanCompletedEvent += ScanThreadCompleted;
 
-            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
-            TaskbarItemInfo.ProgressValue = 0;
+                _operations.Add(scan);
+
+                switch (CbaMethod.Text)
+                {
+                    default:
+                        functions.Add(() => PortScanner.CheckTCP(ipAddress, startPortCopy, endPort, timeout, scan, true));
+                        break;
+                    case "UDP":
+                        functions.Add(() => PortScanner.CheckUDP(ipAddress, startPortCopy, endPort, timeout, scan, true));
+                        break;
+                    case "Both":
+                        functions.Add(() => PortScanner.CheckTCPUDP(ipAddress, startPortCopy, endPort, timeout, scan));
+                        break;
+                }
+                startPort = endPort + 1;
+            }
+
+            foreach (Action action in functions)
+            {
+                Thread thread = new Thread(new ThreadStart(action)) {IsBackground = true};
+                thread.Start();
+            }
         }
 
         /// <summary>
@@ -221,6 +252,24 @@ namespace Advanced_PortChecker.Windows
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        /// <summary>
+        /// Method that is called when a ScanOperation has finished
+        /// </summary>
+        private void ScanThreadCompleted()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                _completedThreads++;
+                if (_completedThreads != _operations.Count) return;
+                _operations = new List<ScanOperation>();
+
+                ControlsEnabled(true);
+
+                TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
+                TaskbarItemInfo.ProgressValue = 0;
+            });
         }
 
         /// <summary>
@@ -247,9 +296,13 @@ namespace Advanced_PortChecker.Windows
         /// <param name="e">The RoutedEventArgs</param>
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (_oI == null) return;
+            if (_operations == null || _operations.Count == 0) return;
 
-            _oI.IsCancelled = true;
+            foreach (ScanOperation scan in _operations)
+            {
+                scan.IsCancelled = true;
+            }
+
             ControlsEnabled(true);
 
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;

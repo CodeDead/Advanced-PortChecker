@@ -42,13 +42,13 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Copy item" Click="BtnCopy_Click">
+                <MenuItem Header="Copy" Click="BtnCopy_Click">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/copy.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Delete item(s)" Click="BtnDelete_Click">
+                <MenuItem Header="Delete" Click="BtnDelete_Click">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="../Resources/Images/delete.png" />
                     </MenuItem.Icon>
@@ -162,13 +162,13 @@
             </ListView.Resources>
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Copy item" Click="BtnCopy_Click">
+                    <MenuItem Header="Copy" Click="BtnCopy_Click">
                         <MenuItem.Icon>
                             <Image Width="16" Height="16" Source="../Resources/Images/copy.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="Delete item(s)" Click="BtnDelete_Click">
+                    <MenuItem Header="Delete" Click="BtnDelete_Click">
                         <MenuItem.Icon>
                             <Image Width="16" Height="16" Source="../Resources/Images/delete.png" />
                         </MenuItem.Icon>

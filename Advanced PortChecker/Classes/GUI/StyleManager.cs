@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using Syncfusion.Windows.Shared;
 
-namespace Advanced_PortChecker.Classes
+namespace Advanced_PortChecker.Classes.GUI
 {
     /// <summary>
     /// Static class to change the style of an object

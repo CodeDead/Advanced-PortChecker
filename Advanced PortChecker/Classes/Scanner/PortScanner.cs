@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using Advanced_PortChecker.Classes.Controls;
+using Advanced_PortChecker.Classes.Objects;
 
 namespace Advanced_PortChecker.Classes.Scanner
 {
     /// <summary>
     /// Static class to determine whether a certain port is open or not
     /// </summary>
-    internal static class PortChecker
+    internal static class PortScanner
     {
         // ReSharper disable once InconsistentNaming
         /// <summary>
@@ -19,26 +18,23 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="address">The IP address that needs to be scanned</param>
         /// <param name="startPort">The starting point of ports that needs to be scanned</param>
         /// <param name="stopPort">The final port in a range of ports that needs to be scanned</param>
-        /// <param name="timeout">The amount of time before the operation cancels</param>
-        /// <param name="oi">The operation information regarding this scan</param>
-        /// <returns>A list of information regarding the ports and address that was scanned</returns>
+        /// <param name="timeout">The amount of time before a connection times out</param>
+        /// <param name="scanOperation">The operation information regarding this scan</param>
+        /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
         // ReSharper disable once IdentifierTypo
-        internal static async Task<List<LvCheck>> CheckTCPUDP(string address, int startPort, int stopPort, int timeout, OperationInformation oi)
+        internal static List<LvCheck> CheckTCPUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation)
         {
             List<LvCheck> lv = new List<LvCheck>();
-            await Task.Run(() =>
+            for (int i = startPort; i <= stopPort; i++)
             {
-                for (int i = startPort; i <= stopPort; i++)
-                {
-                    if (oi.IsCancelled) return;
+                if (scanOperation.IsCancelled) break;
 
-                    lv.AddRange(CheckTCP(address, i, i, timeout, oi, false).Result);
-                    lv.AddRange(CheckUDP(address, i, i, timeout, oi, false).Result);
+                lv.AddRange(CheckTCP(address, i, i, timeout, scanOperation, false));
+                lv.AddRange(CheckUDP(address, i, i, timeout, scanOperation, false));
 
-                    oi.Progress.Report(i);
-                }
-            });
-
+                scanOperation.Progress.Report(1);
+            }
+            scanOperation.ScanCompletedEvent?.Invoke();
             return lv;
         }
 
@@ -49,37 +45,39 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="address">The IP address that needs to be scanned</param>
         /// <param name="startPort">The starting point of ports that needs to be scanned</param>
         /// <param name="stopPort">The final port in a range of ports that needs to be scanned</param>
-        /// <param name="timeout">The amount of time before the operation cancels</param>
-        /// <param name="oi">The operation information regarding this scan</param>
+        /// <param name="timeout">The amount of time before the connection times out</param>
+        /// <param name="scanOperation">The operation information regarding this scan</param>
         /// <param name="reportProgress">A boolean to represent whether this method should report the current progress or not</param>
-        /// <returns>A list of information regarding the ports and address that was scanned</returns>
-        internal static async Task<List<LvCheck>> CheckTCP(string address, int startPort, int stopPort, int timeout, OperationInformation oi, bool reportProgress)
+        /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
+        internal static List<LvCheck> CheckTCP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
         {
             List<LvCheck> lv = new List<LvCheck>();
-            await Task.Run(() =>
+            for (int i = startPort; i <= stopPort; i++)
             {
-                for (int i = startPort; i <= stopPort; i++)
+                if (scanOperation.IsCancelled) break;
+
+                LvCheck check = new LvCheck
                 {
-                    if (oi.IsCancelled) return;
+                    Address = address,
+                    Port = i,
+                    HostName = GetMachineNameFromIpAddress(address),
+                    Type = "TCP",
+                    Description = IsTcpOpen(address, i, timeout) ? "Open" : "Closed"
+                };
+                lv.Add(check);
 
-                    // ReSharper disable once UseObjectOrCollectionInitializer
-                    LvCheck check = new LvCheck
-                    {
-                        Address = address,
-                        Port = i,
-                        HostName = GetMachineNameFromIpAddress(address),
-                        Type = "TCP",
-                        Description = IsTcpOpen(address, i, timeout) ? "Open" : "Closed"
-                    };
-                    lv.Add(check);
-
-                    if (reportProgress)
-                    {
-                        oi.Progress.Report(i);
-                    }
-                    oi.ItemProgress.Report(check);
+                if (reportProgress)
+                {
+                    scanOperation.Progress.Report(1);
                 }
-            });
+                scanOperation.ItemProgress.Report(check);
+            }
+
+            if (reportProgress)
+            {
+                scanOperation.ScanCompletedEvent?.Invoke();
+            }
+            
             return lv;
         }
 
@@ -90,37 +88,38 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="address">The IP address that needs to be scanned</param>
         /// <param name="startPort">The starting point of ports that needs to be scanned</param>
         /// <param name="stopPort">The final port in a range of ports that needs to be scanned</param>
-        /// <param name="timeout">The amount of time before the operation cancels</param>
-        /// <param name="oi">The operation information regarding this scan</param>
+        /// <param name="timeout">The amount of time before the connection times out</param>
+        /// <param name="scanOperation">The operation information regarding this scan</param>
         /// <param name="reportProgress">A boolean to represent whether this method should report the current progress or not</param>
-        /// <returns>A list of information regarding the ports and address that was scanned</returns>
-        internal static async Task<List<LvCheck>> CheckUDP(string address, int startPort, int stopPort, int timeout, OperationInformation oi, bool reportProgress)
+        /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
+        internal static List<LvCheck> CheckUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
         {
             List<LvCheck> lv = new List<LvCheck>();
-            await Task.Run(() =>
+            for (int i = startPort; i <= stopPort; i++)
             {
-                for (int i = startPort; i <= stopPort; i++)
+                if (scanOperation.IsCancelled) break;
+
+                LvCheck check = new LvCheck
                 {
-                    if (oi.IsCancelled) return;
+                    Address = address,
+                    Port = i,
+                    HostName = GetMachineNameFromIpAddress(address),
+                    Type = "UDP",
+                    Description = IsUdpOpen(address, i, timeout) ? "Open" : "Closed"
+                };
+                lv.Add(check);
 
-                    // ReSharper disable once UseObjectOrCollectionInitializer
-                    LvCheck check = new LvCheck
-                    {
-                        Address = address,
-                        Port = i,
-                        HostName = GetMachineNameFromIpAddress(address),
-                        Type = "UDP",
-                        Description = IsUdpOpen(address, i, timeout) ? "Open" : "Closed"
-                    };
-                    lv.Add(check);
-
-                    if (reportProgress)
-                    {
-                        oi.Progress.Report(i);
-                    }
-                    oi.ItemProgress.Report(check);
+                if (reportProgress)
+                {
+                    scanOperation.Progress.Report(1);
                 }
-            });
+                scanOperation.ItemProgress.Report(check);
+            }
+
+            if (reportProgress)
+            {
+                scanOperation.ScanCompletedEvent?.Invoke();
+            }
             return lv;
         }
 
@@ -130,8 +129,8 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// </summary>
         /// <param name="address">The IP address that needs to be scanned</param>
         /// <param name="port">The port that needs to be scanned</param>
-        /// <param name="timeout">The amount of time before the operation cancels</param>
-        /// <returns>Returns true if the port is open for connections</returns>
+        /// <param name="timeout">The amount of time before the connection times out</param>
+        /// <returns>Returns true if the port is open</returns>
         private static bool IsTcpOpen(string address, int port, int timeout)
         {
             try
@@ -156,8 +155,8 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// </summary>
         /// <param name="address">The IP address that needs to be scanned</param>
         /// <param name="port">The port that needs to be scanned</param>
-        /// <param name="timeout">The amount of time before the operation cancels</param>
-        /// <returns>Returns true if the port is open for connections</returns>
+        /// <param name="timeout">The amount of time before the connection times out</param>
+        /// <returns>Returns true if the port is open</returns>
         private static bool IsUdpOpen(string address, int port, int timeout)
         {
             try
@@ -168,14 +167,21 @@ namespace Advanced_PortChecker.Classes.Scanner
                     udpClient.Client.SendTimeout = timeout;
 
                     udpClient.Connect(address, port);
-                    return true;
+
+                    byte[] sendBytes = new byte[4];
+                    new Random().NextBytes(sendBytes);
+                    udpClient.Send(sendBytes, sendBytes.Length);
+                    
+                    IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+                    byte[] result = udpClient.Receive(ref remoteIpEndPoint);
+                    return result.Length != 0;
                 }
             }
             catch (Exception)
             {
-                // ignored
+                return false;
             }
-            return false;
         }
 
         /// <summary>

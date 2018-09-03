@@ -71,10 +71,11 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Export\ExportType.cs" />
     <Compile Include="Classes\Export\ExportWriter.cs" />
-    <Compile Include="Classes\Controls\LvCheck.cs" />
-    <Compile Include="Classes\Scanner\OperationInformation.cs" />
-    <Compile Include="Classes\Scanner\PortChecker.cs" />
-    <Compile Include="Classes\StyleManager.cs" />
+    <Compile Include="Classes\Objects\LvCheck.cs" />
+    <Compile Include="Classes\Scanner\ScanOperation.cs" />
+    <Compile Include="Classes\Scanner\PortScanner.cs" />
+    <Compile Include="Classes\GUI\StyleManager.cs" />
+    <Compile Include="Classes\Utils\ThreadCalculator.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>

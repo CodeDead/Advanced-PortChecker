@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using Advanced_PortChecker.Classes;
+using Advanced_PortChecker.Classes.GUI;
 
 namespace Advanced_PortChecker.Windows
 {

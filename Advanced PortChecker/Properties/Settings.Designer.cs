@@ -73,7 +73,7 @@ namespace Advanced_PortChecker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public int TimeOut {
             get {
                 return ((int)(this["TimeOut"]));
@@ -121,13 +121,25 @@ namespace Advanced_PortChecker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int TimeOutType {
             get {
                 return ((int)(this["TimeOutType"]));
             }
             set {
                 this["TimeOutType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int ScanThreads {
+            get {
+                return ((int)(this["ScanThreads"]));
+            }
+            set {
+                this["ScanThreads"] = value;
             }
         }
     }

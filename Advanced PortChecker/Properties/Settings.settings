@@ -15,7 +15,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="TimeOut" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1000</Value>
+      <Value Profile="(Default)">500</Value>
     </Setting>
     <Setting Name="WindowOpacity" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
@@ -27,7 +27,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="TimeOutType" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ScanThreads" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
     </Setting>
   </Settings>
 </SettingsFile>

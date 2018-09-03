@@ -14,12 +14,13 @@
     TitleTextAlignment="Center">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <syncfusion:TabControlExt CloseButtonType="Hide" EnableLabelEdit="False"
                                   AllowDragDrop="False" DefaultContextMenuItemVisibility="Hidden"
                                   TabItemSize="ShrinkToFit" TabScrollButtonVisibility="Hidden">
+
             <syncfusion:TabItemExt Header="General" Image="/Advanced PortChecker;component/Resources/Images/settings.png">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
@@ -32,22 +33,26 @@
                     <Grid Grid.Row="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Label Content="Connection time-out:" Margin="2"></Label>
-                        <syncfusion:IntegerTextBox x:Name="IntTimeOut" Grid.Column="1" MinValue="1" Height="Auto" Margin="2" />
-                        <ComboBox x:Name="CboTimeOut" Grid.Column="2" Margin="2">
+                        <Label Grid.Row="0" Grid.Column="0" Content="Connection time-out:" Margin="2" />
+                        <syncfusion:IntegerTextBox Grid.Row="0" Grid.Column="1" x:Name="IntTimeOut"  MinValue="1" Margin="2" />
+                        <ComboBox Grid.Row="0" Grid.Column="2" x:Name="CboTimeOut" Margin="2">
                             <ComboBoxItem>millisecond(s)</ComboBoxItem>
                             <ComboBoxItem>second(s)</ComboBoxItem>
                             <ComboBoxItem>minute(s)</ComboBoxItem>
                         </ComboBox>
+                        <Label Grid.Row="1" Grid.Column="0" Margin="2" Content="Number of scan threads:" />
+                        <syncfusion:IntegerTextBox x:Name="IntScanThreads" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" MinValue="1" MaxValue="100" />
                     </Grid>
                 </Grid>
             </syncfusion:TabItemExt>
+
             <syncfusion:TabItemExt Header="Theme" Image="/Advanced PortChecker;component/Resources/Images/home.png">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>

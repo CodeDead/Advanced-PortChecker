@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
-using Advanced_PortChecker.Classes.Controls;
+using Advanced_PortChecker.Classes.Objects;
 
 namespace Advanced_PortChecker.Classes.Export
 {

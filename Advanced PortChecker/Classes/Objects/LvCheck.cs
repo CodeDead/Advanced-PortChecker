@@ -1,4 +1,4 @@
-﻿namespace Advanced_PortChecker.Classes.Controls
+﻿namespace Advanced_PortChecker.Classes.Objects
 {
     /// <summary>
     /// Represents the content of a ListViewItem
