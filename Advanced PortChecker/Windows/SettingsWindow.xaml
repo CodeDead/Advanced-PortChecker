@@ -48,7 +48,7 @@
                             <ComboBoxItem>minute(s)</ComboBoxItem>
                         </ComboBox>
                         <Label Grid.Row="1" Grid.Column="0" Margin="2" Content="Number of scan threads:" />
-                        <syncfusion:IntegerTextBox x:Name="IntScanThreads" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" MinValue="1" MaxValue="100" />
+                        <syncfusion:IntegerTextBox x:Name="IntScanThreads" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" MinValue="1" />
                     </Grid>
                 </Grid>
             </syncfusion:TabItemExt>
