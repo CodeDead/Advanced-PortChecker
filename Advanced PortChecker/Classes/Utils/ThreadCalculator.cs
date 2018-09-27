@@ -16,9 +16,9 @@ namespace Advanced_PortChecker.Classes.Utils
         internal static IEnumerable<int> GetActionsPerThreads(int numberOfThreads, int numberOfActions)
         {
             // We have too many threads for the requested amount of actions
-            while (numberOfActions < numberOfThreads)
+            if (numberOfActions < numberOfThreads)
             {
-                numberOfThreads--;
+                numberOfThreads = numberOfActions;
             }
 
             int[] actionsPerThread = new int[numberOfThreads];
