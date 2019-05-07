@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
@@ -23,20 +22,18 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="scanOperation">The ScanInformation object containing information regarding this scan</param>
         /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
         // ReSharper disable once IdentifierTypo
-        internal static List<LvCheck> CheckTCPUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation)
+        internal static void CheckTCPUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation)
         {
-            List<LvCheck> lv = new List<LvCheck>();
             for (int i = startPort; i <= stopPort; i++)
             {
                 if (scanOperation.IsCancelled) break;
 
-                lv.AddRange(CheckTCP(address, i, i, timeout, scanOperation, false));
-                lv.AddRange(CheckUDP(address, i, i, timeout, scanOperation, false));
+                CheckTCP(address, i, i, timeout, scanOperation, false);
+                CheckUDP(address, i, i, timeout, scanOperation, false);
 
                 scanOperation.Progress.Report(1);
             }
             scanOperation.ScanCompletedEvent?.Invoke();
-            return lv;
         }
 
         // ReSharper disable once InconsistentNaming
@@ -49,10 +46,8 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="timeout">The amount of time before the connection times out</param>
         /// <param name="scanOperation">The ScanInformation object containing information regarding this scan</param>
         /// <param name="reportProgress">A boolean to represent whether this method should report the current progress or not</param>
-        /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
-        internal static List<LvCheck> CheckTCP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
+        internal static void CheckTCP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
         {
-            List<LvCheck> lv = new List<LvCheck>();
             for (int i = startPort; i <= stopPort; i++)
             {
                 if (scanOperation.IsCancelled) break;
@@ -66,7 +61,6 @@ namespace Advanced_PortChecker.Classes.Scanner
                     Description = IsTcpOpen(address, i, timeout) ? "Open" : "Closed",
                     ScanDate = DateTime.Now.ToString(CultureInfo.CurrentCulture)
                 };
-                lv.Add(check);
 
                 if (reportProgress)
                 {
@@ -79,8 +73,6 @@ namespace Advanced_PortChecker.Classes.Scanner
             {
                 scanOperation.ScanCompletedEvent?.Invoke();
             }
-            
-            return lv;
         }
 
         // ReSharper disable once InconsistentNaming
@@ -93,10 +85,8 @@ namespace Advanced_PortChecker.Classes.Scanner
         /// <param name="timeout">The amount of time before the connection times out</param>
         /// <param name="scanOperation">The ScanInformation object containing information regarding this scan</param>
         /// <param name="reportProgress">A boolean to represent whether this method should report the current progress or not</param>
-        /// <returns>A list of LvCheck objects containing information regarding the ports and address that were scanned</returns>
-        internal static List<LvCheck> CheckUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
+        internal static void CheckUDP(string address, int startPort, int stopPort, int timeout, ScanOperation scanOperation, bool reportProgress)
         {
-            List<LvCheck> lv = new List<LvCheck>();
             for (int i = startPort; i <= stopPort; i++)
             {
                 if (scanOperation.IsCancelled) break;
@@ -110,7 +100,6 @@ namespace Advanced_PortChecker.Classes.Scanner
                     Description = IsUdpOpen(address, i, timeout) ? "Open" : "Closed",
                     ScanDate = DateTime.Now.ToString(CultureInfo.CurrentCulture)
                 };
-                lv.Add(check);
 
                 if (reportProgress)
                 {
@@ -123,7 +112,6 @@ namespace Advanced_PortChecker.Classes.Scanner
             {
                 scanOperation.ScanCompletedEvent?.Invoke();
             }
-            return lv;
         }
 
 
@@ -174,7 +162,7 @@ namespace Advanced_PortChecker.Classes.Scanner
                     byte[] sendBytes = new byte[4];
                     new Random().NextBytes(sendBytes);
                     udpClient.Send(sendBytes, sendBytes.Length);
-                    
+
                     IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
                     byte[] result = udpClient.Receive(ref remoteIpEndPoint);

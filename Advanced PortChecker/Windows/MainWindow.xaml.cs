@@ -13,8 +13,8 @@ using Advanced_PortChecker.Classes.GUI;
 using Advanced_PortChecker.Classes.Objects;
 using Advanced_PortChecker.Classes.Scanner;
 using Advanced_PortChecker.Classes.Utils;
+using CodeDead.UpdateManager.Classes;
 using Microsoft.Win32;
-using UpdateManager.Classes;
 
 namespace Advanced_PortChecker.Windows
 {
@@ -28,7 +28,7 @@ namespace Advanced_PortChecker.Windows
         /// <summary>
         /// The UpdateManager object that can be used to check for updates
         /// </summary>
-        private readonly UpdateManager.Classes.UpdateManager _updateManager;
+        private readonly UpdateManager _updateManager;
         /// <summary>
         /// The list of ScanOperation objects
         /// </summary>
@@ -56,7 +56,7 @@ namespace Advanced_PortChecker.Windows
                 TitleText = "Advanced PortChecker",
                 UpdateNowText = "Would you like to update the application now?"
             };
-            _updateManager = new UpdateManager.Classes.UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "https://codedead.com/Software/Advanced%20PortChecker/update.xml", stringVariables);
+            _updateManager = new UpdateManager(Assembly.GetExecutingAssembly().GetName().Version, "https://codedead.com/Software/Advanced%20PortChecker/update.xml", stringVariables);
 
             WindowDraggable();
             // Change the theme
@@ -221,7 +221,7 @@ namespace Advanced_PortChecker.Windows
                         PgbStatus.Value += 1;
                         TaskbarItemInfo.ProgressValue += (1 / (PgbStatus.Maximum - PgbStatus.Minimum));
                     }),
-                    ItemProgress = new Progress<LvCheck>(value => { LvPorts.Items.Add(value); }),
+                    ItemProgress = new Progress<LvCheck>(value => LvPorts.Items.Add(value)),
                     IsCancelled = false
                 };
                 scan.ScanCompletedEvent += ScanThreadCompleted;

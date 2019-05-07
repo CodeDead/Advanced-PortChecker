@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the content of a ListViewItem
     /// </summary>
-    public class LvCheck
+    public sealed class LvCheck
     {
         /// <summary>
         /// The address that was scanned
