@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Advanced_PortChecker.Classes.GUI;
 
@@ -54,27 +56,16 @@ namespace Advanced_PortChecker.Windows
                         break;
                 }
 
-                ChbAutoUpdate.IsChecked = Properties.Settings.Default.AutoUpdate;
-                IntScanThreads.Value = Properties.Settings.Default.ScanThreads;
-
                 if (Properties.Settings.Default.WindowDraggable)
                 {
                     // Prevent duplicate handlers
                     MouseDown -= OnMouseDown;
                     MouseDown += OnMouseDown;
-                    ChbWindowDraggable.IsChecked = true;
                 }
                 else
                 {
                     MouseDown -= OnMouseDown;
-                    ChbWindowDraggable.IsChecked = false;
                 }
-
-                ChbStyle.SelectedValue = Properties.Settings.Default.VisualStyle;
-                CpMetroBrush.Color = Properties.Settings.Default.MetroColor;
-                IntBorderThickness.Value = Properties.Settings.Default.BorderThickness;
-                SldOpacity.Value = Properties.Settings.Default.WindowOpacity * 100;
-                SldWindowResize.Value = Properties.Settings.Default.WindowResizeBorder;
             }
             catch (Exception ex)
             {
@@ -115,18 +106,9 @@ namespace Advanced_PortChecker.Windows
                         if (IntTimeOut.Value != null) Properties.Settings.Default.TimeOut = (int)IntTimeOut.Value * 1000;
                         break;
                     case 2:
-                        if (IntTimeOut.Value != null) Properties.Settings.Default.TimeOut = ((int)IntTimeOut.Value * 60) * 1000;
+                        if (IntTimeOut.Value != null) Properties.Settings.Default.TimeOut = (int)IntTimeOut.Value * 60 * 1000;
                         break;
                 }
-                if (ChbAutoUpdate.IsChecked != null) Properties.Settings.Default.AutoUpdate = ChbAutoUpdate.IsChecked.Value;
-                if (ChbWindowDraggable.IsChecked != null) Properties.Settings.Default.WindowDraggable = ChbWindowDraggable.IsChecked.Value;
-                if (IntScanThreads.Value != null) Properties.Settings.Default.ScanThreads = (int)IntScanThreads.Value;
-                Properties.Settings.Default.VisualStyle = ChbStyle.Text;
-
-                Properties.Settings.Default.MetroColor = CpMetroBrush.Color;
-                if (IntBorderThickness.Value != null) Properties.Settings.Default.BorderThickness = (int)IntBorderThickness.Value;
-                Properties.Settings.Default.WindowOpacity = SldOpacity.Value / 100;
-                Properties.Settings.Default.WindowResizeBorder = SldWindowResize.Value;
 
                 Properties.Settings.Default.Save();
 
@@ -182,6 +164,23 @@ namespace Advanced_PortChecker.Windows
         {
             Opacity = SldOpacity.Value / 100;
         }
+        
+        /// <summary>
+        /// Method that is called when the border thickness should change
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The RoutedPropertyChangedEventArgs</param>
+        private void SldBorderThickness_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            try
+            {
+                BorderThickness = new Thickness(Properties.Settings.Default.BorderThickness);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         /// <summary>
         /// Method  that is called when the ResizeBorderThickness should change dynamically
@@ -191,6 +190,33 @@ namespace Advanced_PortChecker.Windows
         private void SldWindowResize_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             ResizeBorderThickness = new Thickness(SldWindowResize.Value);
+        }
+
+        /// <summary>
+        /// Method that is called when the visual style is changed by user input
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The SelectionChangedEventArgs</param>
+        private void ChbStyle_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StyleManager.ChangeStyle(this);
+        }
+
+        /// <summary>
+        /// Method that is called when the SettingsWindow object is closing
+        /// </summary>
+        /// <param name="sender">The object that called this method</param>
+        /// <param name="e">The CancelEventArgs</param>
+        private void SettingsWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.Reload();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advanced PortChecker", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

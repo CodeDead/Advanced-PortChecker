@@ -12,7 +12,7 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
 	<Setting Name="WindowOpacity" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="WindowResizeBorder" Type="System.Double" Scope="User">
       <Value Profile="(Default)">3</Value>
@@ -30,7 +30,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ScanThreads" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>
