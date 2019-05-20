@@ -106,11 +106,11 @@
                                 ValueChanged="SldBorderThickness_OnValueChanged"
                                 Value="{utils:SettingsBinder BorderThickness}" />
                         <Label Margin="3" Grid.Row="3" Grid.Column="0" Content="Window opacity:" />
-                        <Slider x:Name="SldOpacity" Margin="3" Grid.Row="3" Grid.Column="1" Minimum="30" Maximum="100"
+                        <Slider Margin="3" Grid.Row="3" Grid.Column="1" Minimum="30" Maximum="100"
                                 Width="180" ValueChanged="SldOpacity_OnValueChanged"
                                 Value="{utils:SettingsBinder WindowOpacity}" />
                         <Label Margin="3" Grid.Row="4" Grid.Column="0" Content="Resize border:" />
-                        <Slider x:Name="SldWindowResize" Margin="3" Grid.Row="4" Grid.Column="1" Minimum="2"
+                        <Slider Margin="3" Grid.Row="4" Grid.Column="1" Minimum="2"
                                 Maximum="10" Width="180" ValueChanged="SldWindowResize_OnValueChanged"
                                 Value="{utils:SettingsBinder WindowResizeBorder}" />
                     </Grid>

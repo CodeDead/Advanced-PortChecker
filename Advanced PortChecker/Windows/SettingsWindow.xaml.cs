@@ -162,7 +162,7 @@ namespace Advanced_PortChecker.Windows
         /// <param name="e">The RoutedPropertyChangedEventArgs</param>
         private void SldOpacity_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Opacity = SldOpacity.Value / 100;
+            Opacity = ((Slider)sender).Value / 100;
         }
         
         /// <summary>
@@ -174,7 +174,7 @@ namespace Advanced_PortChecker.Windows
         {
             try
             {
-                BorderThickness = new Thickness(Properties.Settings.Default.BorderThickness);
+                BorderThickness = new Thickness(((Slider)sender).Value);
             }
             catch (Exception ex)
             {
@@ -189,7 +189,7 @@ namespace Advanced_PortChecker.Windows
         /// <param name="e">The RoutedPropertyChangedEventArgs</param>
         private void SldWindowResize_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            ResizeBorderThickness = new Thickness(SldWindowResize.Value);
+            ResizeBorderThickness = new Thickness(((Slider)sender).Value);
         }
 
         /// <summary>
