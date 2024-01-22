@@ -7,12 +7,12 @@ const themeIndex = localStorage.themeIndex ? parseFloat(localStorage.themeIndex)
 const themeType = localStorage.themeType ? localStorage.themeType : 'light';
 const autoUpdate = localStorage.autoUpdate ? (localStorage.autoUpdate === 'true') : true;
 const colorOnDark = localStorage.colorOnDark ? (localStorage.colorOnDark === 'true') : false;
-const languageSelector = localStorage.languageSelector
-  ? (localStorage.languageSelector === 'true')
-  : false;
 
-const threads = localStorage.threads ? parseFloat(localStorage.threads) : 24;
-const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 250;
+const threads = localStorage.threads
+  ? parseFloat(localStorage.threads)
+  : 1;
+
+const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 300;
 const noClosed = localStorage.noClosed ? (localStorage.noClosed === 'true') : false;
 const sort = localStorage.sort ? (localStorage.sort === 'true') : true;
 
@@ -27,12 +27,11 @@ const initState = {
   pageIndex: 0,
   update: null,
   checkedForUpdates: false,
-  languageSelector,
   loading: false,
   colorOnDark,
   error: null,
   address: '',
-  startPort: 1,
+  startPort: 0,
   endPort: 65535,
   isScanning: false,
   threads,

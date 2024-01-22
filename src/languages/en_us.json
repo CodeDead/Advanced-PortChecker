@@ -27,7 +27,6 @@
   "autoUpdate": "Automatically check for updates",
   "colorOnDark": "Color on dark theme",
   "language": "Language",
-  "languageSelector": "Language Selector",
   "yes": "Yes",
   "no": "No",
   "confirmation": "Confirmation",
@@ -76,5 +75,6 @@
   "theme": "Theme",
   "threads": "Threads",
   "timeout": "Timeout (milliseconds)",
-  "hideClosedPorts": "Hide closed ports"
+  "hideClosedPorts": "Hide closed ports",
+  "sort": "Sort results by port number"
 }

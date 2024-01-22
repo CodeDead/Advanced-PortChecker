@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -83,12 +83,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const TopBar = () => {
   const [state] = useContext(MainContext);
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
 
-  const { languageIndex, pageIndex, colorOnDark } = state;
+  const [open, setOpen] = useState(false);
+
+  const {
+    languageIndex, pageIndex, colorOnDark,
+  } = state;
   const language = state.languages[languageIndex];
 
+  const theme = useTheme();
   const navigate = useNavigate();
 
   /**
@@ -149,7 +152,13 @@ const TopBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            style={{ cursor: 'pointer' }}
+            onClick={goHome}
+          >
             {language.applicationName}
           </Typography>
         </Toolbar>

@@ -37,14 +37,16 @@ import TextField from '@mui/material/TextField';
 import packageJson from '../../../package.json';
 import Updater from '../../utils/Updater';
 import {
+  getNumberOfThreads,
   resetState,
   setAutoUpdate,
   setCheckedForUpdates,
   setColorOnDark,
   setError,
   setLanguageIndex,
-  setLanguageSelector, setNoClosed,
+  setNoClosed,
   setPageIndex,
+  setSort,
   setThemeIndex,
   setThemeType,
   setThreads,
@@ -60,8 +62,8 @@ const Settings = () => {
   const [state, d1] = useContext(MainContext);
 
   const {
-    languageIndex, autoUpdate, languageSelector, colorOnDark, themeIndex, themeType,
-    threads, timeout, noClosed,
+    languageIndex, autoUpdate, colorOnDark, themeIndex, themeType,
+    threads, timeout, noClosed, sort,
   } = state;
   const language = state.languages[languageIndex];
 
@@ -115,6 +117,13 @@ const Settings = () => {
    */
   const resetSettings = () => {
     d1(resetState());
+    getNumberOfThreads()
+      .then((res) => {
+        d1(setThreads(res));
+      })
+      .catch(() => {
+        d1(setThreads(1));
+      });
   };
 
   /**
@@ -179,16 +188,6 @@ const Settings = () => {
               )}
               label={language.colorOnDark}
             />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={languageSelector}
-                  onChange={(e) => d1(setLanguageSelector(e.target.checked))}
-                  value="languageSelector"
-                />
-              )}
-              label={language.languageSelector}
-            />
             <FormControl variant="outlined" sx={{ mt: 2 }}>
               <InputLabel id="language-label">{language.language}</InputLabel>
               <Select
@@ -222,16 +221,28 @@ const Settings = () => {
             min={1}
             fullWidth
           />
-          <FormControlLabel
-            control={(
-              <Checkbox
-                checked={noClosed}
-                onChange={(e) => d1(setNoClosed(e.target.checked))}
-                value="noClosed"
-              />
-            )}
-            label={language.hideClosedPorts}
-          />
+          <FormGroup>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={noClosed}
+                  onChange={(e) => d1(setNoClosed(e.target.checked))}
+                  value="noClosed"
+                />
+              )}
+              label={language.hideClosedPorts}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={sort}
+                  onChange={(e) => d1(setSort(e.target.checked))}
+                  value="sort"
+                />
+              )}
+              label={language.sort}
+            />
+          </FormGroup>
         </CardContent>
       </Card>
       <Card sx={{ mt: 2 }}>

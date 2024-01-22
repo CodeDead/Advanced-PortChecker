@@ -11,10 +11,12 @@ import TopBar from '../TopBar';
 import Updater from '../../utils/Updater';
 import packageJson from '../../../package.json';
 import {
+  getNumberOfThreads,
   openWebSite,
   setCheckedForUpdates,
   setError,
   setLoading,
+  setThreads,
   setUpdate,
 } from '../../reducers/MainReducer/Actions';
 import { MainContext } from '../../contexts/MainContextProvider';
@@ -74,6 +76,21 @@ const App = () => {
   };
 
   /**
+   * Update the number of threads
+   */
+  const updateThreads = async () => {
+    if (!localStorage.threads) {
+      getNumberOfThreads()
+        .then((res) => {
+          d1(setThreads(res));
+        })
+        .catch(() => {
+          d1(setThreads(1));
+        });
+    }
+  };
+
+  /**
    * Close the dialog that displays a message that no updates are available
    */
   const closeNoUpdate = () => {
@@ -90,6 +107,7 @@ const App = () => {
   useEffect(() => {
     // eslint-disable-next-line no-underscore-dangle
     if (window.__TAURI__ && autoUpdate) {
+      updateThreads();
       checkForUpdates();
     }
   }, []);

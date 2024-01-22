@@ -9,6 +9,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { MainContext } from '../../contexts/MainContextProvider';
 import {
+  cancelScan,
   scanAddress,
   setAddress,
   setEndPort,
@@ -42,7 +43,7 @@ const Home = () => {
    * @param e The event argument
    */
   const changeStartPort = (e) => {
-    if (parseInt(e.target.value, 10) < 1) return;
+    if (parseInt(e.target.value, 10) < 0) return;
     if (parseInt(e.target.value, 10) > 65535) return;
 
     if (parseInt(e.target.value, 10) > endPort) {
@@ -58,7 +59,7 @@ const Home = () => {
    * @param e The event argument
    */
   const changeEndPort = (e) => {
-    if (parseInt(e.target.value, 10) < 1) return;
+    if (parseInt(e.target.value, 10) < 0) return;
     if (parseInt(e.target.value, 10) > 65535) return;
 
     if (parseInt(e.target.value, 10) < startPort) {
@@ -69,22 +70,27 @@ const Home = () => {
   };
 
   /**
-   * Start a scan
+   * Start (or cancel) a scan
    */
-  const startScan = () => {
-    if (isScanning) return;
-
-    d1(setIsScanning(true));
-    scanAddress(address, startPort, endPort, timeout, threads, noClosed, sort)
-      .then((res) => {
-        d1(setScanResults(res));
-      })
-      .catch((err) => {
-        d1(setError(err));
-      })
-      .finally(() => {
-        d1(setIsScanning(false));
-      });
+  const startStopScan = () => {
+    if (isScanning) {
+      cancelScan()
+        .catch((err) => {
+          d1(setError(err));
+        });
+    } else {
+      d1(setIsScanning(true));
+      scanAddress(address, startPort, endPort, timeout, threads, sort)
+        .then((res) => {
+          d1(setScanResults(res));
+        })
+        .catch((err) => {
+          d1(setError(err));
+        })
+        .finally(() => {
+          d1(setIsScanning(false));
+        });
+    }
   };
 
   /**
@@ -138,10 +144,16 @@ const Home = () => {
 
   const scanResultRows = [];
   if (scanResults && scanResults.length > 0) {
-    scanResults.forEach((e, i) => {
-      if (noClosed && e.portStatus === 'Closed') return;
-      scanResultRows.push(createData(`${e.address}${i}`, e.address, e.port, e.hostName, e.portStatus, e.scanDate));
-    });
+    // eslint-disable-next-line no-restricted-syntax
+    for (const res of scanResults) {
+      if (noClosed && res.portStatus === 'Closed') {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+      scanResultRows.push(
+        createData(res.port, res.address, res.port, res.hostName, res.portStatus, res.scanDate),
+      );
+    }
   }
 
   useEffect(() => {
@@ -172,7 +184,7 @@ const Home = () => {
                 value={startPort}
                 disabled={isScanning}
                 type="number"
-                min={1}
+                min={0}
                 max={65535}
                 pattern="[0-9]"
                 fullWidth
@@ -188,7 +200,7 @@ const Home = () => {
                 disabled={isScanning}
                 type="number"
                 pattern="[0-9]"
-                min={1}
+                min={0}
                 max={65535}
                 fullWidth
                 onChange={changeEndPort}
@@ -211,11 +223,10 @@ const Home = () => {
       <Button
         variant="contained"
         color="primary"
-        disabled={isScanning}
         sx={{ mt: 2, float: 'right' }}
-        onClick={startScan}
+        onClick={startStopScan}
       >
-        {language.scan}
+        {isScanning ? language.cancel : language.scan}
       </Button>
     </Container>
   );

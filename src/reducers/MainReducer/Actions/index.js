@@ -9,7 +9,6 @@ import {
   SET_ERROR,
   SET_IS_SCANNING,
   SET_LANGUAGE_INDEX,
-  SET_LANGUAGE_SELECTOR,
   SET_LOADING,
   SET_NO_CLOSED,
   SET_PAGE_INDEX,
@@ -88,11 +87,6 @@ export const setError = (error) => ({
   payload: error,
 });
 
-export const setLanguageSelector = (value) => ({
-  type: SET_LANGUAGE_SELECTOR,
-  payload: value,
-});
-
 export const setLoading = (value) => ({
   type: SET_LOADING,
   payload: value,
@@ -152,3 +146,7 @@ export const setScanResults = (value) => ({
   type: SET_SCAN_RESULTS,
   payload: value,
 });
+
+export const cancelScan = () => invoke('cancel_scan');
+
+export const getNumberOfThreads = () => invoke('get_number_of_threads');

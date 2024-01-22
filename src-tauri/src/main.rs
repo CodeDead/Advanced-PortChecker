@@ -2,21 +2,62 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use crate::result::{PortStatus, ScanResult};
-use std::net::{IpAddr, Shutdown, TcpStream, ToSocketAddrs, UdpSocket};
+use std::net::{IpAddr, Shutdown, TcpStream, ToSocketAddrs};
 use std::ops::Deref;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread;
+use std::thread::available_parallelism;
 use std::time::Duration;
 
 mod result;
 
+struct SharedState {
+    is_scanning: Arc<AtomicBool>,
+    cancellation_token: Arc<AtomicBool>,
+    last_error: Arc<Mutex<String>>,
+}
+
 fn main() {
+    let shared_state = SharedState {
+        is_scanning: Arc::new(AtomicBool::new(false)),
+        cancellation_token: Arc::new(AtomicBool::new(false)),
+        last_error: Arc::new(Mutex::new(String::from(""))),
+    };
+
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![open_website, scan_port_range])
+        .manage(shared_state)
+        .invoke_handler(tauri::generate_handler![
+            open_website,
+            scan_port_range,
+            cancel_scan,
+            get_number_of_threads
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
 
+/// Get the number of threads that can be used for port scanning
+///
+/// # Returns
+///
+/// * `u32` - The number of threads that can be used for port scanning
+#[tauri::command]
+fn get_number_of_threads() -> usize {
+    let default_parallelism_approx = available_parallelism().unwrap().get();
+    default_parallelism_approx
+}
+
+/// Open a website using the default browser
+///
+/// # Arguments
+///
+/// * `website` - The website that needs to be opened
+///
+/// # Returns
+///
+/// * `Ok(())` - If the website was opened successfully
+/// * `Err(String)` - If the website could not be opened
 #[tauri::command]
 fn open_website(website: &str) -> Result<(), String> {
     match open::that(website) {
@@ -25,8 +66,47 @@ fn open_website(website: &str) -> Result<(), String> {
     }
 }
 
+/// Cancel a port scan
+///
+/// # Arguments
+///
+/// * `state` - The shared state that contains the cancellation token
+///
+/// # Returns
+///
+/// * `Ok(())` - If the cancellation token was set successfully
+/// * `Err(String)` - If the cancellation token could not be set
+#[tauri::command]
+async fn cancel_scan(state: tauri::State<'_, SharedState>) -> Result<(), String> {
+    if !state.is_scanning.load(Ordering::SeqCst) {
+        return Err(String::from("No scan is currently running"));
+    }
+
+    state.cancellation_token.store(true, Ordering::SeqCst);
+    state.is_scanning.store(false, Ordering::SeqCst);
+
+    Ok(())
+}
+
+/// Scan a range of ports for a specified host
+///
+/// # Arguments
+///
+/// * `state` - The shared state that contains the cancellation token
+/// * `address` - The host that needs to be scanned
+/// * `start_port` - The initial port that needs to be scanned
+/// * `end_port` - The final port that needs to be scanned
+/// * `timeout` - The connection timeout (in milliseconds) before a port is marked as closed
+/// * `threads` - The number of threads that should be used to scan the ports
+/// * `sort` - Whether the results should be sorted by port number
+///
+/// # Returns
+///
+/// * `Ok(Vec<ScanResult>)` - If the scan was successful
+/// * `Err(String)` - If the scan was unsuccessful
 #[tauri::command]
 async fn scan_port_range(
+    state: tauri::State<'_, SharedState>,
     address: &str,
     start_port: u16,
     end_port: u16,
@@ -34,6 +114,13 @@ async fn scan_port_range(
     threads: u32,
     sort: bool,
 ) -> Result<Vec<ScanResult>, String> {
+    if state.is_scanning.load(Ordering::SeqCst) {
+        return Err(String::from("A scan is already running"));
+    }
+
+    state.is_scanning.store(true, Ordering::SeqCst);
+    state.last_error.lock().unwrap().clear();
+
     let mut threads = threads;
     let all_results: Arc<Mutex<Vec<ScanResult>>> = Arc::new(Mutex::new(vec![]));
 
@@ -57,8 +144,24 @@ async fn scan_port_range(
             let local_host = String::from(address);
 
             let all_results = Arc::clone(&all_results);
+            let cancellation_token = Arc::clone(&state.cancellation_token);
+            let last_error = Arc::clone(&state.last_error);
+
             let handle = thread::spawn(move || {
-                let res = scan_tcp_range(&local_host, local_start, local_end, timeout);
+                let res = scan_tcp_range(
+                    &local_host,
+                    local_start,
+                    local_end,
+                    timeout,
+                    cancellation_token,
+                );
+
+                let res = res.unwrap_or_else(|e| {
+                    let mut last_error = last_error.lock().unwrap();
+                    *last_error = e.to_string();
+
+                    vec![]
+                });
 
                 let mut results = all_results.lock().unwrap();
                 for l in res {
@@ -96,7 +199,16 @@ async fn scan_port_range(
             handle.join().unwrap();
         }
     } else {
-        let res = scan_tcp_range(address, start_port, end_port, timeout);
+        let cancellation_token = Arc::clone(&state.cancellation_token);
+
+        let res = scan_tcp_range(address, start_port, end_port, timeout, cancellation_token);
+        let res = match res {
+            Ok(res) => res,
+            Err(e) => {
+                return Err(e.to_string());
+            }
+        };
+
         let mut all = all_results.lock().unwrap();
         for l in res {
             all.push(l);
@@ -110,6 +222,16 @@ async fn scan_port_range(
         res.sort_by(|a, b| a.port.cmp(&b.port));
     }
 
+    state.is_scanning.store(false, Ordering::SeqCst);
+    state.cancellation_token.store(false, Ordering::SeqCst);
+
+    if res.is_empty() {
+        let last_error = state.last_error.lock().unwrap();
+        if !last_error.is_empty() {
+            return Err(last_error.deref().to_string());
+        }
+    }
+
     Ok(res.deref().to_vec())
 }
 
@@ -121,17 +243,30 @@ async fn scan_port_range(
 /// * `start` - The initial port that needs to be scanned
 /// * `end` - The final port that needs to be scanned
 /// * `timeout` - The connection timeout (in milliseconds) before a port is marked as closed
-/// * `no_closed` - Sets whether closed ports should be added to the return list or not
+/// * `cancellation_token` - A cancellation token that can be used to cancel the scan
 fn scan_tcp_range(
     host: &str,
     start: u16,
     end: u16,
     timeout: u64,
-) -> Vec<ScanResult> {
+    cancellation_token: Arc<AtomicBool>,
+) -> Result<Vec<ScanResult>, String> {
     let mut scan_result = vec![];
 
     for n in start..=end {
-        let mut address = format!("{}:{}", host, n).to_socket_addrs().unwrap();
+        // Check the cancellation token and return if it's true
+        if cancellation_token.load(Ordering::Relaxed) {
+            return Ok(scan_result);
+        }
+
+        let address = format!("{}:{}", host, n).to_socket_addrs();
+        let mut address = match address {
+            Ok(res) => res,
+            Err(e) => {
+                return Err(e.to_string());
+            }
+        };
+
         let socket_address = address.next().unwrap();
         let ip_addr: IpAddr = socket_address.ip();
         let host_name = ip_addr.to_string();
@@ -146,7 +281,7 @@ fn scan_tcp_range(
             match res {
                 Ok(_) => {}
                 Err(e) => {
-                    panic!("Unable to shut down TcpStream: {}", e)
+                    println!("Unable to shut down TcpStream: {}", e)
                 }
             }
         } else {
@@ -155,5 +290,5 @@ fn scan_tcp_range(
         }
     }
 
-    scan_result
+    Ok(scan_result)
 }

@@ -21,12 +21,19 @@ pub struct ScanResult {
 }
 
 impl ScanResult {
-    pub fn new(
-        address: &str,
-        port: u16,
-        host_name: &str,
-        port_status: PortStatus,
-    ) -> ScanResult {
+    /// Create a new ScanResult
+    ///
+    /// # Arguments
+    ///
+    /// * `address` - The address that was scanned
+    /// * `port` - The port that was scanned
+    /// * `host_name` - The host name of the address that was scanned
+    /// * `port_status` - The status of the port that was scanned
+    ///
+    /// # Returns
+    ///
+    /// A new ScanResult
+    pub fn new(address: &str, port: u16, host_name: &str, port_status: PortStatus) -> ScanResult {
         let now = SystemTime::now();
         let now: DateTime<Utc> = now.into();
         let now = now.to_rfc3339();

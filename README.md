@@ -1,5 +1,11 @@
 # Advanced PortChecker
 
+![Advanced PassGen](https://i.imgur.com/YazhCxS.png)
+
+![GitHub](https://img.shields.io/badge/language-JavaScript+Rust-green)
+![GitHub](https://img.shields.io/github/license/CodeDead/Advanced-PortChecker)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/Advanced-PortChecker)
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

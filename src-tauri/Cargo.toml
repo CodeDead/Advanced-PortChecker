@@ -1,7 +1,7 @@
 [package]
 name = "advanced-portchecker"
 version = "0.1.0"
-description = "A Tauri App"
+description = "A lightweight TCP port checker with an intuitive UI."
 authors = ["CodeDead <admin@codedead.com>"]
 license = "GPL-3.0-only"
 repository = "https://github.com/CodeDead/Advanced-PortChecker"

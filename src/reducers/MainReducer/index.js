@@ -8,7 +8,6 @@ import {
   SET_ERROR,
   SET_IS_SCANNING,
   SET_LANGUAGE_INDEX,
-  SET_LANGUAGE_SELECTOR,
   SET_LOADING,
   SET_NO_CLOSED,
   SET_PAGE_INDEX,
@@ -58,10 +57,9 @@ const MainReducer = (state, action) => {
         themeIndex: 0,
         themeType: 'light',
         autoUpdate: true,
-        languageSelector: false,
         colorOnDark: false,
         threads: 1,
-        timeout: 250,
+        timeout: 300,
         noClosed: false,
         sort: true,
       };
@@ -75,12 +73,6 @@ const MainReducer = (state, action) => {
       return {
         ...state,
         update: action.payload,
-      };
-    case SET_LANGUAGE_SELECTOR:
-      localStorage.languageSelector = action.payload;
-      return {
-        ...state,
-        languageSelector: action.payload,
       };
     case SET_LOADING:
       return {
