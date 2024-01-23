@@ -45,7 +45,7 @@ const Updater = (os, currentVersion) => {
   };
 
   return new Promise((resolve, reject) => {
-    fetch('https://codedead.com/Software/Advanced%PortChecker/version.json')
+    fetch('https://codedead.com/Software/Advanced%20PortChecker/version.json')
       .then((res) => {
         if (!res.ok) {
           throw Error(res.statusText);
