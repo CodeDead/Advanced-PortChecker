@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import MainReducer from '../../reducers/MainReducer';
 import enUs from '../../languages/en_us.json';
 import nlNl from '../../languages/nl_nl.json';
+import frFr from '../../languages/fr_fr.json';
 
 const languageIndex = localStorage.languageIndex ? parseFloat(localStorage.languageIndex) : 0;
 const themeIndex = localStorage.themeIndex ? parseFloat(localStorage.themeIndex) : 0;
@@ -19,6 +20,7 @@ const initState = {
   languageIndex,
   languages: [
     enUs,
+    frFr,
     nlNl,
   ],
   themeIndex,
