@@ -308,6 +308,7 @@ const Home = () => {
                 pattern="[0-9]"
                 fullWidth
                 onChange={changeStartPort}
+                onKeyDown={handleKeyDown}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
@@ -323,6 +324,7 @@ const Home = () => {
                 max={65535}
                 fullWidth
                 onChange={changeEndPort}
+                onKeyDown={handleKeyDown}
               />
             </Grid>
           </Grid>
