@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import MainReducer from '../../reducers/MainReducer';
 import enUs from '../../languages/en_us.json';
+import nlNl from '../../languages/nl_nl.json';
 
 const languageIndex = localStorage.languageIndex ? parseFloat(localStorage.languageIndex) : 0;
 const themeIndex = localStorage.themeIndex ? parseFloat(localStorage.themeIndex) : 0;
@@ -18,6 +19,7 @@ const initState = {
   languageIndex,
   languages: [
     enUs,
+    nlNl,
   ],
   themeIndex,
   themeType,
@@ -36,7 +38,6 @@ const initState = {
   noClosed,
   sort,
   scanResults: null,
-  scanType: 'tcp',
 };
 
 export const MainContext = createContext(initState);

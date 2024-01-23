@@ -198,6 +198,7 @@ const Settings = () => {
                 label={language.language}
               >
                 <MenuItem value={0}>English</MenuItem>
+                <MenuItem value={1}>Nederlands</MenuItem>
               </Select>
             </FormControl>
           </FormGroup>

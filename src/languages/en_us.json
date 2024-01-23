@@ -21,8 +21,6 @@
   "aboutText": "Advanced PortChecker was created by DeadLine.\n\nTheme: MUI\nLicense: GPLv3\nVersion: {x}\n\nCopyright © {year} CodeDead",
   "license": "License",
   "website": "Website",
-  "tcp": "TCP",
-  "udp": "UDP",
   "autoUpdate": "Automatically check for updates",
   "colorOnDark": "Color on dark theme",
   "language": "Language",
