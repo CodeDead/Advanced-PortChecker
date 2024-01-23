@@ -5,6 +5,7 @@
 ![GitHub](https://img.shields.io/badge/language-JavaScript+Rust-green)
 ![GitHub](https://img.shields.io/github/license/CodeDead/Advanced-PortChecker)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/Advanced-PortChecker)
+[![Test](https://github.com/CodeDead/Advanced-PortChecker/actions/workflows/test.yml/badge.svg)](https://github.com/CodeDead/Advanced-PortChecker/actions/workflows/test.yml)
 
 Advanced PortChecker is a free and open-source application that can help you check if ports are open or closed on a certain host. You can check multiple ports at once and export the results in plain text, CSV or JSON format!
 
