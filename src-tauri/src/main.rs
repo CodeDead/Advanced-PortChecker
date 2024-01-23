@@ -6,9 +6,9 @@ use std::net::{IpAddr, Shutdown, TcpStream, ToSocketAddrs};
 use std::ops::Deref;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
-use std::thread;
 use std::thread::available_parallelism;
 use std::time::Duration;
+use std::{fs, thread};
 
 mod result;
 
@@ -31,10 +31,30 @@ fn main() {
             open_website,
             scan_port_range,
             cancel_scan,
-            get_number_of_threads
+            get_number_of_threads,
+            save_string_to_disk
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+/// Save a string to disk
+///
+/// # Arguments
+///
+/// * `content` - The content that needs to be saved
+/// * `path` - The path where the content needs to be saved
+///
+/// # Returns
+///
+/// * `Ok(())` - If the content was saved successfully
+/// * `Err(String)` - If the content could not be saved
+#[tauri::command]
+fn save_string_to_disk(content: &str, path: &str) -> Result<(), String> {
+    match fs::write(path, content) {
+        Ok(_) => Ok(()),
+        Err(e) => Err(e.to_string()),
+    }
 }
 
 /// Get the number of threads that can be used for port scanning

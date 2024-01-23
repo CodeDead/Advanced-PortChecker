@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
@@ -6,8 +6,16 @@ import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
-import { MainContext } from '../../contexts/MainContextProvider';
+import Button from '@mui/material/Button';
+import { save } from '@tauri-apps/api/dialog';
+import { invoke } from '@tauri-apps/api/tauri';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import LoadingBar from '../../components/LoadingBar';
 import {
   cancelScan,
   scanAddress,
@@ -19,7 +27,7 @@ import {
   setScanResults,
   setStartPort,
 } from '../../reducers/MainReducer/Actions';
-import LoadingBar from '../../components/LoadingBar';
+import { MainContext } from '../../contexts/MainContextProvider';
 
 const Home = () => {
   const [state, d1] = useContext(MainContext);
@@ -29,6 +37,9 @@ const Home = () => {
     timeout, threads, noClosed, sort, isScanning, scanResults,
   } = state;
   const language = languages[languageIndex];
+
+  const [exportType, setExportType] = useState('application/json');
+  const [snackOpen, setSnackOpen] = useState(false);
 
   /**
    * Change the (IP) address
@@ -79,7 +90,14 @@ const Home = () => {
           d1(setError(err));
         });
     } else {
+      if (address === '' || startPort < 0
+        || startPort > 65535
+        || endPort < 0
+        || endPort > 65535
+        || startPort > endPort) return;
+
       d1(setIsScanning(true));
+
       scanAddress(address, startPort, endPort, timeout, threads, sort)
         .then((res) => {
           d1(setScanResults(res));
@@ -91,6 +109,104 @@ const Home = () => {
           d1(setIsScanning(false));
         });
     }
+  };
+
+  /**
+   * Clear the scan results
+   */
+  const clearScanResults = () => {
+    d1(setScanResults(null));
+  };
+
+  /**
+   * Handle key down
+   * @param event The event argument
+   */
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      startStopScan();
+    }
+  };
+
+  /**
+   * Set the export type
+   * @param e The change event
+   */
+  const handleExportTypeChange = (e) => {
+    setExportType(e.target.value);
+  };
+
+  /**
+   * Close the snackbar
+   */
+  const closeSnack = () => {
+    setSnackOpen(false);
+  };
+
+  /**
+   * Get the export data
+   * @param res The array of ScanResult objects
+   * @param type The type of export
+   * @returns {string} The export data
+   */
+  const getExportData = (res, type) => {
+    let toExport = '';
+
+    if (type === 'text/plain') {
+      res.forEach((e) => {
+        toExport += `${e.address} ${e.port} ${e.hostName} ${e.portStatus} ${e.scanDate}\n`;
+      });
+    } else if (type === 'application/json') {
+      toExport = JSON.stringify(res, null, 2);
+    } else if (type === 'text/csv') {
+      res.forEach((e) => {
+        toExport += `"${e.address.replace('"', '""')}","${e.port}","${e.hostName.replace('"', '""')}","${e.portStatus.replace('"', '""')}","${e.scanDate.replace('"', '""')}",\n`;
+      });
+    }
+
+    return toExport;
+  };
+
+  /**
+   * Export the data
+   */
+  const onExport = () => {
+    let ext = '';
+    switch (exportType) {
+      case 'text/plain':
+        ext = 'txt';
+        break;
+      case 'application/json':
+        ext = 'json';
+        break;
+      default:
+        ext = 'csv';
+        break;
+    }
+    save({
+      multiple: false,
+      filters: [{
+        name: exportType,
+        extensions: [ext],
+      }],
+    })
+      .then((res) => {
+        if (res && res.length > 0) {
+          // eslint-disable-next-line no-bitwise
+          const resExt = res.slice((res.lastIndexOf('.') - 1 >>> 0) + 2);
+          const path = resExt && resExt.length > 0 ? res : `${res}.${ext}`;
+          invoke('save_string_to_disk', { content: getExportData(scanResults, exportType), path })
+            .then(() => {
+              setSnackOpen(true);
+            })
+            .catch((e) => {
+              d1(setError(e));
+            });
+        }
+      })
+      .catch((e) => {
+        d1(setError(e));
+      });
   };
 
   /**
@@ -150,8 +266,10 @@ const Home = () => {
         // eslint-disable-next-line no-continue
         continue;
       }
+
+      const portStatus = res.portStatus === 'Open' ? language.open : language.closed;
       scanResultRows.push(
-        createData(res.port, res.address, res.port, res.hostName, res.portStatus, res.scanDate),
+        createData(res.port, res.address, res.port, res.hostName, portStatus, res.scanDate),
       );
     }
   }
@@ -174,6 +292,7 @@ const Home = () => {
                 disabled={isScanning}
                 fullWidth
                 onChange={changeAddress}
+                onKeyDown={handleKeyDown}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
@@ -223,11 +342,54 @@ const Home = () => {
       <Button
         variant="contained"
         color="primary"
+        disabled={!scanResults || scanResults.length === 0 || isScanning}
+        sx={{ mt: 2, float: 'left' }}
+        onClick={clearScanResults}
+      >
+        {language.clear}
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
         sx={{ mt: 2, float: 'right' }}
+        disabled={address === ''}
         onClick={startStopScan}
       >
         {isScanning ? language.cancel : language.scan}
       </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={onExport}
+        sx={{ mt: 2, ml: 2, mr: 2 }}
+        disabled={!scanResults || scanResults.length === 0 || exportType === null || isScanning}
+        style={{ float: 'right' }}
+      >
+        {language.export}
+      </Button>
+      <FormControl
+        sx={{ mt: 2, minWidth: 150, float: 'right' }}
+        size="small"
+      >
+        <InputLabel id="export-type-label">{language.exportType}</InputLabel>
+        <Select
+          labelId="export-type-label"
+          id="export-type-select"
+          value={exportType}
+          label={language.exportType}
+          autoWidth
+          onChange={handleExportTypeChange}
+        >
+          <MenuItem value="application/json">JSON</MenuItem>
+          <MenuItem value="text/csv">CSV</MenuItem>
+          <MenuItem value="text/plain">TXT</MenuItem>
+        </Select>
+      </FormControl>
+      <Snackbar open={snackOpen} autoHideDuration={3000} onClose={closeSnack}>
+        <Alert onClose={closeSnack} severity="success" sx={{ width: '100%' }}>
+          {language.exportSuccessful}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

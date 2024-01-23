@@ -15,7 +15,7 @@ jobs:
         run: yarn
 
       - name: Run ESLint
-        run: yarn run eslint . --ext .ts,.tsx,.js,.jsx
+        run: yarn run eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0
 
   test-tauri:
     strategy:

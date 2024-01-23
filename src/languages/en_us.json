@@ -9,7 +9,6 @@
   "endingPort": "Ending Port",
   "port": "Port",
   "hostName": "Host Name",
-  "portType": "Port Type",
   "portStatus": "Port Status",
   "scanDate": "Scan Date",
   "error": "Error",
@@ -76,5 +75,11 @@
   "threads": "Threads",
   "timeout": "Timeout (milliseconds)",
   "hideClosedPorts": "Hide closed ports",
-  "sort": "Sort results by port number"
+  "sort": "Sort results by port number",
+  "clear": "Clear",
+  "open": "Open",
+  "closed": "Closed",
+  "exportType": "Export type",
+  "export": "Export",
+  "exportSuccessful": "Export successful"
 }

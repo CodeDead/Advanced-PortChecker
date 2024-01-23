@@ -8,10 +8,7 @@ const themeType = localStorage.themeType ? localStorage.themeType : 'light';
 const autoUpdate = localStorage.autoUpdate ? (localStorage.autoUpdate === 'true') : true;
 const colorOnDark = localStorage.colorOnDark ? (localStorage.colorOnDark === 'true') : false;
 
-const threads = localStorage.threads
-  ? parseFloat(localStorage.threads)
-  : 1;
-
+const threads = localStorage.threads ? parseFloat(localStorage.threads) : 1;
 const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 300;
 const noClosed = localStorage.noClosed ? (localStorage.noClosed === 'true') : false;
 const sort = localStorage.sort ? (localStorage.sort === 'true') : true;

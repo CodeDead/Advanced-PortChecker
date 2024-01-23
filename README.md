@@ -1,17 +1,85 @@
 # Advanced PortChecker
 
-![Advanced PassGen](https://i.imgur.com/YazhCxS.png)
+![Advanced PortChecker](https://i.imgur.com/yoWDImn.png)
 
 ![GitHub](https://img.shields.io/badge/language-JavaScript+Rust-green)
 ![GitHub](https://img.shields.io/github/license/CodeDead/Advanced-PortChecker)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/Advanced-PortChecker)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Advanced PortChecker is a free and open-source application that can help you check if ports are open or closed on a certain host. You can check multiple ports at once and export the results in plain text, CSV or JSON format!
 
-Currently, two official plugins are available:
+## Building
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Advanced PortChecker uses tauri to build the desktop application. You can find more information about Tauri [here](https://tauri.app/v1/guides/).
+
+For more information about building using `vite`, please read the `Vite` documentation [here](https://vitejs.dev/guide/build.html).
+
+### Development
+
+You can start a development preview by running the `yarn tdev` command:
+```shell
+yarn tdev
+```
+
+### Windows
+
+#### Installer
+
+You can create an executable installer by running the `yarn tbuild` command on a Windows host:
+```shell
+yarn tbuild
+```
+
+### Linux
+
+#### deb
+
+You can create a .deb file, by running the `yarn tbuild` command on a Linux host:
+```shell
+yarn tbuild
+```
+
+#### AppImage
+
+You can create an [AppImage](https://appimage.github.io/) by executing the `yarn tbuild` command on a Linux host:
+```shell
+yarn tbuild
+```
+
+### macOS
+
+#### dmg
+
+You can create a macOS build by running the `yarn tbuild` command on a macOS host:
+```shell
+yarn tbuild
+```
+
+#### Archive
+
+You can create a macOS build by running the `yarn tbuild` command on a macOS host:
+```shell
+yarn tbuild
+```
+
+## Credits
+
+### Tauri
+
+This project uses [Tauri](https://tauri.app/) to create a cross-platform application.
+
+### ReactJS
+
+This project uses [React](https://reactjs.org/) to create the user interface.
+
+### Theme
+
+The theme used in this application is [MUI](https://mui.com/).
+
+### Images
+
+The application icon (and derivatives) are provided by [RemixIcon](https://remixicon.com/).  
+All other images were provided by [MUI](https://mui.com/material-ui/material-icons/).
 
 ## About
 

@@ -13,6 +13,10 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "dialog": {
+        "save": true,
+        "open": true
+      },
       "os": {
         "all": true
       }
@@ -33,7 +37,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.codedead.advancedportchecker",
-      "longDescription": "",
+      "longDescription": "Advanced PortChecker is a TCP port checker that allows you to check if a port is open or not",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -42,7 +46,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
+      "shortDescription": "A TCP Port Checker",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
