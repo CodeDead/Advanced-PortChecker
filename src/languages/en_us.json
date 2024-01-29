@@ -79,5 +79,6 @@
   "closed": "Closed",
   "exportType": "Export type",
   "export": "Export",
-  "exportSuccessful": "Export successful"
+  "exportSuccessful": "Export successful",
+  "runningLatestVersion": "You are running the latest version."
 }

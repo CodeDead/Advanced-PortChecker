@@ -4,6 +4,7 @@ import enUs from '../../languages/en_us.json';
 import esEs from '../../languages/es_es.json';
 import nlNl from '../../languages/nl_nl.json';
 import frFr from '../../languages/fr_fr.json';
+import ZhCn from '../../languages/zh_cn.json';
 
 const languageIndex = localStorage.languageIndex ? parseFloat(localStorage.languageIndex) : 0;
 const themeIndex = localStorage.themeIndex ? parseFloat(localStorage.themeIndex) : 0;
@@ -12,7 +13,7 @@ const autoUpdate = localStorage.autoUpdate ? (localStorage.autoUpdate === 'true'
 const colorOnDark = localStorage.colorOnDark ? (localStorage.colorOnDark === 'true') : false;
 
 const threads = localStorage.threads ? parseFloat(localStorage.threads) : 1;
-const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 300;
+const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 250;
 const noClosed = localStorage.noClosed ? (localStorage.noClosed === 'true') : false;
 const sort = localStorage.sort ? (localStorage.sort === 'true') : true;
 
@@ -24,6 +25,7 @@ const initState = {
     esEs,
     frFr,
     nlNl,
+    ZhCn,
   ],
   themeIndex,
   themeType,

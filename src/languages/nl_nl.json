@@ -79,5 +79,6 @@
   "closed": "Gesloten",
   "exportType": "Export type",
   "export": "Exporteren",
-  "exportSuccessful": "Exporteren succesvol"
+  "exportSuccessful": "Exporteren succesvol",
+  "runningLatestVersion": "U gebruikt de laatste versie."
 }
