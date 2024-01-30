@@ -80,5 +80,6 @@
   "exportType": "导出类型",
   "export": "出口",
   "exportSuccessful": "导出成功",
-  "runningLatestVersion": "您正在运行最新版本。"
+  "runningLatestVersion": "您正在运行最新版本。",
+  "themeToggleInTopBar": "在顶部栏中切换主题"
 }

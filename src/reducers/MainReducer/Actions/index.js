@@ -16,6 +16,7 @@ import {
   SET_SORT,
   SET_START_PORT,
   SET_THEME_INDEX,
+  SET_THEME_TOGGLE,
   SET_THEME_TYPE,
   SET_THREADS,
   SET_TIMEOUT,
@@ -145,3 +146,8 @@ export const setScanResults = (value) => ({
 export const cancelScan = () => invoke('cancel_scan');
 
 export const getNumberOfThreads = () => invoke('get_number_of_threads');
+
+export const setThemeToggle = (value) => ({
+  type: SET_THEME_TOGGLE,
+  payload: value,
+});

@@ -1,6 +1,6 @@
 # Advanced PortChecker
 
-![Advanced PortChecker](https://i.imgur.com/yoWDImn.png)
+![Advanced PortChecker](https://i.imgur.com/vdt1sXZ.png)
 
 ![GitHub](https://img.shields.io/badge/language-JavaScript+Rust-green)
 ![GitHub](https://img.shields.io/github/license/CodeDead/Advanced-PortChecker)

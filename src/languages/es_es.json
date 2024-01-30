@@ -80,5 +80,6 @@
   "exportType": "Tipo de exportación",
   "export": "Exportar",
   "exportSuccessful": "Exportación exitosa",
-  "runningLatestVersion": "Estás ejecutando la última versión."
+  "runningLatestVersion": "Estás ejecutando la última versión.",
+  "themeToggleInTopBar": "Alternar tema en la barra superior"
 }

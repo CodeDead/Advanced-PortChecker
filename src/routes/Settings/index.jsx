@@ -47,7 +47,7 @@ import {
   setNoClosed,
   setPageIndex,
   setSort,
-  setThemeIndex,
+  setThemeIndex, setThemeToggle,
   setThemeType,
   setThreads,
   setTimeout,
@@ -63,7 +63,7 @@ const Settings = () => {
 
   const {
     languageIndex, autoUpdate, colorOnDark, themeIndex, themeType,
-    threads, timeout, noClosed, sort,
+    threads, timeout, noClosed, sort, themeToggle,
   } = state;
   const language = state.languages[languageIndex];
 
@@ -187,6 +187,16 @@ const Settings = () => {
                 />
               )}
               label={language.colorOnDark}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={themeToggle}
+                  onChange={(e) => d1(setThemeToggle(e.target.checked))}
+                  value="themeToggleSelector"
+                />
+              )}
+              label={language.themeToggleInTopBar}
             />
             <FormControl variant="outlined" sx={{ mt: 2 }}>
               <InputLabel id="language-label">{language.language}</InputLabel>
