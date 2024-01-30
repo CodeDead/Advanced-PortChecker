@@ -37,7 +37,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.codedead.advancedportchecker",
-      "longDescription": "Advanced PortChecker is a TCP port checker that allows you to check if a port is open or not",
+      "longDescription": "Advanced PortChecker is a TCP/IP port scanner that allows you to check if a port is open or not",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -46,7 +46,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "A TCP Port Checker",
+      "shortDescription": "A TCP/IP Port scanner",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
