@@ -1,17 +1,93 @@
 # Advanced PortChecker
-Advanced PortChecker is a multithreaded, free and open-source application that can tell you if a certain port is open or not.
-You can export the results of a scan in TXT, CSV or HTML format.
 
-# Dependencies
-* [Syncfusion for WPF](http://syncfusion.com/) (Community edition available)
-* [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
-* [UpdateManager](https://github.com/CodeDead/UpdateManager)
+![Advanced PortChecker](https://i.imgur.com/vdt1sXZ.png)
 
-# About
+![GitHub](https://img.shields.io/badge/language-JavaScript+Rust-green)
+![GitHub](https://img.shields.io/github/license/CodeDead/Advanced-PortChecker)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/Advanced-PortChecker)
+[![Test](https://github.com/CodeDead/Advanced-PortChecker/actions/workflows/test.yml/badge.svg)](https://github.com/CodeDead/Advanced-PortChecker/actions/workflows/test.yml)
+[![Release](https://github.com/CodeDead/Advanced-PortChecker/actions/workflows/release.yml/badge.svg)](https://github.com/CodeDead/Advanced-PortChecker/actions/workflows/release.yml)
+
+Advanced PortChecker is a free and open-source application that can help you check if ports are open or closed on a certain host. You can check multiple ports at once and export the results in plain text, CSV or JSON format!
+
+## Building
+
+Advanced PortChecker uses tauri to build the desktop application. You can find more information about Tauri [here](https://tauri.app/v1/guides/).
+
+For more information about building using `vite`, please read the `Vite` documentation [here](https://vitejs.dev/guide/build.html).
+
+### Development
+
+You can start a development preview by running the `yarn tdev` command:
+```shell
+yarn tdev
+```
+
+### Windows
+
+#### Installer
+
+You can create an executable installer by running the `yarn tbuild` command on a Windows host:
+```shell
+yarn tbuild
+```
+
+### Linux
+
+#### deb
+
+You can create a .deb file, by running the `yarn tbuild` command on a Linux host:
+```shell
+yarn tbuild
+```
+
+#### AppImage
+
+You can create an [AppImage](https://appimage.github.io/) by executing the `yarn tbuild` command on a Linux host:
+```shell
+yarn tbuild
+```
+
+### macOS
+
+#### dmg
+
+You can create a macOS build by running the `yarn tbuild` command on a macOS host:
+```shell
+yarn tbuild
+```
+
+#### Archive
+
+You can create a macOS build by running the `yarn tbuild` command on a macOS host:
+```shell
+yarn tbuild
+```
+
+## Credits
+
+### Tauri
+
+This project uses [Tauri](https://tauri.app/) to create a cross-platform application.
+
+### ReactJS
+
+This project uses [React](https://reactjs.org/) to create the user interface.
+
+### Theme
+
+The theme used in this application is [MUI](https://mui.com/).
+
+### Images
+
+The application icon (and derivatives) are provided by [RemixIcon](https://remixicon.com/).  
+All other images were provided by [MUI](https://mui.com/material-ui/material-icons/).
+
+## About
+
 This library is maintained by CodeDead. You can find more about us using the following links:
-* [Website](https://codedead.com)
-* [Twitter](https://twitter.com/C0DEDEAD)
-* [Facebook](https://facebook.com/deadlinecodedead)
-* [Reddit](https://reddit.com/r/CodeDead/)
+* [Website](https://codedead.com/)
+* [Twitter](https://twitter.com/C0DEDEAD/)
+* [Facebook](https://facebook.com/deadlinecodedead/)
 
-We would also like to thank JetBrains for the open source license that they granted us to work with wonderful tools such as [Rider](https://jetbrains.com/rider) and [Resharper](https://jetbrains.com/resharper).
+Copyright © 2024 CodeDead
