@@ -19,6 +19,7 @@ import {
   SET_THREADS,
   SET_TIMEOUT,
   SET_UPDATE,
+  SET_THEME_TOGGLE,
 } from './Actions/actionTypes';
 
 const MainReducer = (state, action) => {
@@ -62,6 +63,7 @@ const MainReducer = (state, action) => {
         timeout: 300,
         noClosed: false,
         sort: true,
+        themeToggle: true,
       };
     case SET_AUTO_UPDATE:
       localStorage.autoUpdate = action.payload;
@@ -151,6 +153,12 @@ const MainReducer = (state, action) => {
       return {
         ...state,
         scanResults: action.payload,
+      };
+    case SET_THEME_TOGGLE:
+      localStorage.themeToggle = action.payload;
+      return {
+        ...state,
+        themeToggle: action.payload,
       };
     default:
       return state;

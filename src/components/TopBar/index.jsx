@@ -14,6 +14,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -21,7 +23,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from 'react-router-dom';
 import DrawerHeader from '../DrawerHeader';
 import { MainContext } from '../../contexts/MainContextProvider';
-import { openWebSite } from '../../reducers/MainReducer/Actions';
+import { openWebSite, setThemeType } from '../../reducers/MainReducer/Actions';
 
 const drawerWidth = 240;
 
@@ -82,7 +84,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const TopBar = () => {
-  const [state] = useContext(MainContext);
+  const [state, d1] = useContext(MainContext);
+  const { themeType, themeToggle } = state;
 
   const [open, setOpen] = useState(false);
 
@@ -132,6 +135,13 @@ const TopBar = () => {
     handleDrawerClose();
   };
 
+  /**
+   * Change the theme style
+   */
+  const changeThemeStyle = () => {
+    d1(setThemeType(themeType === 'dark' ? 'light' : 'dark'));
+  };
+
   return (
     <>
       <AppBar
@@ -161,6 +171,16 @@ const TopBar = () => {
           >
             {language.applicationName}
           </Typography>
+          <div style={{ flexGrow: 1 }} />
+          {themeToggle ? (
+            <IconButton
+              aria-label={language.theme}
+              color="inherit"
+              onClick={changeThemeStyle}
+            >
+              {themeType === 'dark' ? <Brightness5Icon /> : <Brightness7Icon />}
+            </IconButton>
+          ) : null}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

@@ -162,6 +162,12 @@ const Home = () => {
       res.forEach((e) => {
         toExport += `"${e.address.replace('"', '""')}","${e.port}","${e.hostName.replace('"', '""')}","${e.portStatus.replace('"', '""')}","${e.scanDate.replace('"', '""')}",\n`;
       });
+    } else if (type === 'text/html') {
+      toExport = '<!DOCTYPE html><html><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
+      res.forEach((e) => {
+        toExport += `<tr><td>${e.address}</td><td>${e.port}</td><td>${e.hostName}</td><td>${e.portStatus}</td><td>${e.scanDate}</td></tr>`;
+      });
+      toExport += '</tbody></table></body></html>';
     }
 
     return toExport;
@@ -178,6 +184,9 @@ const Home = () => {
         break;
       case 'application/json':
         ext = 'json';
+        break;
+      case 'text/html':
+        ext = 'html';
         break;
       default:
         ext = 'csv';
@@ -335,8 +344,7 @@ const Home = () => {
           <DataGrid
             rows={scanResultRows}
             columns={columns}
-            pageSize={50}
-            rowsPerPageOptions={[50]}
+            pageSizeOptions={[5, 10, 25, 50, 100]}
             disableSelectionOnClick
           />
         </Paper>
@@ -385,6 +393,7 @@ const Home = () => {
           <MenuItem value="application/json">JSON</MenuItem>
           <MenuItem value="text/csv">CSV</MenuItem>
           <MenuItem value="text/plain">TXT</MenuItem>
+          <MenuItem value="text/html">HTML</MenuItem>
         </Select>
       </FormControl>
       <Snackbar open={snackOpen} autoHideDuration={3000} onClose={closeSnack}>

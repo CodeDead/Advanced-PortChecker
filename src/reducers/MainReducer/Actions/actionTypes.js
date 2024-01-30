@@ -18,3 +18,4 @@ export const SET_TIMEOUT = 'SET_TIMEOUT';
 export const SET_NO_CLOSED = 'SET_NO_CLOSED';
 export const SET_SORT = 'SET_SORT';
 export const SET_SCAN_RESULTS = 'SET_SCAN_RESULTS';
+export const SET_THEME_TOGGLE = 'SET_THEME_TOGGLE';

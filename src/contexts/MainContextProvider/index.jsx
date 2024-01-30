@@ -16,6 +16,7 @@ const threads = localStorage.threads ? parseFloat(localStorage.threads) : 1;
 const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 250;
 const noClosed = localStorage.noClosed ? (localStorage.noClosed === 'true') : false;
 const sort = localStorage.sort ? (localStorage.sort === 'true') : true;
+const themeToggle = localStorage.themeToggle ? (localStorage.themeToggle === 'true') : true;
 
 const initState = {
   autoUpdate,
@@ -44,6 +45,7 @@ const initState = {
   noClosed,
   sort,
   scanResults: null,
+  themeToggle,
 };
 
 export const MainContext = createContext(initState);
