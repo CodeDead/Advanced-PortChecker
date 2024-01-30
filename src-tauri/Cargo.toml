@@ -1,7 +1,7 @@
 [package]
 name = "advanced-portchecker"
 version = "2.0.0"
-description = "A lightweight TCP port checker with an intuitive UI."
+description = "A lightweight TCP/IP port scanner with an intuitive UI."
 authors = ["CodeDead <admin@codedead.com>"]
 license = "GPL-3.0-only"
 repository = "https://github.com/CodeDead/Advanced-PortChecker"
