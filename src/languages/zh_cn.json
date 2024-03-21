@@ -18,7 +18,7 @@
   "information": "信息",
   "download": "下载",
   "cancel": "取消",
-  "aboutText": "Advanced PortChecker（端口检查器） 由 DeadLine 创建。\n\n主题：MUI\n许可证：GPLv3\n版本：{x}\n\n版权所有 © {year} CodeDead",
+  "aboutText": "Advanced PortChecker（端口检查器） 由 DeadLine 创建。\n\n主题：MUI\n许可证：GPLv3\n翻译： 王先生笔记 (https://wxsnote.cn)\n版本：{x}\n\n版权所有 © {year} CodeDead",
   "license": "许可证",
   "website": "官网",
   "autoUpdate": "自动检查更新",
