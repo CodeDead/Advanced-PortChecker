@@ -83,6 +83,10 @@ The theme used in this application is [MUI](https://mui.com/).
 The application icon (and derivatives) are provided by [RemixIcon](https://remixicon.com/).  
 All other images were provided by [MUI](https://mui.com/material-ui/material-icons/).
 
+### Translations
+
+- Chinese (Simplified) - [王先生笔记](https://wxsnote.cn)
+
 ## About
 
 This library is maintained by CodeDead. You can find more about us using the following links:
