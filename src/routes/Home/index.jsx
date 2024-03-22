@@ -25,6 +25,7 @@ import {
   setIsScanning,
   setPageIndex,
   setScanResults,
+  setScanType,
   setStartPort,
 } from '../../reducers/MainReducer/Actions';
 import { MainContext } from '../../contexts/MainContextProvider';
@@ -33,7 +34,7 @@ const Home = () => {
   const [state, d1] = useContext(MainContext);
 
   const {
-    languages, languageIndex, address, startPort, endPort,
+    languages, languageIndex, address, startPort, endPort, scanType,
     timeout, threads, noClosed, sort, isScanning, scanResults,
   } = state;
   const language = languages[languageIndex];
@@ -78,6 +79,14 @@ const Home = () => {
     }
 
     d1(setEndPort(parseInt(e.target.value, 10)));
+  };
+
+  /**
+   * Change the scan type
+   * @param e The event argument
+   */
+  const changeScanType = (e) => {
+    d1(setScanType(e.target.value));
   };
 
   /**
@@ -154,18 +163,19 @@ const Home = () => {
 
     if (type === 'text/plain') {
       res.forEach((e) => {
-        toExport += `${e.address} ${e.port} ${e.hostName} ${e.portStatus} ${e.scanDate}\n`;
+        toExport += `${e.address} ${e.port} ${e.portType} ${e.hostName} ${e.portStatus} ${e.scanDate}\n`;
       });
     } else if (type === 'application/json') {
       toExport = JSON.stringify(res, null, 2);
     } else if (type === 'text/csv') {
+      toExport = `"${language.address}","${language.port}","${language.portType}","${language.hostName}","${language.portStatus}","${language.scanDate}",\n`;
       res.forEach((e) => {
-        toExport += `"${e.address.replace('"', '""')}","${e.port}","${e.hostName.replace('"', '""')}","${e.portStatus.replace('"', '""')}","${e.scanDate.replace('"', '""')}",\n`;
+        toExport += `"${e.address.replace('"', '""')}","${e.port}","${e.portType}","${e.hostName.replace('"', '""')}","${e.portStatus.replace('"', '""')}","${e.scanDate.replace('"', '""')}",\n`;
       });
     } else if (type === 'text/html') {
-      toExport = '<!DOCTYPE html><html><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
+      toExport = `<!DOCTYPE html><html lang="en"><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>${language.address}</th><th>${language.port}</th><th>${language.portType}</th><th>${language.hostName}</th><th>${language.portStatus}</th><th>${language.scanDate}</th></tr></thead><tbody>`;
       res.forEach((e) => {
-        toExport += `<tr><td>${e.address}</td><td>${e.port}</td><td>${e.hostName}</td><td>${e.portStatus}</td><td>${e.scanDate}</td></tr>`;
+        toExport += `<tr><td>${e.address}</td><td>${e.port}</td><td>${e.portType}</td><td>${e.hostName}</td><td>${e.portStatus}</td><td>${e.scanDate}</td></tr>`;
       });
       toExport += '</tbody></table></body></html>';
     }
@@ -223,14 +233,15 @@ const Home = () => {
    * @param id The ID
    * @param addr The address
    * @param port The port
+   * @param portType The port type
    * @param hostName The host name
    * @param portStatus The port status
    * @param scanDate The scan date
    * @returns {{hostName, portType, address, port, scanDate}}
    */
-  const createData = (id, addr, port, hostName, portStatus, scanDate) => (
+  const createData = (id, addr, port, portType, hostName, portStatus, scanDate) => (
     {
-      id, address: addr, port, hostName, portStatus, scanDate,
+      id, address: addr, port, portType, hostName, portStatus, scanDate,
     }
   );
 
@@ -248,16 +259,19 @@ const Home = () => {
       editable: false,
     },
     {
+      field: 'portType',
+      headerName: language.portType,
+      editable: false,
+    },
+    {
       field: 'hostName',
       headerName: language.hostName,
       editable: false,
-      flex: 1,
     },
     {
       field: 'portStatus',
       headerName: language.portStatus,
       editable: false,
-      flex: 1,
     },
     {
       field: 'scanDate',
@@ -278,7 +292,15 @@ const Home = () => {
 
       const portStatus = res.portStatus === 'Open' ? language.open : language.closed;
       scanResultRows.push(
-        createData(res.port, res.address, res.port, res.hostName, portStatus, res.scanDate),
+        createData(
+          res.port,
+          res.address,
+          res.port,
+          res.portType,
+          res.hostName,
+          portStatus,
+          res.scanDate,
+        ),
       );
     }
   }
@@ -304,7 +326,7 @@ const Home = () => {
                 onKeyDown={handleKeyDown}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={6}>
+            <Grid item xs={12} md={4} lg={4}>
               <TextField
                 id="start-port-basic"
                 label={language.startingPort}
@@ -320,7 +342,7 @@ const Home = () => {
                 onKeyDown={handleKeyDown}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={6}>
+            <Grid item xs={12} md={4} lg={4}>
               <TextField
                 id="end-port-basic"
                 label={language.endingPort}
@@ -336,11 +358,27 @@ const Home = () => {
                 onKeyDown={handleKeyDown}
               />
             </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <FormControl fullWidth>
+                <InputLabel id="scan-type-select-label">{language.scanType}</InputLabel>
+                <Select
+                  labelId="scan-type-select-label"
+                  id="scan-type-select"
+                  value={scanType}
+                  label={language.scanType}
+                  onChange={changeScanType}
+                >
+                  <MenuItem value="tcp">TCP</MenuItem>
+                  <MenuItem value="udp">UDP</MenuItem>
+                  <MenuItem value="both">{language.both}</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
       {isScanning ? <LoadingBar marginTop={10} /> : (
-        <Paper sx={{ height: '50vh', width: '100%', mt: 2 }}>
+        <Paper sx={{ height: '55vh', width: '100%', mt: 2 }}>
           <DataGrid
             rows={scanResultRows}
             columns={columns}

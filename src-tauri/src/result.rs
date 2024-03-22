@@ -12,6 +12,8 @@ pub enum PortStatus {
 pub struct ScanResult {
     pub address: String,
     pub port: u16,
+    #[serde(rename = "portType")]
+    pub port_type: String,
     #[serde(rename = "hostName")]
     pub host_name: String,
     #[serde(rename = "portStatus")]
@@ -27,13 +29,20 @@ impl ScanResult {
     ///
     /// * `address` - The address that was scanned
     /// * `port` - The port that was scanned
+    /// * `port_type` - The type of the port that was scanned
     /// * `host_name` - The host name of the address that was scanned
     /// * `port_status` - The status of the port that was scanned
     ///
     /// # Returns
     ///
     /// A new ScanResult
-    pub fn new(address: &str, port: u16, host_name: &str, port_status: PortStatus) -> ScanResult {
+    pub fn new(
+        address: &str,
+        port: u16,
+        port_type: &str,
+        host_name: &str,
+        port_status: PortStatus,
+    ) -> ScanResult {
         let now = SystemTime::now();
         let now: DateTime<Utc> = now.into();
         let now = now.to_rfc3339();
@@ -41,6 +50,7 @@ impl ScanResult {
         ScanResult {
             address: String::from(address),
             port,
+            port_type: String::from(port_type),
             host_name: String::from(host_name),
             port_status,
             scan_date: now,

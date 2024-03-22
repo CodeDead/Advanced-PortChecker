@@ -81,5 +81,8 @@
   "export": "Exporter",
   "exportSuccessful": "Exportation réussie",
   "runningLatestVersion": "Vous utilisez la dernière version.",
-  "themeToggleInTopBar": "Basculer le thème dans la barre supérieure"
+  "themeToggleInTopBar": "Basculer le thème dans la barre supérieure",
+  "scanType": "Type de scan",
+  "both": "Les deux",
+  "portType": "Type de port"
 }

@@ -81,5 +81,8 @@
   "export": "导出",
   "exportSuccessful": "导出成功",
   "runningLatestVersion": "已是最新版本！",
-  "themeToggleInTopBar": "在顶部栏显示明暗主题切换"
+  "themeToggleInTopBar": "在顶部栏显示明暗主题切换",
+  "scanType": "扫描类型",
+  "both": "TCP和UDP",
+  "portType": "端口类型"
 }

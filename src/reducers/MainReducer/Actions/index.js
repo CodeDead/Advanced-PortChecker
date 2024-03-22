@@ -13,6 +13,7 @@ import {
   SET_NO_CLOSED,
   SET_PAGE_INDEX,
   SET_SCAN_RESULTS,
+  SET_SCAN_TYPE,
   SET_SORT,
   SET_START_PORT,
   SET_THEME_INDEX,
@@ -149,5 +150,10 @@ export const getNumberOfThreads = () => invoke('get_number_of_threads');
 
 export const setThemeToggle = (value) => ({
   type: SET_THEME_TOGGLE,
+  payload: value,
+});
+
+export const setScanType = (value) => ({
+  type: SET_SCAN_TYPE,
   payload: value,
 });

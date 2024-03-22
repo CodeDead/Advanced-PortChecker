@@ -294,7 +294,7 @@ fn scan_tcp_range(
         if let Ok(stream) =
             TcpStream::connect_timeout(&socket_address, Duration::from_millis(timeout))
         {
-            let sr = ScanResult::new(host, n, &host_name, PortStatus::Open);
+            let sr = ScanResult::new(host, n, "TCP", &host_name, PortStatus::Open);
             scan_result.push(sr);
 
             let res = stream.shutdown(Shutdown::Both);
@@ -305,7 +305,7 @@ fn scan_tcp_range(
                 }
             }
         } else {
-            let sr = ScanResult::new(host, n, &host_name, PortStatus::Closed);
+            let sr = ScanResult::new(host, n, "TCP", &host_name, PortStatus::Closed);
             scan_result.push(sr);
         }
     }

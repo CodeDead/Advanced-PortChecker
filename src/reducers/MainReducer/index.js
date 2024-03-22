@@ -20,6 +20,7 @@ import {
   SET_TIMEOUT,
   SET_UPDATE,
   SET_THEME_TOGGLE,
+  SET_SCAN_TYPE,
 } from './Actions/actionTypes';
 
 const MainReducer = (state, action) => {
@@ -64,6 +65,7 @@ const MainReducer = (state, action) => {
         noClosed: false,
         sort: true,
         themeToggle: true,
+        scanType: 'tcp',
       };
     case SET_AUTO_UPDATE:
       localStorage.autoUpdate = action.payload;
@@ -159,6 +161,12 @@ const MainReducer = (state, action) => {
       return {
         ...state,
         themeToggle: action.payload,
+      };
+    case SET_SCAN_TYPE:
+      localStorage.scanType = action.payload;
+      return {
+        ...state,
+        scanType: action.payload,
       };
     default:
       return state;

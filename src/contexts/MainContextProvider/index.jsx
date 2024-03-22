@@ -37,6 +37,7 @@ const initState = {
   colorOnDark,
   error: null,
   address: '',
+  scanType: 'tcp',
   startPort: 0,
   endPort: 65535,
   isScanning: false,
