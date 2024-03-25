@@ -4,7 +4,8 @@ import enUs from '../../languages/en_us.json';
 import esEs from '../../languages/es_es.json';
 import nlNl from '../../languages/nl_nl.json';
 import frFr from '../../languages/fr_fr.json';
-import ZhCn from '../../languages/zh_cn.json';
+import zhCn from '../../languages/zh_cn.json';
+import itIt from '../../languages/it_it.json';
 
 const languageIndex = localStorage.languageIndex ? parseFloat(localStorage.languageIndex) : 0;
 const themeIndex = localStorage.themeIndex ? parseFloat(localStorage.themeIndex) : 0;
@@ -25,8 +26,9 @@ const initState = {
     enUs,
     esEs,
     frFr,
+    itIt,
     nlNl,
-    ZhCn,
+    zhCn,
   ],
   themeIndex,
   themeType,
