@@ -160,7 +160,7 @@ const Home = () => {
       toExport = JSON.stringify(res, null, 2);
     } else if (type === 'text/csv') {
       res.forEach((e) => {
-        toExport += `"${e.address.replace('"', '""')}","${e.port}","${e.hostName.replace('"', '""')}","${e.portStatus.replace('"', '""')}","${e.scanDate.replace('"', '""')}",\n`;
+        toExport += `"${e.address.replaceAll('"', '""')}","${e.port}","${e.hostName.replaceAll('"', '""')}","${e.portStatus.replaceAll('"', '""')}","${e.scanDate.replaceAll('"', '""')}",\n`;
       });
     } else if (type === 'text/html') {
       toExport = '<!DOCTYPE html><html><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
