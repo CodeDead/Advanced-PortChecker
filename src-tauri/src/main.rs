@@ -26,6 +26,8 @@ fn main() {
     };
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_os::init())
+        .plugin(tauri_plugin_dialog::init())
         .manage(shared_state)
         .invoke_handler(tauri::generate_handler![
             open_website,

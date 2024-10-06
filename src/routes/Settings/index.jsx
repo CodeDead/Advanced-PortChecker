@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { type } from '@tauri-apps/api/os';
+import { platform } from '@tauri-apps/plugin-os';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import FormGroup from '@mui/material/FormGroup';
@@ -137,23 +137,20 @@ const Settings = () => {
     d1(setUpdate(null));
     d1(setError(null));
 
-    type()
-      .then((res) => {
-        Updater(res.toLowerCase(), packageJson.version)
-          .then((up) => {
-            d1(setUpdate(up));
-            d1(setCheckedForUpdates(true));
-          })
-          .catch((error) => {
-            d1(setError(error));
-          });
-      })
-      .catch((e) => {
-        d1(setError(e));
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      const res = platform();
+      Updater(res.toLowerCase(), packageJson.version)
+        .then((up) => {
+          d1(setUpdate(up));
+          d1(setCheckedForUpdates(true));
+        })
+        .catch((error) => {
+          d1(setError(error));
+        });
+    } catch (e) {
+      d1(setError(e));
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -206,6 +203,7 @@ const Settings = () => {
                 id="language-simple"
                 labelId="language-label"
                 label={language.language}
+                variant="outlined"
               >
                 <MenuItem value={0}>English</MenuItem>
                 <MenuItem value={1}>Español</MenuItem>
