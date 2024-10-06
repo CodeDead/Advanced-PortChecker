@@ -248,15 +248,15 @@ const TopBar = () => {
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
               }}
+              onClick={() => {
+                openWebSite('https://codedead.com/donate');
+              }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
                   mr: open ? 3 : 'auto',
                   justifyContent: 'center',
-                }}
-                onClick={() => {
-                  openWebSite('https://codedead.com/donate');
                 }}
               >
                 <AttachMoneyIcon />

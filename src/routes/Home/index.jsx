@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import { save } from '@tauri-apps/api/dialog';
-import { invoke } from '@tauri-apps/api/tauri';
+import { save } from '@tauri-apps/plugin-dialog';
+import { invoke } from '@tauri-apps/api/core';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
@@ -292,7 +292,7 @@ const Home = () => {
       <Card>
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid size={12}>
               <TextField
                 id="address-basic"
                 label={language.address}
@@ -304,7 +304,7 @@ const Home = () => {
                 onKeyDown={handleKeyDown}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={6}>
+            <Grid size={{ xs: 12, md: 6, lg: 6 }}>
               <TextField
                 id="start-port-basic"
                 label={language.startingPort}
@@ -320,7 +320,7 @@ const Home = () => {
                 onKeyDown={handleKeyDown}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={6}>
+            <Grid size={{ xs: 12, md: 6, lg: 6 }}>
               <TextField
                 id="end-port-basic"
                 label={language.endingPort}
@@ -389,6 +389,7 @@ const Home = () => {
           label={language.exportType}
           autoWidth
           onChange={handleExportTypeChange}
+          variant="outlined"
         >
           <MenuItem value="application/json">JSON</MenuItem>
           <MenuItem value="text/csv">CSV</MenuItem>

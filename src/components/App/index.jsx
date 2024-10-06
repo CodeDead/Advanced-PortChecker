@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { type } from '@tauri-apps/api/os';
+import { platform } from '@tauri-apps/plugin-os';
 import DrawerHeader from '../DrawerHeader';
 import TopBar from '../TopBar';
 import Updater from '../../utils/Updater';
@@ -57,22 +57,19 @@ const App = () => {
     d1(setUpdate(null));
     d1(setError(null));
 
-    type()
-      .then((res) => {
-        Updater(res.toLowerCase(), packageJson.version)
-          .then((up) => {
-            d1(setUpdate(up));
-          })
-          .catch((err) => {
-            d1(setError(err));
-          });
-      })
-      .catch((e) => {
-        d1(setError(e));
-      })
-      .finally(() => {
-        d1(setLoading(false));
-      });
+    try {
+      const res = platform();
+      Updater(res.toLowerCase(), packageJson.version)
+        .then((up) => {
+          d1(setUpdate(up));
+        })
+        .catch((err) => {
+          d1(setError(err));
+        });
+    } catch (e) {
+      d1(setError(e));
+    }
+    d1(setLoading(false));
   };
 
   /**
@@ -118,7 +115,7 @@ const App = () => {
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
           <TopBar />
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }} fullWidth>
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
             <Suspense fallback={<LoadingBar />}>
               <Routes>
