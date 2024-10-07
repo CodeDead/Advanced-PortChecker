@@ -57,7 +57,9 @@
       }
     ],
     "security": {
-      "capabilities": ["main-capabilities"],
+      "capabilities": [
+        "main-capabilities"
+      ],
       "csp": null
     }
   }
