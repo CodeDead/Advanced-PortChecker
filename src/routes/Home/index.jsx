@@ -28,6 +28,7 @@ import {
   setStartPort,
 } from '../../reducers/MainReducer/Actions';
 import { MainContext } from '../../contexts/MainContextProvider';
+import PortInput from '../../components/PortInput';
 
 const Home = () => {
   const [state, d1] = useContext(MainContext);
@@ -163,7 +164,7 @@ const Home = () => {
         toExport += `"${e.address.replaceAll('"', '""')}","${e.port}","${e.hostName.replaceAll('"', '""')}","${e.portStatus.replaceAll('"', '""')}","${e.scanDate.replaceAll('"', '""')}",\n`;
       });
     } else if (type === 'text/html') {
-      toExport = '<!DOCTYPE html><html><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
+      toExport = '<!DOCTYPE html><html lang="en"><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
       res.forEach((e) => {
         toExport += `<tr><td>${e.address}</td><td>${e.port}</td><td>${e.hostName}</td><td>${e.portStatus}</td><td>${e.scanDate}</td></tr>`;
       });
@@ -278,7 +279,14 @@ const Home = () => {
 
       const portStatus = res.portStatus === 'Open' ? language.open : language.closed;
       scanResultRows.push(
-        createData(res.port, res.address, res.port, res.hostName, portStatus, res.scanDate),
+        createData(
+          res.address + res.port,
+          res.address,
+          res.port,
+          res.hostName,
+          portStatus,
+          res.scanDate,
+        ),
       );
     }
   }
@@ -305,35 +313,21 @@ const Home = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6, lg: 6 }}>
-              <TextField
-                id="start-port-basic"
+              <PortInput
                 label={language.startingPort}
-                variant="outlined"
-                value={startPort}
+                port={startPort}
                 disabled={isScanning}
-                type="number"
-                min={0}
-                max={65535}
-                pattern="[0-9]"
-                fullWidth
-                onChange={changeStartPort}
                 onKeyDown={handleKeyDown}
+                onChange={changeStartPort}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6, lg: 6 }}>
-              <TextField
-                id="end-port-basic"
+              <PortInput
                 label={language.endingPort}
-                variant="outlined"
-                value={endPort}
+                port={endPort}
                 disabled={isScanning}
-                type="number"
-                pattern="[0-9]"
-                min={0}
-                max={65535}
-                fullWidth
-                onChange={changeEndPort}
                 onKeyDown={handleKeyDown}
+                onChange={changeEndPort}
               />
             </Grid>
           </Grid>
