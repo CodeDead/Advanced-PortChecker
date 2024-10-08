@@ -42,7 +42,7 @@ import {
   setAutoUpdate,
   setCheckedForUpdates,
   setColorOnDark,
-  setError,
+  setError, setExportNoClosed,
   setLanguageIndex,
   setNoClosed,
   setPageIndex,
@@ -63,7 +63,7 @@ const Settings = () => {
 
   const {
     languageIndex, autoUpdate, colorOnDark, themeIndex, themeType,
-    threads, timeout, noClosed, sort, themeToggle,
+    threads, timeout, noClosed, sort, themeToggle, exportNoClosed,
   } = state;
   const language = state.languages[languageIndex];
 
@@ -244,6 +244,16 @@ const Settings = () => {
                 />
               )}
               label={language.hideClosedPorts}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={exportNoClosed}
+                  onChange={(e) => d1(setExportNoClosed(e.target.checked))}
+                  value="exportNoClosed"
+                />
+                )}
+              label={language.exportIncludeClosedPorts}
             />
             <FormControlLabel
               control={(

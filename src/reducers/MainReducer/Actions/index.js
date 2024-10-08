@@ -7,6 +7,7 @@ import {
   SET_COLOR_ON_DARK,
   SET_END_PORT,
   SET_ERROR,
+  SET_EXPORT_NO_CLOSED,
   SET_IS_SCANNING,
   SET_LANGUAGE_INDEX,
   SET_LOADING,
@@ -149,5 +150,10 @@ export const getNumberOfThreads = () => invoke('get_number_of_threads');
 
 export const setThemeToggle = (value) => ({
   type: SET_THEME_TOGGLE,
+  payload: value,
+});
+
+export const setExportNoClosed = (value) => ({
+  type: SET_EXPORT_NO_CLOSED,
   payload: value,
 });

@@ -19,7 +19,7 @@ import {
   SET_THREADS,
   SET_TIMEOUT,
   SET_UPDATE,
-  SET_THEME_TOGGLE,
+  SET_THEME_TOGGLE, SET_EXPORT_NO_CLOSED,
 } from './Actions/actionTypes';
 
 const MainReducer = (state, action) => {
@@ -159,6 +159,12 @@ const MainReducer = (state, action) => {
       return {
         ...state,
         themeToggle: action.payload,
+      };
+    case SET_EXPORT_NO_CLOSED:
+      localStorage.exportNoClosed = action.payload;
+      return {
+        ...state,
+        exportNoClosed: action.payload,
       };
     default:
       return state;
