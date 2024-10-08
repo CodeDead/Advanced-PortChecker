@@ -211,10 +211,6 @@ async fn scan_port_range(
                 let num_addresses = 1 << (32 - subnet);
 
                 for i in 0..num_addresses {
-                    let ip_u32 = network_ip_u32 + i;
-                    let ip = Ipv4Addr::from(ip_u32);
-                    addresses.push(ip.to_string());
-
                     let cancellation_token = Arc::clone(&state.cancellation_token);
                     // Check the cancellation token and return if it's true
                     if cancellation_token.load(Ordering::Relaxed) {
@@ -222,6 +218,10 @@ async fn scan_port_range(
                         state.cancellation_token.store(false, Ordering::SeqCst);
                         return Ok(vec![]);
                     }
+
+                    let ip_u32 = network_ip_u32 + i;
+                    let ip = Ipv4Addr::from(ip_u32);
+                    addresses.push(ip.to_string());
                 }
             }
             IpAddr::V6(v6) => {
@@ -247,9 +247,6 @@ async fn scan_port_range(
 
                 // Iterate through all IP addresses in the subnet
                 for ip_int in network_base..=last_ip {
-                    let ip_addr = Ipv6Addr::from(ip_int.to_be_bytes());
-                    addresses.push(ip_addr.to_string());
-
                     let cancellation_token = Arc::clone(&state.cancellation_token);
                     // Check the cancellation token and return if it's true
                     if cancellation_token.load(Ordering::Relaxed) {
@@ -257,6 +254,9 @@ async fn scan_port_range(
                         state.cancellation_token.store(false, Ordering::SeqCst);
                         return Ok(vec![]);
                     }
+                    
+                    let ip_addr = Ipv6Addr::from(ip_int.to_be_bytes());
+                    addresses.push(ip_addr.to_string());
                 }
             }
         }
