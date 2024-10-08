@@ -81,5 +81,6 @@
   "export": "导出",
   "exportSuccessful": "导出成功",
   "runningLatestVersion": "已是最新版本！",
-  "themeToggleInTopBar": "在顶部栏显示明暗主题切换"
+  "themeToggleInTopBar": "在顶部栏显示明暗主题切换",
+  "exportIncludeClosedPorts": "导出时包含关闭的端口"
 }
