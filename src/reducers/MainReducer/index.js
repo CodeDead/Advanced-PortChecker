@@ -19,7 +19,9 @@ import {
   SET_THREADS,
   SET_TIMEOUT,
   SET_UPDATE,
-  SET_THEME_TOGGLE, SET_EXPORT_NO_CLOSED,
+  SET_THEME_TOGGLE,
+  SET_EXPORT_NO_CLOSED,
+  SET_IS_CANCELLING,
 } from './Actions/actionTypes';
 
 const MainReducer = (state, action) => {
@@ -165,6 +167,11 @@ const MainReducer = (state, action) => {
       return {
         ...state,
         exportNoClosed: action.payload,
+      };
+    case SET_IS_CANCELLING:
+      return {
+        ...state,
+        isCancelling: action.payload,
       };
     default:
       return state;

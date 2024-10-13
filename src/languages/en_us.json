@@ -82,5 +82,6 @@
   "exportSuccessful": "Export successful",
   "runningLatestVersion": "You are running the latest version.",
   "themeToggleInTopBar": "Toggle theme in top bar",
-  "exportIncludeClosedPorts": "Include closed ports in exports"
+  "exportIncludeClosedPorts": "Include closed ports in exports",
+  "unknown": "Unknown"
 }

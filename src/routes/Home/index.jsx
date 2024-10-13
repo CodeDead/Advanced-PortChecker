@@ -22,6 +22,7 @@ import {
   setAddress,
   setEndPort,
   setError,
+  setIsCancelling,
   setIsScanning,
   setPageIndex,
   setScanResults,
@@ -36,6 +37,7 @@ const Home = () => {
   const {
     languages, languageIndex, address, startPort, endPort, timeout,
     threads, noClosed, sort, isScanning, scanResults, exportNoClosed,
+    isCancelling,
   } = state;
   const language = languages[languageIndex];
 
@@ -86,9 +88,13 @@ const Home = () => {
    */
   const startStopScan = () => {
     if (isScanning) {
+      d1(setIsCancelling(true));
       cancelScan()
         .catch((err) => {
           d1(setError(err));
+        })
+        .finally(() => {
+          d1(setIsCancelling(false));
         });
     } else {
       if (address === '' || startPort < 0
@@ -98,6 +104,7 @@ const Home = () => {
         || startPort > endPort) return;
 
       d1(setIsScanning(true));
+      d1(setScanResults(null));
 
       scanAddress(address, startPort, endPort, timeout, threads, sort)
         .then((res) => {
@@ -284,7 +291,13 @@ const Home = () => {
         continue;
       }
 
-      const portStatus = res.portStatus === 'Open' ? language.open : language.closed;
+      let portStatus = language.closed;
+      if (res.portStatus === 'Open') {
+        portStatus = language.open;
+      } else if (res.portStatus === 'Unknown') {
+        portStatus = language.unknown;
+      }
+
       scanResultRows.push(
         createData(
           res.address + res.port,
@@ -312,6 +325,7 @@ const Home = () => {
                 id="address-basic"
                 label={language.address}
                 variant="outlined"
+                placeholder="127.0.0.1/24"
                 value={address}
                 disabled={isScanning}
                 fullWidth
@@ -363,7 +377,7 @@ const Home = () => {
         variant="contained"
         color="primary"
         sx={{ mt: 2, float: 'right' }}
-        disabled={address === ''}
+        disabled={address === '' || isCancelling}
         onClick={startStopScan}
       >
         {isScanning ? language.cancel : language.scan}

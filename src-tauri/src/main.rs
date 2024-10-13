@@ -133,7 +133,7 @@ async fn scan_port_range(
     start_port: u16,
     end_port: u16,
     timeout: u64,
-    threads: u32,
+    threads: usize,
     sort: bool,
 ) -> Result<Vec<ScanResult>, String> {
     if state.is_scanning.load(Ordering::SeqCst) {
@@ -254,7 +254,7 @@ async fn scan_port_range(
                         state.cancellation_token.store(false, Ordering::SeqCst);
                         return Ok(vec![]);
                     }
-                    
+
                     let ip_addr = Ipv6Addr::from(ip_int.to_be_bytes());
                     addresses.push(ip_addr.to_string());
                 }
@@ -267,9 +267,10 @@ async fn scan_port_range(
     let mut threads = threads;
     let all_results: Arc<Mutex<Vec<ScanResult>>> = Arc::new(Mutex::new(vec![]));
 
+    let mut scan_results: Vec<ScanResult> = vec![];
     for address in addresses {
-        let cancellation_token = Arc::clone(&state.cancellation_token);
         // Check the cancellation token and return if it's true
+        let cancellation_token = Arc::clone(&state.cancellation_token);
         if cancellation_token.load(Ordering::Relaxed) {
             state.is_scanning.store(false, Ordering::SeqCst);
             state.cancellation_token.store(false, Ordering::SeqCst);
@@ -278,84 +279,89 @@ async fn scan_port_range(
             return Ok(res.deref().to_vec());
         }
 
-        if threads > 1 {
-            let total_ports = u32::from(end_port) - u32::from(start_port) + 1;
+        for port in start_port..=end_port {
+            let scan_result = ScanResult::initialize(&address, port);
+            scan_results.push(scan_result);
+        }
+    }
 
-            if threads > total_ports {
-                threads = total_ports;
+    if threads > 1 {
+        if threads > scan_results.len() {
+            threads = scan_results.len();
+        }
+
+        // Divide the scan results into equal parts for each thread
+        let range = scan_results.len() / threads;
+        let remainder = scan_results.len() % threads;
+
+        let mut current_start = 0;
+        let mut current_end = range - 1;
+
+        let mut handles = vec![];
+        for t in 0..threads {
+            // Make sure the remainder is included in the last thread
+            if t == threads - 1 && remainder > 0 {
+                current_end += remainder;
             }
 
-            let range = (total_ports / threads) as u16;
-            let remainder = (total_ports % threads) as u16;
+            let local_start = current_start;
+            let local_end = current_end;
 
-            let mut current_start = start_port;
-            let mut current_end = start_port + (range - 1);
-
-            let mut handles = vec![];
-            for n in 0..threads {
-                let local_start = current_start;
-                let local_end = current_end;
-
-                let all_results = Arc::clone(&all_results);
-                let cancellation_token = Arc::clone(&state.cancellation_token);
-                let last_error = Arc::clone(&state.last_error);
-
-                let addr_clone = address.clone();
-                let handle = thread::spawn(move || {
-                    let res = scan_tcp_range(
-                        &addr_clone,
-                        local_start,
-                        local_end,
-                        timeout,
-                        cancellation_token,
-                    );
-
-                    let res = res.unwrap_or_else(|e| {
-                        let mut last_error = last_error.lock().unwrap();
-                        *last_error = e.to_string();
-
-                        vec![]
-                    });
-
-                    let mut results = all_results.lock().unwrap();
-                    for l in res {
-                        results.push(l);
-                    }
-                });
-                handles.push(handle);
-
-                if current_end != u16::MAX {
-                    current_start = current_end + 1;
-                }
-
-                match current_end.checked_add(range) {
-                    Some(v) => {
-                        current_end = v;
-                    }
-                    None => {
-                        current_end = u16::MAX;
-                    }
-                };
-
-                if remainder > 0 && n == threads - 2 {
-                    match current_end.checked_add(remainder) {
-                        None => {
-                            current_end = u16::MAX;
-                        }
-                        Some(v) => {
-                            current_end = v;
-                        }
-                    }
-                }
-            }
-
-            for handle in handles {
-                handle.join().unwrap();
-            }
-        } else {
+            let all_results = Arc::clone(&all_results);
             let cancellation_token = Arc::clone(&state.cancellation_token);
+            let last_error = Arc::clone(&state.last_error);
 
-            let res = scan_tcp_range(&address, start_port, end_port, timeout, cancellation_token);
+            // Get a slice of the scan results for the current thread
+            let scan_results_slice = scan_results[local_start..=local_end].to_vec();
+
+            let handle = thread::spawn(move || {
+                let mut local_results = vec![];
+                for scan_result in scan_results_slice {
+                    if cancellation_token.load(Ordering::Relaxed) {
+                        break;
+                    }
+
+                    let address = scan_result.address.clone();
+                    let port = scan_result.port;
+
+                    let res = match scan_request(scan_result, timeout) {
+                        Ok(r) => r,
+                        Err(e) => {
+                            let mut last_error = last_error.lock().unwrap();
+                            *last_error = e.to_string();
+                            ScanResult::new(&address, port, "", PortStatus::Unknown)
+                        }
+                    };
+
+                    local_results.push(res);
+                }
+
+                // Append the results to the global results at the end of the thread
+                let mut results = all_results.lock().unwrap();
+                results.append(&mut local_results);
+            });
+            handles.push(handle);
+
+            current_start = current_end + 1;
+            current_end += range;
+        }
+
+        for handle in handles {
+            handle.join().unwrap();
+        }
+    } else {
+        for scan_result in scan_results {
+            // Check the cancellation token and return if it's true
+            let cancellation_token = Arc::clone(&state.cancellation_token);
+            if cancellation_token.load(Ordering::Relaxed) {
+                state.is_scanning.store(false, Ordering::SeqCst);
+                state.cancellation_token.store(false, Ordering::SeqCst);
+
+                let res = all_results.lock().unwrap();
+                return Ok(res.deref().to_vec());
+            }
+
+            let res = scan_request(scan_result, timeout);
             let res = match res {
                 Ok(res) => res,
                 Err(e) => {
@@ -364,9 +370,7 @@ async fn scan_port_range(
             };
 
             let mut all = all_results.lock().unwrap();
-            for l in res {
-                all.push(l);
-            }
+            all.push(res);
         }
     }
 
@@ -390,59 +394,44 @@ async fn scan_port_range(
     Ok(res.deref().to_vec())
 }
 
-/// Scan a range of ports for a specified host
+/// Scan a single port on a specified host
 ///
 /// # Arguments
 ///
-/// * `host` - The host that needs to be scanned
-/// * `start` - The initial port that needs to be scanned
-/// * `end` - The final port that needs to be scanned
+/// * `request` - The request that needs to be scanned
 /// * `timeout` - The connection timeout (in milliseconds) before a port is marked as closed
-/// * `cancellation_token` - A cancellation token that can be used to cancel the scan
-fn scan_tcp_range(
-    host: &str,
-    start: u16,
-    end: u16,
-    timeout: u64,
-    cancellation_token: Arc<AtomicBool>,
-) -> Result<Vec<ScanResult>, String> {
-    let mut scan_result = vec![];
-    for n in start..=end {
-        // Check the cancellation token and return if it's true
-        if cancellation_token.load(Ordering::Relaxed) {
-            return Ok(scan_result);
+///
+/// # Returns
+///
+/// * `Ok(ScanResult)` - If the scan was successful
+/// * `Err(String)` - If the scan was unsuccessful
+fn scan_request(mut request: ScanResult, timeout: u64) -> Result<ScanResult, String> {
+    let address = format!("{}:{}", request.address, request.port).to_socket_addrs();
+    let mut address = match address {
+        Ok(res) => res,
+        Err(e) => {
+            return Err(e.to_string());
         }
+    };
 
-        let address = format!("{}:{}", host, n).to_socket_addrs();
-        let mut address = match address {
-            Ok(res) => res,
+    let socket_address = address.next().unwrap();
+    let ip_addr: IpAddr = socket_address.ip();
+    let host_name = ip_addr.to_string();
+
+    if let Ok(stream) = TcpStream::connect_timeout(&socket_address, Duration::from_millis(timeout))
+    {
+        request.set_scan_result(&host_name, PortStatus::Open);
+
+        let res = stream.shutdown(Shutdown::Both);
+        match res {
+            Ok(_) => {}
             Err(e) => {
-                return Err(e.to_string());
+                println!("Unable to shut down TcpStream: {}", e)
             }
-        };
-
-        let socket_address = address.next().unwrap();
-        let ip_addr: IpAddr = socket_address.ip();
-        let host_name = ip_addr.to_string();
-
-        if let Ok(stream) =
-            TcpStream::connect_timeout(&socket_address, Duration::from_millis(timeout))
-        {
-            let sr = ScanResult::new(host, n, &host_name, PortStatus::Open);
-            scan_result.push(sr);
-
-            let res = stream.shutdown(Shutdown::Both);
-            match res {
-                Ok(_) => {}
-                Err(e) => {
-                    println!("Unable to shut down TcpStream: {}", e)
-                }
-            }
-        } else {
-            let sr = ScanResult::new(host, n, &host_name, PortStatus::Closed);
-            scan_result.push(sr);
         }
+    } else {
+        request.set_scan_result(&host_name, PortStatus::Closed);
     }
 
-    Ok(scan_result)
+    Ok(request)
 }
