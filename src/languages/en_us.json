@@ -73,6 +73,7 @@
   "threads": "Threads",
   "timeout": "Timeout (milliseconds)",
   "hideClosedPorts": "Hide closed ports",
+  "hideUnknownPorts": "Hide unknown ports",
   "sort": "Sort results by port number",
   "clear": "Clear",
   "open": "Open",
@@ -83,5 +84,6 @@
   "runningLatestVersion": "You are running the latest version.",
   "themeToggleInTopBar": "Toggle theme in top bar",
   "exportIncludeClosedPorts": "Include closed ports in exports",
+  "exportIncludeUnknownPorts": "Include unknown ports in exports",
   "unknown": "Unknown"
 }

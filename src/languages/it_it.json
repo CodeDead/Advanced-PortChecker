@@ -73,6 +73,7 @@
   "threads": "Thread",
   "timeout": "Timeout (millisecondi)",
   "hideClosedPorts": "Nascondi porte chiuse",
+  "hideUnknownPorts": "Nascond porta sconosciuta",
   "sort": "Ordina risultati per numero di porta",
   "clear": "Azzera",
   "open": "Apri",
@@ -83,5 +84,6 @@
   "runningLatestVersion": "La versione in uso è aggiornata.",
   "themeToggleInTopBar": "Attiva/disattiva tema nella barra superiore",
   "exportIncludeClosedPorts": "Includi porte chiuse nelle esportazioni",
+  "exportIncludeUnknownPorts": "Includi porte sconosciute nelle esportazioni",
   "unknown": "Sconosciuto"
 }

@@ -73,6 +73,7 @@
   "threads": "Hilos",
   "timeout": "Tiempo de espera (milisegundos)",
   "hideClosedPorts": "Ocultar puertos cerrados",
+  "hideUnknownPorts": "Ocultar puertos desconocidos",
   "sort": "Ordenar resultados por número de puerto",
   "clear": "Limpiar todo",
   "open": "Abierto",
@@ -83,5 +84,6 @@
   "runningLatestVersion": "Estás ejecutando la última versión.",
   "themeToggleInTopBar": "Alternar tema en la barra superior",
   "exportIncludeClosedPorts": "Incluir puertos cerrados en las exportaciones",
+  "exportIncludeUnknownPorts": "Incluir puertos desconocidos en las exportaciones",
   "unknown": "Desconocido"
 }

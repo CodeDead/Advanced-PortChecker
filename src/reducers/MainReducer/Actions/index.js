@@ -8,11 +8,13 @@ import {
   SET_END_PORT,
   SET_ERROR,
   SET_EXPORT_NO_CLOSED,
+  SET_EXPORT_NO_UNKNOWN,
   SET_IS_CANCELLING,
   SET_IS_SCANNING,
   SET_LANGUAGE_INDEX,
   SET_LOADING,
   SET_NO_CLOSED,
+  SET_NO_UNKNOWN,
   SET_PAGE_INDEX,
   SET_SCAN_RESULTS,
   SET_SORT,
@@ -161,5 +163,15 @@ export const setExportNoClosed = (value) => ({
 
 export const setIsCancelling = (value) => ({
   type: SET_IS_CANCELLING,
+  payload: value,
+});
+
+export const setNoUnknown = (value) => ({
+  type: SET_NO_UNKNOWN,
+  payload: value,
+});
+
+export const setExportNoUnknown = (value) => ({
+  type: SET_EXPORT_NO_UNKNOWN,
   payload: value,
 });

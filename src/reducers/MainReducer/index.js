@@ -22,6 +22,8 @@ import {
   SET_THEME_TOGGLE,
   SET_EXPORT_NO_CLOSED,
   SET_IS_CANCELLING,
+  SET_NO_UNKNOWN,
+  SET_EXPORT_NO_UNKNOWN,
 } from './Actions/actionTypes';
 
 const MainReducer = (state, action) => {
@@ -64,8 +66,11 @@ const MainReducer = (state, action) => {
         threads: 1,
         timeout: 300,
         noClosed: false,
+        noHidden: false,
         sort: true,
         themeToggle: true,
+        exportNoClosed: true,
+        exportNoHidden: true,
       };
     case SET_AUTO_UPDATE:
       localStorage.autoUpdate = action.payload;
@@ -172,6 +177,18 @@ const MainReducer = (state, action) => {
       return {
         ...state,
         isCancelling: action.payload,
+      };
+    case SET_NO_UNKNOWN:
+      localStorage.noUnknown = action.payload;
+      return {
+        ...state,
+        noUnknown: action.payload,
+      };
+    case SET_EXPORT_NO_UNKNOWN:
+      localStorage.exportNoUnknown = action.payload;
+      return {
+        ...state,
+        exportNoUnknown: action.payload,
       };
     default:
       return state;

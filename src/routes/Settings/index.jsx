@@ -42,9 +42,9 @@ import {
   setAutoUpdate,
   setCheckedForUpdates,
   setColorOnDark,
-  setError, setExportNoClosed,
+  setError, setExportNoClosed, setExportNoUnknown,
   setLanguageIndex,
-  setNoClosed,
+  setNoClosed, setNoUnknown,
   setPageIndex,
   setSort,
   setThemeIndex, setThemeToggle,
@@ -64,6 +64,7 @@ const Settings = () => {
   const {
     languageIndex, autoUpdate, colorOnDark, themeIndex, themeType,
     threads, timeout, noClosed, sort, themeToggle, exportNoClosed,
+    noUnknown, exportNoUnknown,
   } = state;
   const language = state.languages[languageIndex];
 
@@ -195,6 +196,56 @@ const Settings = () => {
               )}
               label={language.themeToggleInTopBar}
             />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={noClosed}
+                  onChange={(e) => d1(setNoClosed(e.target.checked))}
+                  value="noClosed"
+                />
+                )}
+              label={language.hideClosedPorts}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={noUnknown}
+                  onChange={(e) => d1(setNoUnknown(e.target.checked))}
+                  value="noUnknown"
+                />
+                )}
+              label={language.hideUnknownPorts}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={exportNoClosed}
+                  onChange={(e) => d1(setExportNoClosed(e.target.checked))}
+                  value="exportNoClosed"
+                />
+                )}
+              label={language.exportIncludeClosedPorts}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={exportNoUnknown}
+                  onChange={(e) => d1(setExportNoUnknown(e.target.checked))}
+                  value="exportNoUnknown"
+                />
+                )}
+              label={language.exportIncludeUnknownPorts}
+            />
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={sort}
+                  onChange={(e) => d1(setSort(e.target.checked))}
+                  value="sort"
+                />
+                )}
+              label={language.sort}
+            />
             <FormControl variant="outlined" sx={{ mt: 2 }}>
               <InputLabel id="language-label">{language.language}</InputLabel>
               <Select
@@ -234,38 +285,6 @@ const Settings = () => {
             min={1}
             fullWidth
           />
-          <FormGroup>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={noClosed}
-                  onChange={(e) => d1(setNoClosed(e.target.checked))}
-                  value="noClosed"
-                />
-              )}
-              label={language.hideClosedPorts}
-            />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={exportNoClosed}
-                  onChange={(e) => d1(setExportNoClosed(e.target.checked))}
-                  value="exportNoClosed"
-                />
-                )}
-              label={language.exportIncludeClosedPorts}
-            />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={sort}
-                  onChange={(e) => d1(setSort(e.target.checked))}
-                  value="sort"
-                />
-              )}
-              label={language.sort}
-            />
-          </FormGroup>
         </CardContent>
       </Card>
       <Card sx={{ mt: 2 }}>

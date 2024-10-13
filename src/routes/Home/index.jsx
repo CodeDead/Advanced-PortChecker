@@ -37,7 +37,7 @@ const Home = () => {
   const {
     languages, languageIndex, address, startPort, endPort, timeout,
     threads, noClosed, sort, isScanning, scanResults, exportNoClosed,
-    isCancelling,
+    isCancelling, noUnknown, exportNoUnknown,
   } = state;
   const language = languages[languageIndex];
 
@@ -162,7 +162,7 @@ const Home = () => {
 
     if (type === 'text/plain') {
       res.forEach((e) => {
-        if (!exportNoClosed && e.portStatus === 'Closed') return;
+        if ((!exportNoClosed && e.portStatus === 'Closed') || (!exportNoUnknown && e.portStatus === 'Unknown')) return;
         toExport += `${e.address} ${e.port} ${e.hostName} ${e.portStatus} ${e.scanDate}\n`;
       });
     } else if (type === 'application/json') {
@@ -170,16 +170,19 @@ const Home = () => {
       if (!exportNoClosed) {
         exportJson = exportJson.filter((e) => e.portStatus !== 'Closed');
       }
+      if (!exportNoUnknown) {
+        exportJson = exportJson.filter((e) => e.portStatus !== 'Unknown');
+      }
       toExport = JSON.stringify(exportJson, null, 2);
     } else if (type === 'text/csv') {
       res.forEach((e) => {
-        if (!exportNoClosed && e.portStatus === 'Closed') return;
+        if ((!exportNoClosed && e.portStatus === 'Closed') || (!exportNoUnknown && e.portStatus === 'Unknown')) return;
         toExport += `"${e.address.replaceAll('"', '""')}","${e.port}","${e.hostName.replaceAll('"', '""')}","${e.portStatus.replaceAll('"', '""')}","${e.scanDate.replaceAll('"', '""')}",\n`;
       });
     } else if (type === 'text/html') {
       toExport = '<!DOCTYPE html><html lang="en"><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
       res.forEach((e) => {
-        if (!exportNoClosed && e.portStatus === 'Closed') return;
+        if ((!exportNoClosed && e.portStatus === 'Closed') || (!exportNoUnknown && e.portStatus === 'Unknown')) return;
         toExport += `<tr><td>${e.address}</td><td>${e.port}</td><td>${e.hostName}</td><td>${e.portStatus}</td><td>${e.scanDate}</td></tr>`;
       });
       toExport += '</tbody></table></body></html>';
@@ -286,7 +289,7 @@ const Home = () => {
   if (scanResults && scanResults.length > 0) {
     // eslint-disable-next-line no-restricted-syntax
     for (const res of scanResults) {
-      if (noClosed && res.portStatus === 'Closed') {
+      if ((noClosed && res.portStatus === 'Closed') || (noUnknown && res.portStatus === 'Unknown')) {
         // eslint-disable-next-line no-continue
         continue;
       }

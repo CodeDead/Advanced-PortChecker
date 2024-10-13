@@ -16,7 +16,9 @@ const colorOnDark = localStorage.colorOnDark ? (localStorage.colorOnDark === 'tr
 const threads = localStorage.threads ? parseFloat(localStorage.threads) : 1;
 const timeout = localStorage.timeout ? parseFloat(localStorage.timeout) : 250;
 const noClosed = localStorage.noClosed ? (localStorage.noClosed === 'true') : false;
+const noUnknown = localStorage.noUnknown ? (localStorage.noUnknown === 'true') : false;
 const exportNoClosed = localStorage.exportNoClosed ? (localStorage.exportNoClosed === 'true') : true;
+const exportNoUnknown = localStorage.exportNoUnknown ? (localStorage.exportNoUnknown === 'true') : true;
 const sort = localStorage.sort ? (localStorage.sort === 'true') : true;
 const themeToggle = localStorage.themeToggle ? (localStorage.themeToggle === 'true') : true;
 
@@ -47,7 +49,9 @@ const initState = {
   threads,
   timeout,
   noClosed,
+  noUnknown,
   exportNoClosed,
+  exportNoUnknown,
   sort,
   scanResults: null,
   themeToggle,
