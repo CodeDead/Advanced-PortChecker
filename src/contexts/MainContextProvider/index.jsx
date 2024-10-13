@@ -43,6 +43,7 @@ const initState = {
   startPort: 0,
   endPort: 65535,
   isScanning: false,
+  isCancelling: false,
   threads,
   timeout,
   noClosed,

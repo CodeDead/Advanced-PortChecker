@@ -8,6 +8,7 @@ import {
   SET_END_PORT,
   SET_ERROR,
   SET_EXPORT_NO_CLOSED,
+  SET_IS_CANCELLING,
   SET_IS_SCANNING,
   SET_LANGUAGE_INDEX,
   SET_LOADING,
@@ -155,5 +156,10 @@ export const setThemeToggle = (value) => ({
 
 export const setExportNoClosed = (value) => ({
   type: SET_EXPORT_NO_CLOSED,
+  payload: value,
+});
+
+export const setIsCancelling = (value) => ({
+  type: SET_IS_CANCELLING,
   payload: value,
 });

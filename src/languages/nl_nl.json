@@ -82,5 +82,6 @@
   "exportSuccessful": "Exporteren succesvol",
   "runningLatestVersion": "U gebruikt de laatste versie.",
   "themeToggleInTopBar": "Thema toggle in de bovenste balk",
-  "exportIncludeClosedPorts": "Gesloten poorten opnemen in export"
+  "exportIncludeClosedPorts": "Gesloten poorten opnemen in export",
+  "unknown": "Onbekend"
 }
