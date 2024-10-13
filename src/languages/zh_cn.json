@@ -73,6 +73,7 @@
   "threads": "运行线程",
   "timeout": "超时时间（毫秒）",
   "hideClosedPorts": "隐藏未开启的端口",
+  "hideUnknownPorts": "隐藏未知的端口",
   "sort": "按端口号对扫描结果排序",
   "clear": "清空",
   "open": "打开",
@@ -83,5 +84,6 @@
   "runningLatestVersion": "已是最新版本！",
   "themeToggleInTopBar": "在顶部栏显示明暗主题切换",
   "exportIncludeClosedPorts": "导出时包含关闭的端口",
+  "exportIncludeUnknownPorts": "导出时包含未知的端口",
   "unknown": "未知"
 }

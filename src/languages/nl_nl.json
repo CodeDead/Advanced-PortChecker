@@ -73,6 +73,7 @@
   "threads": "Threads",
   "timeout": "Timeout (milliseconden)",
   "hideClosedPorts": "Verberg gesloten poorten",
+  "hideUnknownPorts": "Verberg onbekende poorten",
   "sort": "Sorteer volgens poortnummer",
   "clear": "Wissen",
   "open": "Open",
@@ -83,5 +84,6 @@
   "runningLatestVersion": "U gebruikt de laatste versie.",
   "themeToggleInTopBar": "Thema toggle in de bovenste balk",
   "exportIncludeClosedPorts": "Gesloten poorten opnemen in export",
+  "exportIncludeUnknownPorts": "Onbekende poorten opnemen in export",
   "unknown": "Onbekend"
 }
