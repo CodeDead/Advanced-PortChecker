@@ -129,7 +129,7 @@ async fn cancel_scan(state: tauri::State<'_, SharedState>) -> Result<(), String>
 #[tauri::command]
 async fn scan_port_range(
     state: tauri::State<'_, SharedState>,
-    address: &str,
+    addresses: Vec<String>,
     start_port: u16,
     end_port: u16,
     timeout: u64,
@@ -143,132 +143,143 @@ async fn scan_port_range(
     state.is_scanning.store(true, Ordering::SeqCst);
     state.last_error.lock().unwrap().clear();
 
-    let mut address_parts = address.split('/');
-    let address = match address_parts.next() {
-        Some(address) => address,
-        None => {
+    let mut addresses_to_scan: Vec<String> = vec![];
+
+    for address in addresses {
+        let cancellation_token = Arc::clone(&state.cancellation_token);
+        // Check the cancellation token and return if it's true
+        if cancellation_token.load(Ordering::Relaxed) {
             state.is_scanning.store(false, Ordering::SeqCst);
             state.cancellation_token.store(false, Ordering::SeqCst);
-            return Err(String::from("Invalid address"));
+            return Ok(vec![]);
         }
-    };
-    let subnet = address_parts.next();
 
-    let mut addresses: Vec<String> = vec![];
-    if subnet.is_some() {
-        let subnet = match subnet {
-            Some(subnet) => subnet,
+        let mut address_parts = address.split('/');
+        let address = match address_parts.next() {
+            Some(address) => address,
             None => {
                 state.is_scanning.store(false, Ordering::SeqCst);
                 state.cancellation_token.store(false, Ordering::SeqCst);
-                return Err(String::from("Invalid subnet mask"));
+                return Err(String::from("Invalid address"));
             }
         };
-        let subnet = match subnet.parse::<u8>() {
-            Ok(subnet) => subnet,
-            Err(_) => {
-                state.is_scanning.store(false, Ordering::SeqCst);
-                state.cancellation_token.store(false, Ordering::SeqCst);
-                return Err(String::from("Invalid subnet mask"));
-            }
-        };
+        let subnet = address_parts.next();
 
-        // Validate the subnet mask
-        if subnet == 0 {
-            state.is_scanning.store(false, Ordering::SeqCst);
-            state.cancellation_token.store(false, Ordering::SeqCst);
-            return Err(String::from("Subnet mask cannot be 0"));
-        }
-
-        let ip: IpAddr = match address.parse() {
-            Ok(ip) => ip,
-            Err(_) => {
-                state.is_scanning.store(false, Ordering::SeqCst);
-                state.cancellation_token.store(false, Ordering::SeqCst);
-                return Err(String::from("Invalid IP address"));
-            }
-        };
-
-        match ip {
-            IpAddr::V4(v4) => {
-                // Validate the subnet mask
-                if subnet > 32 {
+        if subnet.is_some() {
+            let subnet = match subnet {
+                Some(subnet) => subnet,
+                None => {
                     state.is_scanning.store(false, Ordering::SeqCst);
                     state.cancellation_token.store(false, Ordering::SeqCst);
                     return Err(String::from("Invalid subnet mask"));
                 }
-
-                // Convert base IP address to a u32 integer
-                let base_ip_u32 = u32::from(v4);
-
-                // Calculate the subnet mask by shifting bits left
-                let mask = !((1 << (32u8 - subnet)) - 1);
-
-                // Get the network address by applying the subnet mask to the base IP
-                let network_ip_u32 = base_ip_u32 & mask;
-
-                // Calculate the number of host addresses in the subnet
-                let num_addresses = 1 << (32 - subnet);
-
-                for i in 0..num_addresses {
-                    let cancellation_token = Arc::clone(&state.cancellation_token);
-                    // Check the cancellation token and return if it's true
-                    if cancellation_token.load(Ordering::Relaxed) {
-                        state.is_scanning.store(false, Ordering::SeqCst);
-                        state.cancellation_token.store(false, Ordering::SeqCst);
-                        return Ok(vec![]);
-                    }
-
-                    let ip_u32 = network_ip_u32 + i;
-                    let ip = Ipv4Addr::from(ip_u32);
-                    addresses.push(ip.to_string());
-                }
-            }
-            IpAddr::V6(v6) => {
-                // Validate the subnet mask
-                if subnet > 128 {
+            };
+            let subnet = match subnet.parse::<u8>() {
+                Ok(subnet) => subnet,
+                Err(_) => {
                     state.is_scanning.store(false, Ordering::SeqCst);
                     state.cancellation_token.store(false, Ordering::SeqCst);
                     return Err(String::from("Invalid subnet mask"));
                 }
+            };
 
-                // Convert the IPv6 address to a u128 representation
-                let ipv6_int = u128::from_be_bytes(v6.octets());
+            // Validate the subnet mask
+            if subnet == 0 {
+                state.is_scanning.store(false, Ordering::SeqCst);
+                state.cancellation_token.store(false, Ordering::SeqCst);
+                return Err(String::from("Subnet mask cannot be 0"));
+            }
 
-                // Create the subnet mask
-                let mask = !((1u128 << (128 - subnet)) - 1);
+            let ip: IpAddr = match address.parse() {
+                Ok(ip) => ip,
+                Err(_) => {
+                    state.is_scanning.store(false, Ordering::SeqCst);
+                    state.cancellation_token.store(false, Ordering::SeqCst);
+                    return Err(String::from("Invalid IP address"));
+                }
+            };
 
-                // Calculate the network base address (first IP in the subnet)
-                let network_base = ipv6_int & mask;
-
-                // Calculate the range of addresses in the subnet
-                let subnet_size = 1u128 << (128 - subnet);
-                let last_ip = network_base + subnet_size - 1;
-
-                // Iterate through all IP addresses in the subnet
-                for ip_int in network_base..=last_ip {
-                    let cancellation_token = Arc::clone(&state.cancellation_token);
-                    // Check the cancellation token and return if it's true
-                    if cancellation_token.load(Ordering::Relaxed) {
+            match ip {
+                IpAddr::V4(v4) => {
+                    // Validate the subnet mask
+                    if subnet > 32 {
                         state.is_scanning.store(false, Ordering::SeqCst);
                         state.cancellation_token.store(false, Ordering::SeqCst);
-                        return Ok(vec![]);
+                        return Err(String::from("Invalid subnet mask"));
                     }
 
-                    let ip_addr = Ipv6Addr::from(ip_int.to_be_bytes());
-                    addresses.push(ip_addr.to_string());
+                    // Convert base IP address to a u32 integer
+                    let base_ip_u32 = u32::from(v4);
+
+                    // Calculate the subnet mask by shifting bits left
+                    let mask = !((1 << (32u8 - subnet)) - 1);
+
+                    // Get the network address by applying the subnet mask to the base IP
+                    let network_ip_u32 = base_ip_u32 & mask;
+
+                    // Calculate the number of host addresses in the subnet
+                    let num_addresses = 1 << (32 - subnet);
+
+                    for i in 0..num_addresses {
+                        let cancellation_token = Arc::clone(&state.cancellation_token);
+                        // Check the cancellation token and return if it's true
+                        if cancellation_token.load(Ordering::Relaxed) {
+                            state.is_scanning.store(false, Ordering::SeqCst);
+                            state.cancellation_token.store(false, Ordering::SeqCst);
+                            return Ok(vec![]);
+                        }
+
+                        let ip_u32 = network_ip_u32 + i;
+                        let ip = Ipv4Addr::from(ip_u32);
+                        addresses_to_scan.push(ip.to_string());
+                    }
+                }
+                IpAddr::V6(v6) => {
+                    // Validate the subnet mask
+                    if subnet > 128 {
+                        state.is_scanning.store(false, Ordering::SeqCst);
+                        state.cancellation_token.store(false, Ordering::SeqCst);
+                        return Err(String::from("Invalid subnet mask"));
+                    }
+
+                    // Convert the IPv6 address to a u128 representation
+                    let ipv6_int = u128::from_be_bytes(v6.octets());
+
+                    // Create the subnet mask
+                    let mask = !((1u128 << (128 - subnet)) - 1);
+
+                    // Calculate the network base address (first IP in the subnet)
+                    let network_base = ipv6_int & mask;
+
+                    // Calculate the range of addresses in the subnet
+                    let subnet_size = 1u128 << (128 - subnet);
+                    let last_ip = network_base + subnet_size - 1;
+
+                    // Iterate through all IP addresses in the subnet
+                    for ip_int in network_base..=last_ip {
+                        let cancellation_token = Arc::clone(&state.cancellation_token);
+                        // Check the cancellation token and return if it's true
+                        if cancellation_token.load(Ordering::Relaxed) {
+                            state.is_scanning.store(false, Ordering::SeqCst);
+                            state.cancellation_token.store(false, Ordering::SeqCst);
+                            return Ok(vec![]);
+                        }
+
+                        let ip_addr = Ipv6Addr::from(ip_int.to_be_bytes());
+                        addresses_to_scan.push(ip_addr.to_string());
+                    }
                 }
             }
+        } else {
+            addresses_to_scan.push(address.to_string());
         }
-    } else {
-        addresses.push(address.to_string());
     }
 
     let mut threads = threads;
     let all_results: Arc<Mutex<Vec<ScanResult>>> = Arc::new(Mutex::new(vec![]));
 
     let mut scan_results: Vec<ScanResult> = vec![];
-    for address in addresses {
+    for address in addresses_to_scan {
         // Check the cancellation token and return if it's true
         let cancellation_token = Arc::clone(&state.cancellation_token);
         if cancellation_token.load(Ordering::Relaxed) {

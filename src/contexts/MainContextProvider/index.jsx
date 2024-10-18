@@ -41,7 +41,7 @@ const initState = {
   loading: false,
   colorOnDark,
   error: null,
-  address: '',
+  addresses: [''],
   startPort: 0,
   endPort: 65535,
   isScanning: false,

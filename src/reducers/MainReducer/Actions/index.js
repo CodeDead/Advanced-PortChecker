@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/core';
 import {
   RESET_STATE,
-  SET_ADDRESS,
+  SET_ADDRESSES,
   SET_AUTO_UPDATE,
   SET_CHECKED_FOR_UPDATES,
   SET_COLOR_ON_DARK,
@@ -64,9 +64,9 @@ export const openWebSite = (website) => {
     });
 };
 
-export const scanAddress = (address, startPort, endPort, timeout, threads, sort) => {
+export const scanAddresses = (addresses, startPort, endPort, timeout, threads, sort) => {
   const cmd = {
-    address,
+    addresses,
     startPort: parseInt(startPort, 10),
     endPort: parseInt(endPort, 10),
     timeout: parseFloat(timeout),
@@ -102,9 +102,9 @@ export const setColorOnDark = (value) => ({
   payload: value,
 });
 
-export const setAddress = (address) => ({
-  type: SET_ADDRESS,
-  payload: address,
+export const setAddresses = (addresses) => ({
+  type: SET_ADDRESSES,
+  payload: addresses,
 });
 
 export const setStartPort = (port) => ({
