@@ -1,6 +1,6 @@
 import {
   RESET_STATE,
-  SET_ADDRESS,
+  SET_ADDRESSES,
   SET_AUTO_UPDATE,
   SET_CHECKED_FOR_UPDATES,
   SET_COLOR_ON_DARK,
@@ -104,18 +104,21 @@ const MainReducer = (state, action) => {
         ...state,
         colorOnDark: action.payload,
       };
-    case SET_ADDRESS:
+    case SET_ADDRESSES:
       // eslint-disable-next-line no-case-declarations
-      let address = action.payload;
-      if (address.startsWith('http://')) {
-        address = address.replace('http://', '');
+      const addresses = action.payload;
+      for (let i = 0; i < addresses.length; i += 1) {
+        if (addresses[i].startsWith('http://')) {
+          addresses[i] = addresses[i].replace('http://', '');
+        }
+        if (addresses[i].startsWith('https://')) {
+          addresses[i] = addresses[i].replace('https://', '');
+        }
       }
-      if (address.startsWith('https://')) {
-        address = address.replace('https://', '');
-      }
+
       return {
         ...state,
-        address,
+        addresses,
       };
     case SET_START_PORT:
       return {
