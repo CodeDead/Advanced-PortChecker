@@ -154,32 +154,32 @@ async fn scan_port_range(
             return Ok(vec![]);
         }
 
-        let mut address_parts = address.split('/');
+        let mut address_parts = address.splitn(2, '/');
         let address = match address_parts.next() {
             Some(address) => address,
             None => {
                 state.is_scanning.store(false, Ordering::SeqCst);
                 state.cancellation_token.store(false, Ordering::SeqCst);
-                return Err(String::from("Invalid address"));
+                return Err(format!("\"{}\" is an invalid address!", address));
             }
         };
-        let subnet = address_parts.next();
 
+        let subnet = address_parts.next();
         if subnet.is_some() {
-            let subnet = match subnet {
+            let subnet_parts = match subnet {
                 Some(subnet) => subnet,
                 None => {
                     state.is_scanning.store(false, Ordering::SeqCst);
                     state.cancellation_token.store(false, Ordering::SeqCst);
-                    return Err(String::from("Invalid subnet mask"));
+                    return Err(format!("\"{:?}\" is an invalid subnet mask!", subnet));
                 }
             };
-            let subnet = match subnet.parse::<u8>() {
+            let subnet = match subnet_parts.parse::<u8>() {
                 Ok(subnet) => subnet,
                 Err(_) => {
                     state.is_scanning.store(false, Ordering::SeqCst);
                     state.cancellation_token.store(false, Ordering::SeqCst);
-                    return Err(String::from("Invalid subnet mask"));
+                    return Err(format!("\"{}\" is an invalid subnet mask!", subnet_parts));
                 }
             };
 
@@ -190,22 +190,31 @@ async fn scan_port_range(
                 return Err(String::from("Subnet mask cannot be 0"));
             }
 
-            let ip: IpAddr = match address.parse() {
-                Ok(ip) => ip,
-                Err(_) => {
+            // Use a dummy port to resolve a possible hostname to a parsable IP address
+            let dummy_address_res = format!("{}:80", address).to_socket_addrs();
+            let mut dummy_address = match dummy_address_res {
+                Ok(res) => res,
+                Err(e) => {
                     state.is_scanning.store(false, Ordering::SeqCst);
                     state.cancellation_token.store(false, Ordering::SeqCst);
-                    return Err(String::from("Invalid IP address"));
+                    return Err(format!(
+                        "{}:80 is an invalid socket address!\n{}",
+                        address,
+                        e.to_string()
+                    ));
                 }
             };
 
-            match ip {
+            let socket_address = dummy_address.next().unwrap();
+            let ip_addr: IpAddr = socket_address.ip();
+
+            match ip_addr {
                 IpAddr::V4(v4) => {
                     // Validate the subnet mask
                     if subnet > 32 {
                         state.is_scanning.store(false, Ordering::SeqCst);
                         state.cancellation_token.store(false, Ordering::SeqCst);
-                        return Err(String::from("Invalid subnet mask"));
+                        return Err(format!("\"{}\" is an invalid subnet mask!", subnet));
                     }
 
                     // Convert base IP address to a u32 integer
@@ -239,7 +248,7 @@ async fn scan_port_range(
                     if subnet > 128 {
                         state.is_scanning.store(false, Ordering::SeqCst);
                         state.cancellation_token.store(false, Ordering::SeqCst);
-                        return Err(String::from("Invalid subnet mask"));
+                        return Err(format!("\"{}\" is an invalid subnet mask", subnet));
                     }
 
                     // Convert the IPv6 address to a u128 representation
@@ -291,6 +300,20 @@ async fn scan_port_range(
         }
 
         for port in start_port..=end_port {
+            match format!("{}:{}", &address, port).to_socket_addrs() {
+                Ok(res) => res,
+                Err(e) => {
+                    state.is_scanning.store(false, Ordering::SeqCst);
+                    state.cancellation_token.store(false, Ordering::SeqCst);
+                    return Err(format!(
+                        "{}:{} is an invalid socket address!\n{}",
+                        address,
+                        port,
+                        e.to_string()
+                    ));
+                }
+            };
+
             let scan_result = ScanResult::initialize(&address, port);
             scan_results.push(scan_result);
         }

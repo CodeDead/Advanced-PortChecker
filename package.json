@@ -41,5 +41,5 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^4.2.0"
   },
-  "packageManager": "yarn@4.5.0"
+  "packageManager": "yarn@4.5.1"
 }
