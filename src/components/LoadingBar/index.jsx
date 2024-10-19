@@ -1,5 +1,5 @@
 import React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const LoadingBar = ({ marginTop }) => (
   <div style={{
@@ -8,7 +8,7 @@ const LoadingBar = ({ marginTop }) => (
     marginTop,
   }}
   >
-    <CircularProgress variant="indeterminate" disableShrink />
+    <LinearProgress variant="indeterminate" />
   </div>
 );
 

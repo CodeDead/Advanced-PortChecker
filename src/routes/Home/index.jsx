@@ -18,7 +18,7 @@ import Snackbar from '@mui/material/Snackbar';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import IconButton from '@mui/material/IconButton';
-import LoadingBar from '../../components/LoadingBar';
+import LinearProgress from '@mui/material/LinearProgress';
 import {
   cancelScan,
   scanAddresses,
@@ -120,8 +120,6 @@ const Home = () => {
       cancelScan()
         .catch((err) => {
           d1(setError(err));
-        })
-        .finally(() => {
           d1(setIsCancelling(false));
         });
     } else {
@@ -145,6 +143,7 @@ const Home = () => {
         })
         .finally(() => {
           d1(setIsScanning(false));
+          d1(setIsCancelling(false));
         });
     }
   };
@@ -411,16 +410,15 @@ const Home = () => {
           </Grid>
         </CardContent>
       </Card>
-      {isScanning ? <LoadingBar marginTop={10} /> : (
-        <Paper sx={{ height: '50vh', width: '100%', mt: 2 }}>
-          <DataGrid
-            rows={scanResultRows}
-            columns={columns}
-            pageSizeOptions={[5, 10, 25, 50, 100]}
-            disableSelectionOnClick
-          />
-        </Paper>
-      )}
+      <Paper sx={{ height: '50vh', width: '100%', mt: 2 }}>
+        <DataGrid
+          rows={scanResultRows}
+          columns={columns}
+          pageSizeOptions={[5, 10, 25, 50, 100]}
+          disableSelectionOnClick
+        />
+      </Paper>
+      {isScanning ? <LinearProgress variant="indeterminate" /> : null}
       <Button
         variant="contained"
         color="primary"
@@ -434,7 +432,7 @@ const Home = () => {
         variant="contained"
         color="primary"
         sx={{ mt: 2, float: 'right' }}
-        disabled={addresses[0].length === 0 || isCancelling}
+        disabled={addresses[0].length === 0 || (isCancelling && isScanning)}
         onClick={startStopScan}
       >
         {isScanning ? language.cancel : language.scan}
