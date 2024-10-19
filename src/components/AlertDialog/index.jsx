@@ -38,6 +38,25 @@ const AlertDialog = ({
     }
   };
 
+  const splitContent = content.split('\n').map((item, idx) => {
+    if (idx === 0) {
+      return (
+      // eslint-disable-next-line react/no-array-index-key
+        <span key={idx}>
+          {item}
+          {content.split('\n').length > 1 ? <br /> : null}
+        </span>
+      );
+    }
+    return (
+    // eslint-disable-next-line react/no-array-index-key
+      <span key={idx}>
+        {item.charAt(0).toUpperCase() + item.slice(1)}
+        <br />
+      </span>
+    );
+  });
+
   return (
     <Dialog
       open={open}
@@ -50,7 +69,7 @@ const AlertDialog = ({
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {content}
+          {splitContent}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
