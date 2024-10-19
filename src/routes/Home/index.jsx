@@ -348,7 +348,8 @@ const Home = () => {
     const canAdd = i === addresses.length - 1;
 
     return (
-      <>
+      // eslint-disable-next-line react/no-array-index-key
+      <Grid container spacing={2} key={i} sx={{ mt: i > 0 ? 1 : 0 }}>
         <Grid size={{ xs: 12, md: 11, lg: 11 }}>
           <TextField
             id={`address-basic-${i}`}
@@ -375,7 +376,7 @@ const Home = () => {
             </IconButton>
           </Grid>
         )}
-      </>
+      </Grid>
     );
   });
 
@@ -387,8 +388,8 @@ const Home = () => {
     <Container maxWidth="xxl" sx={{ flexGrow: 1 }}>
       <Card>
         <CardContent>
-          <Grid container spacing={2}>
-            {addressElements}
+          {addressElements}
+          <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid size={{ xs: 12, md: 6, lg: 6 }}>
               <PortInput
                 label={language.startingPort}

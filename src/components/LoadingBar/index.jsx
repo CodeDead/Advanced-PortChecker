@@ -8,7 +8,7 @@ const LoadingBar = ({ marginTop }) => (
     marginTop,
   }}
   >
-    <CircularProgress />
+    <CircularProgress variant="indeterminate" disableShrink />
   </div>
 );
 
