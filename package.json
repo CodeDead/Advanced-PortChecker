@@ -1,7 +1,7 @@
 {
   "name": "advanced-portchecker",
   "private": true,
-  "version": "2.0.1",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,7 +19,7 @@
     "@mui/material": "^6.1.4",
     "@mui/x-data-grid": "^7.21.0",
     "@tauri-apps/api": "^2.0.2",
-    "@tauri-apps/plugin-dialog": "^2.0.0",
+    "@tauri-apps/plugin-dialog": "^2.0.1",
     "@tauri-apps/plugin-os": "^2.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -36,7 +36,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.12",
+    "eslint-plugin-react-refresh": "^0.4.13",
     "vite": "^5.4.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^4.2.0"

@@ -1,6 +1,6 @@
 [package]
 name = "advanced-portchecker"
-version = "2.0.1"
+version = "2.1.0"
 description = "A lightweight TCP/IP port scanner with an intuitive UI."
 authors = ["CodeDead <admin@codedead.com>"]
 license = "GPL-3.0-only"
@@ -20,7 +20,7 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "2.0.4", features = [] }
 open = "5.3.0"
 chrono = "0.4.38"
-tauri-plugin-dialog = "2.0.1"
+tauri-plugin-dialog = "2.0.2"
 tauri-plugin-os = "2.0.1"
 
 [features]
