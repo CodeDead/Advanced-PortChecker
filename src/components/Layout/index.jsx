@@ -110,7 +110,16 @@ const Layout = () => {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <TopBar />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            minHeight: 0,
+            minWidth: 0,
+            overflow: 'auto',
+          }}
+        >
           <DrawerHeader />
           <Suspense fallback={<LoadingBar />}>
             <Outlet />

@@ -15,11 +15,14 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import LoadingBar from '../../components/LoadingBar';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
 import {
   cancelScan,
-  scanAddress,
-  setAddress,
+  scanAddresses,
+  setAddresses,
   setEndPort,
   setError,
   setIsCancelling,
@@ -35,7 +38,7 @@ const Home = () => {
   const [state, d1] = useContext(MainContext);
 
   const {
-    languages, languageIndex, address, startPort, endPort, timeout,
+    languages, languageIndex, addresses, startPort, endPort, timeout,
     threads, noClosed, sort, isScanning, scanResults, exportNoClosed,
     isCancelling, noUnknown, exportNoUnknown,
   } = state;
@@ -47,9 +50,34 @@ const Home = () => {
   /**
    * Change the (IP) address
    * @param e The event argument
+   * @param index The index of the address to modify
    */
-  const changeAddress = (e) => {
-    d1(setAddress(e.target.value));
+  const changeAddress = (e, index) => {
+    const newAddresses = addresses.map((address, idx) => {
+      if (index === idx) {
+        return e.target.value;
+      }
+      return address;
+    });
+
+    d1(setAddresses(newAddresses));
+  };
+
+  /**
+   * Add an empty address
+   */
+  const addAddress = () => {
+    const newAddresses = [...addresses, ''];
+    d1(setAddresses(newAddresses));
+  };
+
+  /**
+   * Remove an address
+   * @param indexToRemove The index of the address to remove
+   */
+  const removeAddress = (indexToRemove) => {
+    const newAddresses = addresses.filter((address, index) => index !== indexToRemove);
+    d1(setAddresses(newAddresses));
   };
 
   /**
@@ -92,21 +120,21 @@ const Home = () => {
       cancelScan()
         .catch((err) => {
           d1(setError(err));
-        })
-        .finally(() => {
           d1(setIsCancelling(false));
         });
     } else {
-      if (address === '' || startPort < 0
-        || startPort > 65535
-        || endPort < 0
-        || endPort > 65535
-        || startPort > endPort) return;
+      for (let i = 0; i < addresses.length; i += 1) {
+        if (addresses[i] === '' || startPort < 0
+            || startPort > 65535
+            || endPort < 0
+            || endPort > 65535
+            || startPort > endPort) return;
+      }
 
       d1(setIsScanning(true));
       d1(setScanResults(null));
 
-      scanAddress(address, startPort, endPort, timeout, threads, sort)
+      scanAddresses(addresses, startPort, endPort, timeout, threads, sort)
         .then((res) => {
           d1(setScanResults(res));
         })
@@ -115,6 +143,7 @@ const Home = () => {
         })
         .finally(() => {
           d1(setIsScanning(false));
+          d1(setIsCancelling(false));
         });
     }
   };
@@ -314,6 +343,42 @@ const Home = () => {
     }
   }
 
+  const addressElements = addresses.map((e, i) => {
+    const canAdd = i === addresses.length - 1;
+
+    return (
+      // eslint-disable-next-line react/no-array-index-key
+      <Grid container spacing={2} key={i} sx={{ mt: i > 0 ? 1 : 0 }}>
+        <Grid size={{ xs: 12, md: 11, lg: 11 }}>
+          <TextField
+            id={`address-basic-${i}`}
+            label={language.address}
+            variant="outlined"
+            placeholder="127.0.0.1/24"
+            value={addresses[i]}
+            disabled={isScanning}
+            fullWidth
+            onChange={(event) => changeAddress(event, i)}
+            onKeyDown={handleKeyDown}
+          />
+        </Grid>
+        {canAdd ? (
+          <Grid size={{ xs: 12, md: 1, lg: 1 }}>
+            <IconButton aria-label="add" size="large" onClick={addAddress} disabled={isScanning}>
+              <AddIcon fontSize="inherit" />
+            </IconButton>
+          </Grid>
+        ) : (
+          <Grid size={{ xs: 12, md: 1, lg: 1 }}>
+            <IconButton aria-label="remove" size="large" onClick={() => removeAddress(i)} disabled={isScanning}>
+              <RemoveIcon fontSize="inherit" />
+            </IconButton>
+          </Grid>
+        )}
+      </Grid>
+    );
+  });
+
   useEffect(() => {
     d1(setPageIndex(0));
   }, []);
@@ -322,20 +387,8 @@ const Home = () => {
     <Container maxWidth="xxl" sx={{ flexGrow: 1 }}>
       <Card>
         <CardContent>
-          <Grid container spacing={2}>
-            <Grid size={12}>
-              <TextField
-                id="address-basic"
-                label={language.address}
-                variant="outlined"
-                placeholder="127.0.0.1/24"
-                value={address}
-                disabled={isScanning}
-                fullWidth
-                onChange={changeAddress}
-                onKeyDown={handleKeyDown}
-              />
-            </Grid>
+          {addressElements}
+          <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid size={{ xs: 12, md: 6, lg: 6 }}>
               <PortInput
                 label={language.startingPort}
@@ -357,16 +410,15 @@ const Home = () => {
           </Grid>
         </CardContent>
       </Card>
-      {isScanning ? <LoadingBar marginTop={10} /> : (
-        <Paper sx={{ height: '50vh', width: '100%', mt: 2 }}>
-          <DataGrid
-            rows={scanResultRows}
-            columns={columns}
-            pageSizeOptions={[5, 10, 25, 50, 100]}
-            disableSelectionOnClick
-          />
-        </Paper>
-      )}
+      <Paper sx={{ height: '50vh', width: '100%', mt: 2 }}>
+        <DataGrid
+          rows={scanResultRows}
+          columns={columns}
+          pageSizeOptions={[5, 10, 25, 50, 100]}
+          disableSelectionOnClick
+        />
+      </Paper>
+      {isScanning ? <LinearProgress variant="indeterminate" /> : null}
       <Button
         variant="contained"
         color="primary"
@@ -380,7 +432,7 @@ const Home = () => {
         variant="contained"
         color="primary"
         sx={{ mt: 2, float: 'right' }}
-        disabled={address === '' || isCancelling}
+        disabled={addresses[0].length === 0 || (isCancelling && isScanning)}
         onClick={startStopScan}
       >
         {isScanning ? language.cancel : language.scan}
