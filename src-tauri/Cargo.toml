@@ -6,22 +6,22 @@ authors = ["CodeDead <admin@codedead.com>"]
 license = "GPL-3.0-only"
 repository = "https://github.com/CodeDead/Advanced-PortChecker"
 default-run = "advanced-portchecker"
-edition = "2021"
-rust-version = "1.83.0"
+edition = "2024"
+rust-version = "1.85.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "2.0.3", features = [] }
+tauri-build = { version = "2.1.0", features = [] }
 
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "2.1.1", features = [] }
-open = "5.3.1"
-chrono = "0.4.38"
-tauri-plugin-dialog = "2.0.4"
-tauri-plugin-os = "2.0.1"
+tauri = { version = "2.4.0", features = [] }
+open = "5.3.2"
+chrono = "0.4.40"
+tauri-plugin-dialog = "2.2.0"
+tauri-plugin-os = "2.2.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.
