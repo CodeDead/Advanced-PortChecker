@@ -43,8 +43,8 @@ const Layout = () => {
   });
 
   /**
-     * Check for updates
-     */
+   * Check for updates
+   */
   const checkForUpdates = () => {
     if (loading) {
       return;
@@ -69,8 +69,9 @@ const Layout = () => {
   };
 
   /**
-     * Update the number of threads
-     */
+   * Update the number of threads
+   * @returns {Promise<void>}
+   */
   const updateThreads = async () => {
     if (!localStorage.threads) {
       getNumberOfThreads()
@@ -84,15 +85,15 @@ const Layout = () => {
   };
 
   /**
-     * Close the dialog that displays a message that no updates are available
-     */
+   * Close the dialog that displays a message that no updates are available
+   */
   const closeNoUpdate = () => {
     d1(setCheckedForUpdates(false));
   };
 
   /**
-     * Close the alert dialog
-     */
+   * Close the alert dialog
+   */
   const closeAlertDialog = () => {
     d1(setError(null));
   };

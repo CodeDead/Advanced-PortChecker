@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
