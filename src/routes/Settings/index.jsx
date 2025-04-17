@@ -35,8 +35,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { platform } from '@tauri-apps/plugin-os';
-import packageJson from '../../../package.json';
+import { getVersion } from '@tauri-apps/api/app';
+import { platform, arch } from '@tauri-apps/plugin-os';
 import AlertDialog from '../../components/AlertDialog';
 import GridList from '../../components/GridList';
 import Theme from '../../components/Theme';
@@ -146,7 +146,7 @@ const Settings = () => {
   /**
    * Check for updates
    */
-  const checkForUpdates = () => {
+  const checkForUpdates = async () => {
     if (loading) {
       return;
     }
@@ -156,7 +156,10 @@ const Settings = () => {
 
     try {
       const res = platform();
-      Updater(res.toLowerCase(), packageJson.version)
+      const archRes = arch();
+      const ver = 'v' + (await getVersion());
+
+      Updater(res.toLowerCase(), archRes.toLowerCase(), ver)
         .then((up) => {
           d1(setUpdate(up));
           d1(setCheckedForUpdates(true));

@@ -9,6 +9,7 @@ use std::sync::{Arc, Mutex};
 use std::thread::available_parallelism;
 use std::time::Duration;
 use std::{fs, thread};
+use tauri::Manager;
 
 mod result;
 
@@ -26,6 +27,15 @@ fn main() {
     };
 
     tauri::Builder::default()
+        .setup(|app| {
+            #[cfg(debug_assertions)] // only include this code on debug builds
+            {
+                let window = app.get_webview_window("main").unwrap();
+                window.open_devtools();
+                window.close_devtools();
+            }
+            Ok(())
+        })
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
         .manage(shared_state)

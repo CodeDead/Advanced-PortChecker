@@ -1,57 +1,62 @@
-const Updater = (os, currentVersion) => {
+const Updater = (os, architectureName, currentVersion) => {
   /**
-   * Check whether version b is newer than version a
-   * @param a Version a
-   * @param b Version b
-   * @returns {boolean} True if version b is newer than version a, otherwise false
+   * Compare two semantic versions
+   * @param ver1 Version 1
+   * @param ver2 Version 2
+   * @returns {number} 1 if ver1 > ver2, -1 if ver1 < ver2, 0 if equal
    */
-  const isNewer = (a, b) => {
-    const partsA = a.split('.');
-    const partsB = b.split('.');
-    const numParts =
-      partsA.length > partsB.length ? partsA.length : partsB.length;
+  const semverCompare = (ver1, ver2) => {
+    const v1Parts = ver1.slice(1).split('.').map(Number);
+    const v2Parts = ver2.slice(1).split('.').map(Number);
 
-    for (let i = 0; i < numParts; i += 1) {
-      if ((parseInt(partsB[i], 10) || 0) !== (parseInt(partsA[i], 10) || 0)) {
-        return (parseInt(partsB[i], 10) || 0) > (parseInt(partsA[i], 10) || 0);
-      }
+    for (let i = 0; i < 3; i++) {
+      if (v1Parts[i] > v2Parts[i]) return 1;
+      if (v1Parts[i] < v2Parts[i]) return -1;
     }
-
-    return false;
+    return 0;
   };
 
   /**
-   * Parse the information inside an external update
-   * @param update The update data
-   * @returns {{infoUrl: null, updateUrl: boolean, downloadUrl: null, version: null}}
+   * Parse the update data
+   * @param data The update data
+   * @returns {{updateUrl, infoUrl: *, version: SemVer, updateAvailable: boolean}} The parsed update data
    */
-  const parseUpdate = (update) => {
-    const platform = update.platforms[os];
-    const data = {
-      updateUrl: false,
-      downloadUrl: null,
-      infoUrl: null,
-      version: null,
-    };
-
-    if (
-      isNewer(
-        currentVersion,
-        `${platform.version.majorVersion}.${platform.version.minorVersion}.${platform.version.buildVersion}.${platform.version.revisionVersion}`,
-      )
-    ) {
-      data.updateAvailable = true;
+  const parseUpdate = (data) => {
+    const platform = data.platforms.find(
+      (p) => p.platformName.toLowerCase() === os.toLowerCase(),
+    );
+    if (!platform) {
+      throw new Error(`Platform ${os} not found`);
     }
 
-    data.updateUrl = platform.updateUrl;
-    data.infoUrl = platform.infoUrl;
-    data.version = `${platform.version.majorVersion}.${platform.version.minorVersion}.${platform.version.buildVersion}.${platform.version.revisionVersion}`;
+    // Find the architecture
+    const architecture = platform.architectures.find(
+      (a) => a.name === architectureName,
+    );
+    if (!architecture) {
+      throw new Error(
+        `Architecture ${architectureName} not found for platform ${os}`,
+      );
+    }
 
-    return data;
+    // Sort releases by semver in descending order
+    const sortedReleases = architecture.releases.sort((a, b) => {
+      return semverCompare(b.semver, a.semver);
+    });
+
+    return {
+      updateUrl: sortedReleases[0].downloadUrl,
+      infoUrl: sortedReleases[0].infoUrl,
+      version: sortedReleases[0].semver,
+      updateAvailable:
+        semverCompare(currentVersion, sortedReleases[0].semver) < 0,
+    };
   };
 
   return new Promise((resolve, reject) => {
-    fetch('https://codedead.com/Software/Advanced%20PortChecker/version.json')
+    fetch(
+      'https://api.codedead.com/api/v1/applications/47cd7e8f-2744-443c-850e-619df5d5c43f',
+    )
       .then((res) => {
         if (!res.ok) {
           throw Error(res.statusText);

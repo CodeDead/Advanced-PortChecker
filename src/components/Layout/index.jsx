@@ -2,9 +2,9 @@ import React, { Suspense, useContext, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { platform } from '@tauri-apps/plugin-os';
+import { getVersion } from '@tauri-apps/api/app';
+import { platform, arch } from '@tauri-apps/plugin-os';
 import { Outlet } from 'react-router-dom';
-import packageJson from '../../../package.json';
 import { MainContext } from '../../contexts/MainContextProvider';
 import {
   getNumberOfThreads,
@@ -49,7 +49,7 @@ const Layout = () => {
   /**
    * Check for updates
    */
-  const checkForUpdates = () => {
+  const checkForUpdates = async () => {
     if (loading) {
       return;
     }
@@ -59,7 +59,10 @@ const Layout = () => {
 
     try {
       const res = platform();
-      Updater(res.toLowerCase(), packageJson.version)
+      const archRes = arch();
+      const ver = 'v' + (await getVersion());
+
+      Updater(res.toLowerCase(), archRes, ver)
         .then((up) => {
           d1(setUpdate(up));
         })
