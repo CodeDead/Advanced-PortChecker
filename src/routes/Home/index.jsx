@@ -1,24 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import { DataGrid } from '@mui/x-data-grid';
-import Button from '@mui/material/Button';
-import { save } from '@tauri-apps/plugin-dialog';
-import { invoke } from '@tauri-apps/api/core';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
 import LinearProgress from '@mui/material/LinearProgress';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
+import TextField from '@mui/material/TextField';
+import { DataGrid } from '@mui/x-data-grid';
+import { invoke } from '@tauri-apps/api/core';
+import { save } from '@tauri-apps/plugin-dialog';
+import PortInput from '../../components/PortInput';
+import { MainContext } from '../../contexts/MainContextProvider';
 import {
   cancelScan,
   scanAddresses,
@@ -31,16 +33,26 @@ import {
   setScanResults,
   setStartPort,
 } from '../../reducers/MainReducer/Actions';
-import { MainContext } from '../../contexts/MainContextProvider';
-import PortInput from '../../components/PortInput';
 
 const Home = () => {
   const [state, d1] = useContext(MainContext);
 
   const {
-    languages, languageIndex, addresses, startPort, endPort, timeout,
-    threads, noClosed, sort, isScanning, scanResults, exportNoClosed,
-    isCancelling, noUnknown, exportNoUnknown,
+    languages,
+    languageIndex,
+    addresses,
+    startPort,
+    endPort,
+    timeout,
+    threads,
+    noClosed,
+    sort,
+    isScanning,
+    scanResults,
+    exportNoClosed,
+    isCancelling,
+    noUnknown,
+    exportNoUnknown,
   } = state;
   const language = languages[languageIndex];
 
@@ -76,7 +88,9 @@ const Home = () => {
    * @param indexToRemove The index of the address to remove
    */
   const removeAddress = (indexToRemove) => {
-    const newAddresses = addresses.filter((address, index) => index !== indexToRemove);
+    const newAddresses = addresses.filter(
+      (address, index) => index !== indexToRemove,
+    );
     d1(setAddresses(newAddresses));
   };
 
@@ -117,18 +131,21 @@ const Home = () => {
   const startStopScan = () => {
     if (isScanning) {
       d1(setIsCancelling(true));
-      cancelScan()
-        .catch((err) => {
-          d1(setError(err));
-          d1(setIsCancelling(false));
-        });
+      cancelScan().catch((err) => {
+        d1(setError(err));
+        d1(setIsCancelling(false));
+      });
     } else {
       for (let i = 0; i < addresses.length; i += 1) {
-        if (addresses[i] === '' || startPort < 0
-            || startPort > 65535
-            || endPort < 0
-            || endPort > 65535
-            || startPort > endPort) return;
+        if (
+          addresses[i] === '' ||
+          startPort < 0 ||
+          startPort > 65535 ||
+          endPort < 0 ||
+          endPort > 65535 ||
+          startPort > endPort
+        )
+          return;
       }
 
       d1(setIsScanning(true));
@@ -191,7 +208,11 @@ const Home = () => {
 
     if (type === 'text/plain') {
       res.forEach((e) => {
-        if ((!exportNoClosed && e.portStatus === 'Closed') || (!exportNoUnknown && e.portStatus === 'Unknown')) return;
+        if (
+          (!exportNoClosed && e.portStatus === 'Closed') ||
+          (!exportNoUnknown && e.portStatus === 'Unknown')
+        )
+          return;
         toExport += `${e.address} ${e.port} ${e.hostName} ${e.portStatus} ${e.scanDate}\n`;
       });
     } else if (type === 'application/json') {
@@ -205,13 +226,22 @@ const Home = () => {
       toExport = JSON.stringify(exportJson, null, 2);
     } else if (type === 'text/csv') {
       res.forEach((e) => {
-        if ((!exportNoClosed && e.portStatus === 'Closed') || (!exportNoUnknown && e.portStatus === 'Unknown')) return;
+        if (
+          (!exportNoClosed && e.portStatus === 'Closed') ||
+          (!exportNoUnknown && e.portStatus === 'Unknown')
+        )
+          return;
         toExport += `"${e.address.replaceAll('"', '""')}","${e.port}","${e.hostName.replaceAll('"', '""')}","${e.portStatus.replaceAll('"', '""')}","${e.scanDate.replaceAll('"', '""')}",\n`;
       });
     } else if (type === 'text/html') {
-      toExport = '<!DOCTYPE html><html lang="en"><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
+      toExport =
+        '<!DOCTYPE html><html lang="en"><head><title>Advanced PortChecker</title><style>table, th, td {border: 1px solid black;}</style></head><body><table><thead><tr><th>Address</th><th>Port</th><th>Host Name</th><th>Port Status</th><th>Scan Date</th></tr></thead><tbody>';
       res.forEach((e) => {
-        if ((!exportNoClosed && e.portStatus === 'Closed') || (!exportNoUnknown && e.portStatus === 'Unknown')) return;
+        if (
+          (!exportNoClosed && e.portStatus === 'Closed') ||
+          (!exportNoUnknown && e.portStatus === 'Unknown')
+        )
+          return;
         toExport += `<tr><td>${e.address}</td><td>${e.port}</td><td>${e.hostName}</td><td>${e.portStatus}</td><td>${e.scanDate}</td></tr>`;
       });
       toExport += '</tbody></table></body></html>';
@@ -241,17 +271,21 @@ const Home = () => {
     }
     save({
       multiple: false,
-      filters: [{
-        name: exportType,
-        extensions: [ext],
-      }],
+      filters: [
+        {
+          name: exportType,
+          extensions: [ext],
+        },
+      ],
     })
       .then((res) => {
         if (res && res.length > 0) {
-          // eslint-disable-next-line no-bitwise
-          const resExt = res.slice((res.lastIndexOf('.') - 1 >>> 0) + 2);
+          const resExt = res.slice(((res.lastIndexOf('.') - 1) >>> 0) + 2);
           const path = resExt && resExt.length > 0 ? res : `${res}.${ext}`;
-          invoke('save_string_to_disk', { content: getExportData(scanResults, exportType), path })
+          invoke('save_string_to_disk', {
+            content: getExportData(scanResults, exportType),
+            path,
+          })
             .then(() => {
               setSnackOpen(true);
             })
@@ -275,11 +309,14 @@ const Home = () => {
    * @param scanDate The scan date
    * @returns {{hostName, portType, address, port, scanDate}}
    */
-  const createData = (id, addr, port, hostName, portStatus, scanDate) => (
-    {
-      id, address: addr, port, hostName, portStatus, scanDate,
-    }
-  );
+  const createData = (id, addr, port, hostName, portStatus, scanDate) => ({
+    id,
+    address: addr,
+    port,
+    hostName,
+    portStatus,
+    scanDate,
+  });
 
   const columns = [
     {
@@ -316,10 +353,11 @@ const Home = () => {
 
   const scanResultRows = [];
   if (scanResults && scanResults.length > 0) {
-    // eslint-disable-next-line no-restricted-syntax
     for (const res of scanResults) {
-      if ((noClosed && res.portStatus === 'Closed') || (noUnknown && res.portStatus === 'Unknown')) {
-        // eslint-disable-next-line no-continue
+      if (
+        (noClosed && res.portStatus === 'Closed') ||
+        (noUnknown && res.portStatus === 'Unknown')
+      ) {
         continue;
       }
 
@@ -347,7 +385,6 @@ const Home = () => {
     const canAdd = i === addresses.length - 1;
 
     return (
-      // eslint-disable-next-line react/no-array-index-key
       <Grid container spacing={2} key={i} sx={{ mt: i > 0 ? 1 : 0 }}>
         <Grid size={{ xs: 12, md: 11, lg: 11 }}>
           <TextField
@@ -364,13 +401,23 @@ const Home = () => {
         </Grid>
         {canAdd ? (
           <Grid size={{ xs: 12, md: 1, lg: 1 }}>
-            <IconButton aria-label="add" size="large" onClick={addAddress} disabled={isScanning}>
+            <IconButton
+              aria-label="add"
+              size="large"
+              onClick={addAddress}
+              disabled={isScanning}
+            >
               <AddIcon fontSize="inherit" />
             </IconButton>
           </Grid>
         ) : (
           <Grid size={{ xs: 12, md: 1, lg: 1 }}>
-            <IconButton aria-label="remove" size="large" onClick={() => removeAddress(i)} disabled={isScanning}>
+            <IconButton
+              aria-label="remove"
+              size="large"
+              onClick={() => removeAddress(i)}
+              disabled={isScanning}
+            >
               <RemoveIcon fontSize="inherit" />
             </IconButton>
           </Grid>
@@ -381,6 +428,7 @@ const Home = () => {
 
   useEffect(() => {
     d1(setPageIndex(0));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -442,15 +490,17 @@ const Home = () => {
         color="primary"
         onClick={onExport}
         sx={{ mt: 2, ml: 2, mr: 2 }}
-        disabled={!scanResults || scanResults.length === 0 || exportType === null || isScanning}
+        disabled={
+          !scanResults ||
+          scanResults.length === 0 ||
+          exportType === null ||
+          isScanning
+        }
         style={{ float: 'right' }}
       >
         {language.export}
       </Button>
-      <FormControl
-        sx={{ mt: 2, minWidth: 150, float: 'right' }}
-        size="small"
-      >
+      <FormControl sx={{ mt: 2, minWidth: 150, float: 'right' }} size="small">
         <InputLabel id="export-type-label">{language.exportType}</InputLabel>
         <Select
           labelId="export-type-label"

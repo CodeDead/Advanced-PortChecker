@@ -1,9 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 
-const PortInput = ({
-  label, port, disabled, onKeyDown, onChange,
-}) => (
+const PortInput = ({ label, port, disabled, onKeyDown, onChange }) => (
   <TextField
     id="start-port-basic"
     label={label}

@@ -8,12 +8,10 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import MainContextProvider from './contexts/MainContextProvider';
 
-ReactDOM
-  .createRoot(document.getElementById('root'))
-  .render(
-    <React.StrictMode>
-      <MainContextProvider>
-        <App />
-      </MainContextProvider>
-    </React.StrictMode>,
-  );
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <MainContextProvider>
+      <App />
+    </MainContextProvider>
+  </React.StrictMode>,
+);

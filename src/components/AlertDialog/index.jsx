@@ -1,13 +1,20 @@
 import React from 'react';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
 
 const AlertDialog = ({
-  open, title, content, onOk, onCancel, onClose, agreeLabel, cancelLabel,
+  open,
+  title,
+  content,
+  onOk,
+  onCancel,
+  onClose,
+  agreeLabel,
+  cancelLabel,
 }) => {
   /**
    * Cancel action
@@ -41,7 +48,6 @@ const AlertDialog = ({
   const splitContent = content.split('\n').map((item, idx) => {
     if (idx === 0) {
       return (
-      // eslint-disable-next-line react/no-array-index-key
         <span key={idx}>
           {item}
           {content.split('\n').length > 1 ? <br /> : null}
@@ -49,7 +55,6 @@ const AlertDialog = ({
       );
     }
     return (
-    // eslint-disable-next-line react/no-array-index-key
       <span key={idx}>
         {item.charAt(0).toUpperCase() + item.slice(1)}
         <br />
@@ -64,20 +69,14 @@ const AlertDialog = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {title}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           {splitContent}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        {onCancel ? (
-          <Button onClick={cancel}>
-            {cancelLabel}
-          </Button>
-        ) : null}
+        {onCancel ? <Button onClick={cancel}>{cancelLabel}</Button> : null}
         {onOk ? (
           <Button onClick={agree} autoFocus>
             {agreeLabel}
