@@ -19,7 +19,7 @@ checksum = "512761e0bb2578dd7380c6baaa0f4ce03e84f95e960231d1dec8bf4d7d6e2627"
 
 [[package]]
 name = "advanced-portchecker"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
  "chrono",
  "open",
