@@ -1,13 +1,11 @@
-import React, {
-  Suspense, useContext, useEffect,
-} from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { platform } from '@tauri-apps/plugin-os';
+import React, { Suspense, useContext, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { platform } from '@tauri-apps/plugin-os';
 import { Outlet } from 'react-router-dom';
+import packageJson from '../../../package.json';
 import { MainContext } from '../../contexts/MainContextProvider';
-import ThemeSelector from '../../utils/ThemeSelector';
 import {
   getNumberOfThreads,
   openWebSite,
@@ -17,18 +15,24 @@ import {
   setThreads,
   setUpdate,
 } from '../../reducers/MainReducer/Actions';
+import ThemeSelector from '../../utils/ThemeSelector';
 import Updater from '../../utils/Updater';
-import packageJson from '../../../package.json';
-import TopBar from '../TopBar';
+import AlertDialog from '../AlertDialog';
 import DrawerHeader from '../DrawerHeader';
 import LoadingBar from '../LoadingBar';
-import AlertDialog from '../AlertDialog';
+import TopBar from '../TopBar';
 import UpdateDialog from '../UpdateDialog';
 
 const Layout = () => {
   const [state, d1] = useContext(MainContext);
   const {
-    themeIndex, themeType, update, languageIndex, autoUpdate, error, loading,
+    themeIndex,
+    themeType,
+    update,
+    languageIndex,
+    autoUpdate,
+    error,
+    loading,
     checkedForUpdates,
   } = state;
 
@@ -99,11 +103,11 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line no-underscore-dangle
     if (window.__TAURI__ && autoUpdate) {
       updateThreads();
       checkForUpdates();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -137,7 +141,7 @@ const Layout = () => {
           onClose={closeAlertDialog}
         />
       ) : null}
-      {/* eslint-disable-next-line no-nested-ternary */}
+      {}
       {update && update.updateAvailable ? (
         <UpdateDialog
           downloadUrl={update.updateUrl}

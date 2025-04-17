@@ -1,29 +1,29 @@
 import React, { useContext, useState } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import InfoIcon from '@mui/icons-material/Info';
+import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import MuiAppBar from '@mui/material/AppBar';
+import Divider from '@mui/material/Divider';
+import MuiDrawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Brightness5Icon from '@mui/icons-material/Brightness5';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import InfoIcon from '@mui/icons-material/Info';
+import { styled, useTheme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import DrawerHeader from '../DrawerHeader';
 import { MainContext } from '../../contexts/MainContextProvider';
 import { openWebSite, setThemeType } from '../../reducers/MainReducer/Actions';
+import DrawerHeader from '../DrawerHeader';
 
 const drawerWidth = 240;
 
@@ -66,22 +66,22 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...(open && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
   }),
-);
+  ...(!open && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}));
 
 const TopBar = () => {
   const [state, d1] = useContext(MainContext);
@@ -89,9 +89,7 @@ const TopBar = () => {
 
   const [open, setOpen] = useState(false);
 
-  const {
-    languageIndex, pageIndex, colorOnDark,
-  } = state;
+  const { languageIndex, pageIndex, colorOnDark } = state;
   const language = state.languages[languageIndex];
 
   const theme = useTheme();
@@ -144,11 +142,7 @@ const TopBar = () => {
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        open={open}
-        enableColorOnDark={colorOnDark}
-      >
+      <AppBar position="fixed" open={open} enableColorOnDark={colorOnDark}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -186,7 +180,11 @@ const TopBar = () => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -210,7 +208,10 @@ const TopBar = () => {
               >
                 <TravelExploreIcon />
               </ListItemIcon>
-              <ListItemText primary={language.scan} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                primary={language.scan}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
         </List>
@@ -235,7 +236,10 @@ const TopBar = () => {
               >
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary={language.settings} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                primary={language.settings}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
         </List>
@@ -261,7 +265,10 @@ const TopBar = () => {
               >
                 <AttachMoneyIcon />
               </ListItemIcon>
-              <ListItemText primary={language.donate} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                primary={language.donate}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
@@ -283,7 +290,10 @@ const TopBar = () => {
               >
                 <InfoIcon />
               </ListItemIcon>
-              <ListItemText primary={language.about} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                primary={language.about}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
         </List>

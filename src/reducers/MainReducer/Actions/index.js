@@ -57,14 +57,19 @@ export const setAutoUpdate = (value) => ({
 });
 
 export const openWebSite = (website) => {
-  invoke('open_website', { website })
-    .catch((e) => {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    });
+  invoke('open_website', { website }).catch((e) => {
+    console.error(e);
+  });
 };
 
-export const scanAddresses = (addresses, startPort, endPort, timeout, threads, sort) => {
+export const scanAddresses = (
+  addresses,
+  startPort,
+  endPort,
+  timeout,
+  threads,
+  sort,
+) => {
   const cmd = {
     addresses,
     startPort: parseInt(startPort, 10),

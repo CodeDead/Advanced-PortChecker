@@ -1,20 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import { platform } from '@tauri-apps/plugin-os';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
 import {
   blue,
   lightBlue,
@@ -35,38 +23,64 @@ import {
   lime,
   yellow,
 } from '@mui/material/colors';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { platform } from '@tauri-apps/plugin-os';
 import packageJson from '../../../package.json';
-import Updater from '../../utils/Updater';
+import AlertDialog from '../../components/AlertDialog';
+import GridList from '../../components/GridList';
+import Theme from '../../components/Theme';
+import { MainContext } from '../../contexts/MainContextProvider';
 import {
   getNumberOfThreads,
   resetState,
   setAutoUpdate,
   setCheckedForUpdates,
   setColorOnDark,
-  setError, setExportNoClosed, setExportNoUnknown,
+  setError,
+  setExportNoClosed,
+  setExportNoUnknown,
   setLanguageIndex,
-  setNoClosed, setNoUnknown,
+  setNoClosed,
+  setNoUnknown,
   setPageIndex,
   setSort,
-  setThemeIndex, setThemeToggle,
+  setThemeIndex,
+  setThemeToggle,
   setThemeType,
   setThreads,
   setTimeout,
   setUpdate,
 } from '../../reducers/MainReducer/Actions';
-import { MainContext } from '../../contexts/MainContextProvider';
-import Theme from '../../components/Theme';
-import AlertDialog from '../../components/AlertDialog';
-import GridList from '../../components/GridList';
+import Updater from '../../utils/Updater';
 
 const Settings = () => {
   const [state, d1] = useContext(MainContext);
 
   const {
-    languageIndex, autoUpdate, colorOnDark, themeIndex, themeType,
-    threads, timeout, noClosed, sort, themeToggle, exportNoClosed,
-    noUnknown, exportNoUnknown,
+    languageIndex,
+    autoUpdate,
+    colorOnDark,
+    themeIndex,
+    themeType,
+    threads,
+    timeout,
+    noClosed,
+    sort,
+    themeToggle,
+    exportNoClosed,
+    noUnknown,
+    exportNoUnknown,
   } = state;
   const language = state.languages[languageIndex];
 
@@ -158,6 +172,7 @@ const Settings = () => {
 
   useEffect(() => {
     d1(setPageIndex(1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -169,83 +184,83 @@ const Settings = () => {
         <CardContent>
           <FormGroup>
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={autoUpdate}
                   onChange={(e) => d1(setAutoUpdate(e.target.checked))}
                   value="autoUpdate"
                 />
-              )}
+              }
               label={language.autoUpdate}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={colorOnDark}
                   onChange={(e) => d1(setColorOnDark(e.target.checked))}
                   value="colorOnDarkSelector"
                 />
-              )}
+              }
               label={language.colorOnDark}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={themeToggle}
                   onChange={(e) => d1(setThemeToggle(e.target.checked))}
                   value="themeToggleSelector"
                 />
-              )}
+              }
               label={language.themeToggleInTopBar}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={noClosed}
                   onChange={(e) => d1(setNoClosed(e.target.checked))}
                   value="noClosed"
                 />
-                )}
+              }
               label={language.hideClosedPorts}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={noUnknown}
                   onChange={(e) => d1(setNoUnknown(e.target.checked))}
                   value="noUnknown"
                 />
-                )}
+              }
               label={language.hideUnknownPorts}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={exportNoClosed}
                   onChange={(e) => d1(setExportNoClosed(e.target.checked))}
                   value="exportNoClosed"
                 />
-                )}
+              }
               label={language.exportIncludeClosedPorts}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={exportNoUnknown}
                   onChange={(e) => d1(setExportNoUnknown(e.target.checked))}
                   value="exportNoUnknown"
                 />
-                )}
+              }
               label={language.exportIncludeUnknownPorts}
             />
             <FormControlLabel
-              control={(
+              control={
                 <Checkbox
                   checked={sort}
                   onChange={(e) => d1(setSort(e.target.checked))}
                   value="sort"
                 />
-                )}
+              }
               label={language.sort}
             />
             <FormControl variant="outlined" sx={{ mt: 2 }}>
@@ -422,17 +437,21 @@ const Settings = () => {
           <FormControl style={{ marginTop: 10 }} component="fieldset">
             <FormLabel component="legend">{language.themeStyle}</FormLabel>
             <RadioGroup row value={themeType} onChange={changeThemeStyle}>
-              <FormControlLabel value="light" control={<Radio />} label={language.light} />
-              <FormControlLabel value="dark" control={<Radio />} label={language.dark} />
+              <FormControlLabel
+                value="light"
+                control={<Radio />}
+                label={language.light}
+              />
+              <FormControlLabel
+                value="dark"
+                control={<Radio />}
+                label={language.dark}
+              />
             </RadioGroup>
           </FormControl>
         </CardContent>
       </Card>
-      <Button
-        variant="contained"
-        sx={{ mt: 2 }}
-        onClick={checkForUpdates}
-      >
+      <Button variant="contained" sx={{ mt: 2 }} onClick={checkForUpdates}>
         {language.checkForUpdates}
       </Button>
       <Button
