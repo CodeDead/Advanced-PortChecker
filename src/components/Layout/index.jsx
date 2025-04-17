@@ -62,7 +62,7 @@ const Layout = () => {
       const archRes = arch();
       const ver = 'v' + (await getVersion());
 
-      Updater(res.toLowerCase(), archRes, ver)
+      Updater(res.toLowerCase(), archRes.toLowerCase(), ver)
         .then((up) => {
           d1(setUpdate(up));
         })
