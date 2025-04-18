@@ -86,7 +86,8 @@ All other images were provided by [MUI](https://mui.com/material-ui/material-ico
 ### Translations
 
 - Chinese (Simplified) - [王先生笔记](https://wxsnote.cn)
-- Italian - [bovirus](https://github.com/CodeDead/Advanced-PortChecker/pull/20)
+- Italian - [bovirus](https://github.com/bovirus)
+- Japanese - [coolvitto](https://github.com/coolvitto)
 
 ## About
 
