@@ -87,7 +87,7 @@ All other images were provided by [MUI](https://mui.com/material-ui/material-ico
 
 - Chinese (Simplified) - [王先生笔记](https://wxsnote.cn)
 - Italian - [bovirus](https://github.com/CodeDead/Advanced-PortChecker/pull/20)
-- Japanese = [coolvitto](https://github.com/coolvitto)
+- Japanese - [coolvitto](https://github.com/coolvitto)
 
 ## About
 
