@@ -3,6 +3,7 @@ import enUs from '../../languages/en_us.json';
 import esEs from '../../languages/es_es.json';
 import frFr from '../../languages/fr_fr.json';
 import itIt from '../../languages/it_it.json';
+import jaJp from '../../languages/ja_jp.json';
 import nlNl from '../../languages/nl_nl.json';
 import zhCn from '../../languages/zh_cn.json';
 import MainReducer from '../../reducers/MainReducer';
@@ -43,7 +44,7 @@ const themeToggle = localStorage.themeToggle
 const initState = {
   autoUpdate,
   languageIndex,
-  languages: [enUs, esEs, frFr, itIt, nlNl, zhCn],
+  languages: [enUs, esEs, frFr, itIt, jaJp, nlNl, zhCn],
   themeIndex,
   themeType,
   pageIndex: 0,
