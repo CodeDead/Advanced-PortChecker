@@ -20,6 +20,12 @@ struct SharedState {
 }
 
 fn main() {
+    // Fix for NVIDIA
+    unsafe {
+        std::env::set_var("__GL_THREADED_OPTIMIZATIONS", "0");
+        std::env::set_var("__NV_DISABLE_EXPLICIT_SYNC", "1");
+    }
+
     let shared_state = SharedState {
         is_scanning: Arc::new(AtomicBool::new(false)),
         cancellation_token: Arc::new(AtomicBool::new(false)),
