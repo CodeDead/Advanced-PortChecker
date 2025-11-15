@@ -50,7 +50,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 780,
+        "height": 880,
         "resizable": true,
         "title": "Advanced PortChecker",
         "width": 1200
