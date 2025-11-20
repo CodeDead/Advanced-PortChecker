@@ -18,7 +18,7 @@
     "@fontsource/roboto": "^5.2.8",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
-    "@mui/x-data-grid": "^8.18.0",
+    "@mui/x-data-grid": "^8.19.0",
     "@tauri-apps/api": "^2.9.0",
     "@tauri-apps/plugin-dialog": "^2.4.2",
     "@tauri-apps/plugin-os": "^2.3.2",
@@ -29,7 +29,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@tauri-apps/cli": "^2.9.4",
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "eslint": "^9.39.1",
@@ -40,7 +40,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "prettier": "^3.6.2",
-    "vite": "^7.2.2",
+    "vite": "^7.2.4",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^4.5.0"
   },
