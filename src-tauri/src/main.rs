@@ -21,9 +21,9 @@ struct SharedState {
 
 fn main() {
     // Fix for NVIDIA
+    #[cfg(target_os = "linux")]
     unsafe {
-        std::env::set_var("__GL_THREADED_OPTIMIZATIONS", "0");
-        std::env::set_var("__NV_DISABLE_EXPLICIT_SYNC", "1");
+        std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
     }
 
     let shared_state = SharedState {
@@ -81,8 +81,7 @@ fn save_string_to_disk(content: &str, path: &str) -> Result<(), String> {
 /// * `u32` - The number of threads that can be used for port scanning
 #[tauri::command]
 fn get_number_of_threads() -> usize {
-    let default_parallelism_approx = available_parallelism().unwrap().get();
-    default_parallelism_approx
+    available_parallelism().unwrap().get()
 }
 
 /// Open a website using the default browser
@@ -214,8 +213,7 @@ async fn scan_port_range(
                     state.cancellation_token.store(false, Ordering::SeqCst);
                     return Err(format!(
                         "{}:80 is an invalid socket address!\n{}",
-                        address,
-                        e.to_string()
+                        address, e
                     ));
                 }
             };
@@ -322,9 +320,7 @@ async fn scan_port_range(
                     state.cancellation_token.store(false, Ordering::SeqCst);
                     return Err(format!(
                         "{}:{} is an invalid socket address!\n{}",
-                        address,
-                        port,
-                        e.to_string()
+                        address, port, e
                     ));
                 }
             };

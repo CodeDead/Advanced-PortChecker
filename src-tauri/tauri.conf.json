@@ -42,7 +42,7 @@
   },
   "productName": "advanced-portchecker",
   "mainBinaryName": "advanced-portchecker",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "identifier": "com.codedead.advancedportchecker",
   "plugins": {},
   "app": {
@@ -50,10 +50,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 780,
+        "height": 880,
         "resizable": true,
         "title": "Advanced PortChecker",
-        "width": 1100
+        "width": 1200
       }
     ],
     "security": {
