@@ -21,6 +21,7 @@ Advanced PortChecker 使用 tauri 来构建桌面应用程序。您可以在[此
 ### 开发
 
 您可以通过运行 `yarn tdev` 命令来启动开发预览：
+
 ```shell
 yarn tdev
 ```
@@ -30,6 +31,7 @@ yarn tdev
 #### 安装程序
 
 您可以通过在 Windows 主机上运行 `yarn tbuild` 命令来创建可执行安装程序：
+
 ```shell
 yarn tbuild
 ```
@@ -39,6 +41,7 @@ yarn tbuild
 #### deb
 
 您可以通过在 Linux 主机上运行 `yarn tbuild` 命令来创建一个 .deb 文件：
+
 ```shell
 yarn tbuild
 ```
@@ -46,6 +49,7 @@ yarn tbuild
 #### AppImage
 
 您可以通过在 Linux 主机上执行 `yarn tbuild` 命令来创建一个 [AppImage](https://appimage.github.io/)：
+
 ```shell
 yarn tbuild
 ```
@@ -55,6 +59,7 @@ yarn tbuild
 #### dmg
 
 您可以通过在 macOS 主机上运行 `yarn tbuild` 命令来创建 macOS 构建版本：
+
 ```shell
 yarn tbuild
 ```
@@ -62,6 +67,7 @@ yarn tbuild
 #### 归档 (Archive)
 
 您可以通过在 macOS 主机上运行 `yarn tbuild` 命令来创建 macOS 构建版本：
+
 ```shell
 yarn tbuild
 ```
@@ -94,8 +100,9 @@ yarn tbuild
 ## 关于
 
 此库由 CodeDead 维护。您可以通过以下链接找到关于我们的更多信息：
-* [网站](https://codedead.com)
-* [Bluesky](https://bsky.app/profile/codedead.com)
-* [Facebook](https://facebook.com/deadlinecodedead)
+
+- [网站](https://codedead.com)
+- [Bluesky](https://bsky.app/profile/codedead.com)
+- [Facebook](https://facebook.com/deadlinecodedead)
 
 Copyright © 2025 CodeDead
