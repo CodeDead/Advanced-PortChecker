@@ -82,7 +82,7 @@ yarn tbuild
 
 ### 画像
 
-アプリケーションアイコン（およびその派生）は[RemixIcon](https://remixicon.com/)によって提供されています。  
+アプリケーションアイコン（およびその派生）は[RemixIcon](https://remixicon.com/)によって提供されています。
 その他のすべての画像は[MUI](https://mui.com/material-ui/material-icons/)によって提供されました。
 
 ### 翻訳
