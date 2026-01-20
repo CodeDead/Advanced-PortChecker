@@ -21,6 +21,7 @@ Advanced PortCheckerは、デスクトップアプリケーションをビルド
 ### 開発
 
 `yarn tdev`コマンドを実行して、開発プレビューを開始できます：
+
 ```shell
 yarn tdev
 ```
@@ -30,6 +31,7 @@ yarn tdev
 #### インストーラー
 
 Windowsホストで`yarn tbuild`コマンドを実行して、実行可能なインストーラーを作成できます：
+
 ```shell
 yarn tbuild
 ```
@@ -39,6 +41,7 @@ yarn tbuild
 #### deb
 
 Linuxホストで`yarn tbuild`コマンドを実行して、.debファイルを作成できます：
+
 ```shell
 yarn tbuild
 ```
@@ -46,6 +49,7 @@ yarn tbuild
 #### AppImage
 
 Linuxホストで`yarn tbuild`コマンドを実行して、[AppImage](https://appimage.github.io/)を作成できます：
+
 ```shell
 yarn tbuild
 ```
@@ -55,6 +59,7 @@ yarn tbuild
 #### dmg
 
 macOSホストで`yarn tbuild`コマンドを実行して、macOSビルドを作成できます：
+
 ```shell
 yarn tbuild
 ```
@@ -62,6 +67,7 @@ yarn tbuild
 #### アーカイブ
 
 macOSホストで`yarn tbuild`コマンドを実行して、macOSビルドを作成できます：
+
 ```shell
 yarn tbuild
 ```
@@ -94,8 +100,9 @@ yarn tbuild
 ## 概要
 
 このライブラリはCodeDeadによって管理されています。以下のリンクから私たちの詳細を確認できます：
-* [ウェブサイト](https://codedead.com)
-* [Bluesky](https://bsky.app/profile/codedead.com)
-* [Facebook](https://facebook.com/deadlinecodedead)
+
+- [ウェブサイト](https://codedead.com)
+- [Bluesky](https://bsky.app/profile/codedead.com)
+- [Facebook](https://facebook.com/deadlinecodedead)
 
 Copyright © 2025 CodeDead
