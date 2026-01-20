@@ -82,7 +82,7 @@ Il tema utilizzato in questa applicazione è [MUI](https://mui.com/).
 
 ### Immagini
 
-L'icona dell'applicazione (e i derivati) sono forniti da [RemixIcon](https://remixicon.com/).  
+L'icona dell'applicazione (e i derivati) sono forniti da [RemixIcon](https://remixicon.com/).
 Tutte le altre immagini sono state fornite da [MUI](https://mui.com/material-ui/material-icons/).
 
 ### Traduzioni
