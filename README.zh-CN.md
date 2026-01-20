@@ -82,7 +82,7 @@ yarn tbuild
 
 ### 图像 (Images)
 
-应用程序图标（及其衍生产品）由 [RemixIcon](https://remixicon.com/) 提供。  
+应用程序图标（及其衍生产品）由 [RemixIcon](https://remixicon.com/) 提供。
 所有其他图像均由 [MUI](https://mui.com/material-ui/material-icons/) 提供。
 
 ### 翻译 (Translations)
