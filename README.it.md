@@ -21,6 +21,7 @@ Per ulteriori informazioni sulla compilazione tramite `vite`, leggi la documenta
 ### Sviluppo
 
 Puoi avviare un'anteprima di sviluppo eseguendo il comando `yarn tdev`:
+
 ```shell
 yarn tdev
 ```
@@ -30,6 +31,7 @@ yarn tdev
 #### Installer
 
 Puoi creare un installer eseguibile eseguendo il comando `yarn tbuild` su un host Windows:
+
 ```shell
 yarn tbuild
 ```
@@ -39,6 +41,7 @@ yarn tbuild
 #### deb
 
 Puoi creare un file .deb eseguendo il comando `yarn tbuild` su un host Linux:
+
 ```shell
 yarn tbuild
 ```
@@ -46,6 +49,7 @@ yarn tbuild
 #### AppImage
 
 Puoi creare un [AppImage](https://appimage.github.io/) eseguendo il comando `yarn tbuild` su un host Linux:
+
 ```shell
 yarn tbuild
 ```
@@ -55,6 +59,7 @@ yarn tbuild
 #### dmg
 
 Puoi creare una build per macOS eseguendo il comando `yarn tbuild` su un host macOS:
+
 ```shell
 yarn tbuild
 ```
@@ -62,6 +67,7 @@ yarn tbuild
 #### Archivio
 
 Puoi creare una build per macOS eseguendo il comando `yarn tbuild` su un host macOS:
+
 ```shell
 yarn tbuild
 ```
@@ -94,8 +100,9 @@ Tutte le altre immagini sono state fornite da [MUI](https://mui.com/material-ui/
 ## Informazioni
 
 Questa libreria è gestita da CodeDead. Puoi trovare maggiori informazioni su di noi utilizzando i seguenti link:
-* [Sito Web](https://codedead.com)
-* [Bluesky](https://bsky.app/profile/codedead.com)
-* [Facebook](https://facebook.com/deadlinecodedead)
+
+- [Sito Web](https://codedead.com)
+- [Bluesky](https://bsky.app/profile/codedead.com)
+- [Facebook](https://facebook.com/deadlinecodedead)
 
 Copyright © 2025 CodeDead
