@@ -2,6 +2,8 @@
 
 ![Advanced PortChecker](https://i.imgur.com/vdt1sXZ.png)
 
+[English](README.md) | [简体中文](README.zh-CN.md) | [Italiano](README.it.md) | [日本語](README.ja.md)
+
 ![GitHub](https://img.shields.io/badge/language-JavaScript+Rust-green)
 ![GitHub](https://img.shields.io/github/license/CodeDead/Advanced-PortChecker)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/Advanced-PortChecker)
