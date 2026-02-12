@@ -23,7 +23,7 @@ fn main() {
     // Fix for NVIDIA
     #[cfg(target_os = "linux")]
     unsafe {
-        std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
+        std::env::set_var("__NV_DISABLE_EXPLICIT_SYNC", "1");
     }
 
     let shared_state = SharedState {
