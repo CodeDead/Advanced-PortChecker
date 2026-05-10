@@ -19,12 +19,18 @@ struct SharedState {
     last_error: Arc<Mutex<String>>,
 }
 
-fn main() {
-    // Fix for NVIDIA
-    #[cfg(target_os = "linux")]
+#[cfg(target_os = "linux")]
+fn configure_linux_environment() {
+    // SAFETY: This runs during application startup before any threads are spawned
+    // and only sets a fixed process-wide environment variable needed on Linux.
     unsafe {
         std::env::set_var("__NV_DISABLE_EXPLICIT_SYNC", "1");
     }
+}
+
+fn main() {
+    #[cfg(target_os = "linux")]
+    configure_linux_environment();
 
     let shared_state = SharedState {
         is_scanning: Arc::new(AtomicBool::new(false)),
