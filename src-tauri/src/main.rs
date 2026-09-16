@@ -319,7 +319,7 @@ async fn scan_port_range(
         }
 
         for port in start_port..=end_port {
-            match format!("{}:{}", &address, port).to_socket_addrs() {
+            match format!("{}:{}", address, port).to_socket_addrs() {
                 Ok(res) => res,
                 Err(e) => {
                     state.is_scanning.store(false, Ordering::SeqCst);
