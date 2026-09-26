@@ -44,12 +44,31 @@ const Updater = (os, architectureName, currentVersion) => {
       return semverCompare(b.semver, a.semver);
     });
 
+    const { downloadUrl, infoUrl, semver } = sortedReleases[0];
+
+    // Only trust update/info URLs served over HTTPS from the expected host,
+    // to reduce the risk of a tampered/spoofed response redirecting the
+    // updater to an attacker-controlled download location.
+    const isTrustedUrl = (url) => {
+      try {
+        const parsed = new URL(url);
+        return (
+          parsed.protocol === 'https:' && parsed.hostname === 'codedead.com'
+        );
+      } catch {
+        return false;
+      }
+    };
+
+    if (!isTrustedUrl(downloadUrl) || !isTrustedUrl(infoUrl)) {
+      throw new Error('Update metadata contains an untrusted URL');
+    }
+
     return {
-      updateUrl: sortedReleases[0].downloadUrl,
-      infoUrl: sortedReleases[0].infoUrl,
-      version: sortedReleases[0].semver,
-      updateAvailable:
-        semverCompare(currentVersion, sortedReleases[0].semver) < 0,
+      updateUrl: downloadUrl,
+      infoUrl,
+      version: semver,
+      updateAvailable: semverCompare(currentVersion, semver) < 0,
     };
   };
 
